@@ -11,8 +11,13 @@ import HelloWorld from '@/components/HelloWorld.vue'
 
 export default {
   name: 'home',
+  data () {
+    return {
+      value: [20,50]
+    }
+  },
   components: {
-    HelloWorld
+    HelloWorld,
   }
 }
 </script>
