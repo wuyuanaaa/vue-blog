@@ -1,0 +1,59 @@
+// 侧栏宽度
+@side-width: 100px;
+@footer-height: 60px;
+
+@font-size-lg: 30px;
+@font-size-xs: 12px;
+
+// 浅色
+@color-tint: #666;
+// 链接颜色
+@color-link: #c3b74e;
+
+@screen-sm-min: 768px; /*no*/
+@screen-md-min: 992px; /*no*/
+@screen-lg-min: 1200px; /*no*/
+
+html,body {
+  height: 100%;
+}
+
+body a {
+  color: #4f8e54;
+}
+
+.ts {
+  transition: all 0.3s;
+}
+.clearfix::before,
+.clearfix::after {
+  content: '';
+  display: table;
+}
+.clearfix::after {
+  clear: both;
+}
+.clearfix {
+  zoom: 1
+}
+
+// xs
+@media (max-width: @screen-sm-min) {
+  #app {
+    .nav-menu {
+      display: block;
+    }
+  }
+}
+// sm
+@media (min-width: @screen-sm-min) and (max-width: @screen-md-min) {
+
+}
+// md
+@media (min-width: @screen-md-min) and (max-width: @screen-lg-min) {
+
+}
+// lg
+@media (min-width: @screen-lg-min) {
+
+}
