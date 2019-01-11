@@ -9,7 +9,7 @@
 
 <script>
   export default {
-    name: "appFooter"
+    name: "userFooter"
   }
 </script>
 

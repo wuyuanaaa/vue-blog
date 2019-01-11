@@ -50,7 +50,7 @@
 
 <script>
   export default {
-    name: "navBar",
+    name: "userNav",
     data () {
       return {
         showMore: false

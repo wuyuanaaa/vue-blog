@@ -27,12 +27,13 @@ export default {
 }
 </script>
 <style lang="less" rel="stylesheet/less">
+  @import "../../assets/css/variable.less";
   .home {
     .head-wrapper {
       position: relative;
       width: 100%;
       padding-bottom: 58%;
-      background: #fff url(../assets/head-bg.jpg) no-repeat;
+      background: #fff url(../../assets/head-bg.jpg) no-repeat;
       background-position: bottom -2px center;
       background-size: cover;
     }
@@ -43,17 +44,17 @@ export default {
       padding-top: 30%;
       width: 100%;
       height: 100%;
-      background: url(../assets/head-shade.png) no-repeat;
+      background: url(../../assets/head-shade.png) no-repeat;
       background-position: bottom -2px center;
       background-size: contain;
       .title {
         margin-bottom: 30px;
-        font-size: 40px;
+        font-size: @font-size-lg;
         color: #fff;
         text-shadow: 0 0 4px #ccc;
       }
       .description {
-        font-size: 24px;
+        font-size: @font-size-sm;
         color: #fff;
         text-shadow: 0 0 4px #ccc;
       }
