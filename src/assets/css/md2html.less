@@ -1,0 +1,18 @@
+.md2html {
+  ul {
+    margin-left: 20px;
+  }
+  blockquote {
+    position: relative;
+    padding-left: 20px;
+    background: rgba(0, 0, 0, 0.05);
+    &::before {
+      content: '';
+      position: absolute;
+      width: 10px;
+      height: 100%;
+      left: 0;
+      background: #dfe2e5;
+    }
+  }
+}
