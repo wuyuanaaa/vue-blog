@@ -3,7 +3,7 @@
 @footer-height: 60px;
 @content-max-Width: 1200px;
 
-@font-size-lg: 30px;
+@font-size-lg: 28px;
 @font-size-xs: 12px;
 @font-size-sm: 14px;
 
@@ -39,10 +39,22 @@ body a {
   zoom: 1
 }
 
+.main {
+  margin: 0 auto;
+  max-width: 840px;
+}
+
 // xs
 @media (max-width: @screen-sm-min) {
   #app {
+    .userBase-content {
+      margin-right: 0;
+      &.navShow {
+        transform: translate3d(-@side-width, 0, 0);
+      }
+    }
     .nav-menu {
+      right: 10px;
       display: block;
     }
   }

@@ -74,19 +74,20 @@
     &.navShow {
       margin-right: @side-width;
       .nav-menu {
-        right: 20 + @side-width;
+        right: 10 + @side-width;
       }
     }
     .nav-menu {
       display: none;
       position: fixed;
       top: 20px;
-      right: 20px;
+      right: 10px;
       padding: 4px 10px;
-      border-radius: 6px;
-      background: rgba(255,255,255,0.6);
+      border-radius: 4px;
+      background: rgba(0,0,0,0.2);
       .ivu-icon {
-        font-size: 34px;
+        font-size: 24px;
+        color: #fff;
       }
     }
   }

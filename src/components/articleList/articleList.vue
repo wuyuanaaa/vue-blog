@@ -5,7 +5,9 @@
       v-for="(item, index) in articleListData"
       :key="index"
     >
-      <div class="item-title">{{item.title}}</div>
+      <router-link :to="{name: 'article', params: {articleId: item._id}}">
+        <div class="item-title">{{item.title}}</div>
+      </router-link>
       <div class="item-date">
         <span class="icon">
           <Icon type="ios-calendar" />
@@ -35,6 +37,7 @@
 
 <script>
   import {formatDate} from '@/assets/js/formatDate'
+
   export default {
     name: "articleList",
     data () {
@@ -43,17 +46,11 @@
       }
     },
     created () {
-      this.$http.get('./static/articleList.json')
+      this.$axios.get('articles/list')
         .then(res => {
-          const data = res.data;
-          if(data.code === 200) {
-            this.articleListData = data.data;
-          } else {
-            throw new Error('获取数据失败！')
-          }
-        }).catch(e => {
-        throw new Error(e)
-      })
+          console.log(res);
+          this.articleListData = res.data;
+        })
     },
     filters: {
       formatDate (time) {
@@ -67,7 +64,7 @@
 <style lang="less" rel="stylesheet/less">
   @import "../../assets/css/variable";
   .articleList {
-    padding: 80px 20px;
+    padding: 80px 10px;
     .ivu-icon {
       vertical-align: top;
     }

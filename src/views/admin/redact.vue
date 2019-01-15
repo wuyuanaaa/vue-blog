@@ -39,6 +39,7 @@
 <script>
   import Marked from 'marked';
   import highlight from 'highlight.js';
+
   export default {
     name: "redact",
     data () {
@@ -60,6 +61,7 @@
         this.tags.push(this.newTag);
         this.newTag = '';
       },
+      // 发布文章
       handleSendArticle () {
         let articleData = {
           title: this.title,
@@ -67,20 +69,21 @@
           tags: this.tags,
           readCount: 0,
           abstract: this.abstract,
-          content: this.htmlText
+          content: this.htmlText,
+          mdContent: this.mdText
         };
         if (!this.validateForm(articleData)) {
           return;
         }
-        this.$http.post('api/articles/save',{
+        this.$axios.post('articles/save',{
           status: 1,
           data: articleData
         })
           .then(res => {
-            console.log(res);
-          })
-          .catch(err => {
-            console.log(err);
+            if (res.status === 200) {
+              this.$Message.success('发布成功！');
+              this.clearForm();
+            }
           })
       },
       // 表单校验
@@ -99,6 +102,13 @@
           }
         }
         return true;
+      },
+      // 清空表单
+      clearForm () {
+        this.title = '';
+        this.mdText = '';
+        this.tags = [];
+        this.abstract = '';
       }
     },
     mounted () {
