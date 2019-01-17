@@ -28,7 +28,7 @@
           <span class="icon">
             <Icon type="ios-eye" />
           </span>
-          <span>{{item.readCount}}</span>
+          <span class="text">{{item.readCount}}</span>
         </div>
       </div>
     </div>
@@ -48,7 +48,6 @@
     created () {
       this.$axios.get('articles/list')
         .then(res => {
-          console.log(res);
           this.articleListData = res.data;
         })
     },
@@ -62,7 +61,6 @@
 </script>
 
 <style lang="less" rel="stylesheet/less">
-  @import "../../assets/css/variable";
   .articleList {
     padding: 80px 10px;
     .ivu-icon {
@@ -74,6 +72,9 @@
       max-width: 840px; /*no*/
       text-align: left;
       border-bottom: 1px solid rgba(0, 0, 0, 0.2); /*no*/
+      &:last-child {
+        border-bottom: 0;
+      }
     }
     .item-title {
       line-height: 2.0;
@@ -101,7 +102,6 @@
       margin-right: 8px;
       cursor: pointer;
       .icon {
-        vertical-align: top;
         color: @color-tint;
         margin-right: 2px;
       }
@@ -110,10 +110,13 @@
       }
     }
     .item-readCount {
-      color: #c3b74e;
+      margin-right: 4px;
       float: right;
       .icon {
-        font-size: 18px;
+        position: relative;
+        bottom: -1px;
+        margin-right: 4px;
+        font-size: 16px;
       }
     }
   }

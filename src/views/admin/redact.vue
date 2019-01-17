@@ -58,6 +58,10 @@
       },
       // 新增标签
       handleAddTag () {
+        if(!this.newTag.length) {
+          this.$Message.warning('拒绝添加空标签！');
+          return;
+        }
         this.tags.push(this.newTag);
         this.newTag = '';
       },
@@ -128,7 +132,6 @@
   }
 </script>
 <style lang="less" rel="stylesheet/less">
-  @import "../../assets/css/variable";
   @import "../../assets/css/md2html";
   @import "~highlight.js/styles/atom-one-light.css";
   .redact {

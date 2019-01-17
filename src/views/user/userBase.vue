@@ -56,7 +56,6 @@
 </script>
 
 <style lang="less" rel="stylesheet/less">
-  @import "../../assets/css/variable.less";
   #userBase {
     position: relative;
     font-family: 'Avenir', Helvetica, Arial, sans-serif;

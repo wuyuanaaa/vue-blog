@@ -27,7 +27,6 @@ export default {
 }
 </script>
 <style lang="less" rel="stylesheet/less">
-  @import "../../assets/css/variable.less";
   .home {
     .head-wrapper {
       position: relative;
@@ -46,7 +45,7 @@ export default {
       height: 100%;
       background: url(../../assets/head-shade.png) no-repeat;
       background-position: bottom -2px center;
-      background-size: contain;
+      background-size: 101% auto;
       .title {
         margin-bottom: 30px;
         font-size: @font-size-lg;

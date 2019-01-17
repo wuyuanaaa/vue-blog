@@ -15,6 +15,7 @@
 </script>
 
 <style lang="less" rel="stylesheet/less">
+  @import "./assets/css/variable";
   #app {
     position: relative;
     font-family: 'Avenir', Helvetica, Arial, sans-serif;

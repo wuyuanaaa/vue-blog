@@ -4,6 +4,8 @@ import userHome from './views/user/userHome.vue'
 import userBase from './views/user/userBase'
 import article from './views/user/article'
 import adminBase from './views/admin/adminBase'
+import management from './views/admin/management'
+import login from './views/login/login'
 
 Vue.use(Router)
 
@@ -21,11 +23,11 @@ export default new Router({
       alias: '/',
       children: [
         {
-          path: '/home',
+          path: 'home',
           component: userHome
         },
         {
-          path: '/article/:articleId',
+          path: 'article/:articleId',
           name: 'article',
           component: article
         }
@@ -35,12 +37,26 @@ export default new Router({
       path: '/admin',
       name: 'adminBase',
       component: adminBase,
+      redirect: '/admin/management',
       children: [
         {
           path: 'redact',
           component: () => import(/* webpackChunkName: "about" */ './views/admin/redact.vue')
+        },
+        {
+          path: 'management',
+          name: 'management',
+          component: management
         }
-      ]
+      ],
+      // beforeEnter: (to, form, next) => {
+      //
+      // }
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: login
     }
   ]
 })

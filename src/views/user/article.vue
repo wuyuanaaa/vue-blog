@@ -50,7 +50,6 @@
 </script>
 
 <style lang="less" rel="stylesheet/less">
-  @import "../../assets/css/variable.less";
   @import "../../assets/css/md2html.less";
   .article {
     padding: 40px 10px 40px;
@@ -64,8 +63,14 @@
       padding: 4px 0;
     }
     .tags {
+      margin-bottom: 10px;
       font-size: @font-size-sm;
-      color: @color-link;
+      line-height: 1;
+
+      .text {
+        color: @color-link;
+        cursor: pointer;
+      }
       .icon {
         margin-right: 6px;
       }
