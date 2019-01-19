@@ -32,7 +32,8 @@
       </Col>
     </Row>
     <div class="redact-row">
-      <Button type="success" @click="handleSendArticle">发布</Button>
+      <Button class="send-btn" type="success" @click="handleSendArticle(0)">公开发布</Button>
+      <Button class="send-btn" type="success" @click="handleSendArticle(1)">私密发布</Button>
     </div>
   </div>
 </template>
@@ -62,19 +63,26 @@
           this.$Message.warning('拒绝添加空标签！');
           return;
         }
+        if(this.tags.includes(this.newTag)) {
+          this.$Message.warning('拒绝添加重复标签！');
+          return;
+        }
         this.tags.push(this.newTag);
         this.newTag = '';
       },
       // 发布文章
-      handleSendArticle () {
+      handleSendArticle (status) {
+        let time = (new Date()).getTime();
         let articleData = {
           title: this.title,
-          date: (new Date()).getTime(),
+          date: time,
+          lastDate: time,
           tags: this.tags,
           readCount: 0,
           abstract: this.abstract,
           content: this.htmlText,
-          mdContent: this.mdText
+          mdContent: this.mdText,
+          status: status
         };
         if (!this.validateForm(articleData)) {
           return;
@@ -136,57 +144,61 @@
   @import "~highlight.js/styles/atom-one-light.css";
   .redact {
     padding-bottom: 40px;
-  }
-  .redact-row {
-    width: 100%;
-    padding: 10px 20px;
-    text-align: left;
-    .text {
-      font-size: @font-size-xs;
-    }
-  }
-  .redact-info {
-    position: relative;
-    .title,
-    .add-tag {
-      display: flex;
-      .title-text {
-        flex: 0 0 70px;
-        vertical-align: center;
-        line-height: 34px;
-        font-weight: bold;
-      }
-      .title-input {
-        flex: 1;
-        height: 40px;
+    .redact-row {
+      width: 100%;
+      padding: 10px 20px;
+      text-align: left;
+      .text {
+        font-size: @font-size-xs;
       }
     }
-    .add-tag {
-      .add-btn {
-        margin-left: 10px;
-        height: 32px;
+    .redact-info {
+      position: relative;
+      .title,
+      .add-tag {
+        display: flex;
+        .title-text {
+          flex: 0 0 70px;
+          vertical-align: center;
+          line-height: 34px;
+          font-weight: bold;
+        }
+        .title-input {
+          flex: 1;
+          height: 40px;
+        }
+      }
+      .add-tag {
+        .add-btn {
+          margin-left: 10px;
+          height: 32px;
+        }
+      }
+      .tags {
+        line-height: 30px;
       }
     }
-    .tags {
-      line-height: 30px;
+    .content-textarea {
+      &>textarea {
+        height: 760px;
+        resize: none;
+      }
     }
-  }
-  .content-textarea {
-    &>textarea {
+    .digest-textarea {
+      &>textarea {
+        resize: none;
+      }
+    }
+    .content-show {
+      border: 0.017857rem solid #dcdee2;
       height: 760px;
-      resize: none;
+      border-radius: 0.071429rem;
+      padding: 0.071429rem 0.125rem;
+      overflow: scroll;
+    }
+    .send-btn {
+      margin-right: 20px;
     }
   }
-  .digest-textarea {
-    &>textarea {
-      resize: none;
-    }
-  }
-  .content-show {
-    border: 0.017857rem solid #dcdee2;
-    height: 760px;
-    border-radius: 0.071429rem;
-    padding: 0.071429rem 0.125rem;
-    overflow: scroll;
-  }
+
 </style>
