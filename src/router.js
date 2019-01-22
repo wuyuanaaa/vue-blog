@@ -5,6 +5,7 @@ import userBase from './views/user/userBase'
 import article from './views/user/article'
 import adminBase from './views/admin/adminBase'
 import management from './views/admin/management'
+import modifyArticle from './views/admin/modifyArticle'
 import login from './views/login/login'
 
 Vue.use(Router)
@@ -40,18 +41,20 @@ export default new Router({
       redirect: '/admin/management',
       children: [
         {
-          path: 'redact',
-          component: () => import(/* webpackChunkName: "about" */ './views/admin/redact.vue')
+          path: 'newArticle',
+          component: () => import(/* webpackChunkName: "about" */ './views/admin/newArticle.vue')
         },
         {
           path: 'management',
           name: 'management',
           component: management
+        },
+        {
+          path: 'modifyArticle',
+          name: 'modifyArticle',
+          component: modifyArticle
         }
       ],
-      // beforeEnter: (to, form, next) => {
-      //
-      // }
     },
     {
       path: '/login',

@@ -46,9 +46,13 @@
       }
     },
     created () {
-      this.$axios.get('articles/list')
+      let param = {
+        page: 1,
+        pageSize: 10,
+      };
+      this.$axios.get('articles/list',param)
         .then(res => {
-          this.articleListData = res.data;
+          this.articleListData = res.result.list;
         })
     },
     filters: {

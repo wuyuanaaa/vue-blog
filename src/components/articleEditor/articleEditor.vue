@@ -1,13 +1,13 @@
 <template>
-  <div class="redact">
+  <div class="article-redact">
     <Row type="flex" justify="start" class="redact-row redact-info" :gutter="16">
       <Col span="12" class="title">
         <span class="text title-text">文章标题：</span>
-        <Input class="title-input" v-model="title" placeholder="文章标题..." clearable  />
+        <Input class="title-input" v-model="title" placeholder="文章标题..." clearable/>
       </Col>
       <Col span="8" class="add-tag">
         <span class="text title-text">添加标签：</span>
-        <Input class="title-input" placeholder="标签..." clearable v-model="newTag" />
+        <Input class="title-input" placeholder="标签..." clearable v-model="newTag"/>
         <Button class="add-btn" type="success" @click="handleAddTag">Add</Button>
       </Col>
     </Row>
@@ -28,13 +28,22 @@
     <Row class="redact-row redact-info" :gutter="16">
       <Col span="12" class="title">
         <span class="text title-text">文章摘要：</span>
-        <Input class="digest-textarea" :rows="4" placeholder="文章摘要..." type="textarea"  v-model="abstract"/>
+        <Input class="digest-textarea" :rows="4" placeholder="文章摘要..." type="textarea" v-model="abstract"/>
       </Col>
     </Row>
     <div class="redact-row">
-      <Button class="send-btn" type="success" @click="handleSendArticle(0)">公开发布</Button>
-      <Button class="send-btn" type="success" @click="handleSendArticle(1)">私密发布</Button>
+      <Button v-if="isNew" class="send-btn" type="success" @click="handleSendArticle(0)">公开发布</Button>
+      <Button v-if="isNew" class="send-btn" type="success" @click="handleSendArticle(1)">私密发布</Button>
+      <Button v-if="!isNew" class="send-btn" type="success" @click="handleChangeArticle()">发布修改</Button>
     </div>
+
+    <Modal
+            v-model="showModal"
+            title="修改成功"
+            @on-ok="modalClickOk"
+           >
+      <p>是否返回【内容管理页面】？</p>
+    </Modal>
   </div>
 </template>
 <script>
@@ -43,27 +52,37 @@
 
   export default {
     name: "redact",
-    data () {
+    props: {
+      isNew: {
+        type: Boolean
+      },
+      articleId: {
+        type: String,
+        default: ''
+      }
+    },
+    data() {
       return {
         title: '',
-        mdText: '',
         tags: [],
         newTag: '',
-        abstract: ''
+        mdText: '',
+        abstract: '',
+        showModal: false
       }
     },
     methods: {
       // 删除标签
-      handleDeleteTag (event, name) {
+      handleDeleteTag(event, name) {
         this.tags.splice(name, 1)
       },
       // 新增标签
-      handleAddTag () {
-        if(!this.newTag.length) {
+      handleAddTag() {
+        if (!this.newTag.length) {
           this.$Message.warning('拒绝添加空标签！');
           return;
         }
-        if(this.tags.includes(this.newTag)) {
+        if (this.tags.includes(this.newTag)) {
           this.$Message.warning('拒绝添加重复标签！');
           return;
         }
@@ -71,7 +90,7 @@
         this.newTag = '';
       },
       // 发布文章
-      handleSendArticle (status) {
+      handleSendArticle(type) {
         let time = (new Date()).getTime();
         let articleData = {
           title: this.title,
@@ -82,24 +101,44 @@
           abstract: this.abstract,
           content: this.htmlText,
           mdContent: this.mdText,
-          status: status
+          type: type
         };
         if (!this.validateForm(articleData)) {
           return;
         }
-        this.$axios.post('articles/save',{
-          status: 1,
-          data: articleData
-        })
+        this.$axios.post('articles/save', articleData)
           .then(res => {
-            if (res.status === 200) {
+            if (res.status === '0') {
               this.$Message.success('发布成功！');
               this.clearForm();
             }
           })
       },
+      // 修改文章
+      handleChangeArticle() {
+        let newData = {
+          title: this.title,
+          tags: this.tags,
+          lastDate: (new Date()).getTime(),
+          abstract: this.abstract,
+          content: this.htmlText,
+          mdContent: this.mdText,
+        };
+        this.$axios.post('articles/change',{_id: this.articleId, newData: newData})
+          .then(res => {
+            if (res.status === '0') {
+              this.showModal = true
+            } else {
+              this.$Message.error('发布失败!');
+            }
+          })
+      },
+      // 模态框OK
+      modalClickOk() {
+        this.$router.push({ path: '/admin'})
+      },
       // 表单校验
-      validateForm (data) {
+      validateForm(data) {
         const list = [
           {type: 'title', msg: '还没写标题呢！'},
           {type: 'tags', msg: '不加标签怎么归档？'},
@@ -116,14 +155,28 @@
         return true;
       },
       // 清空表单
-      clearForm () {
+      clearForm() {
         this.title = '';
         this.mdText = '';
         this.tags = [];
         this.abstract = '';
       }
     },
-    mounted () {
+    created() {
+      if(!this.isNew) {
+        this.$axios.get('articles/single', {_id: this.articleId})
+          .then(res => {
+            let articleData = res[0];
+            this.$nextTick(function () {
+              this.title = articleData.title;
+              this.tags = articleData.tags;
+              this.mdText = articleData.mdContent;
+              this.abstract = articleData.abstract;
+            })
+          })
+      }
+    },
+    mounted() {
       Marked.setOptions({
         renderer: new Marked.Renderer(),
         smartLists: true,
@@ -133,7 +186,7 @@
       })
     },
     computed: {
-      htmlText () {
+      htmlText() {
         return Marked(this.mdText);
       }
     }
@@ -142,7 +195,8 @@
 <style lang="less" rel="stylesheet/less">
   @import "../../assets/css/md2html";
   @import "~highlight.js/styles/atom-one-light.css";
-  .redact {
+
+  .article-redact {
     padding-bottom: 40px;
     .redact-row {
       width: 100%;
@@ -179,13 +233,13 @@
       }
     }
     .content-textarea {
-      &>textarea {
+      & > textarea {
         height: 760px;
         resize: none;
       }
     }
     .digest-textarea {
-      &>textarea {
+      & > textarea {
         resize: none;
       }
     }

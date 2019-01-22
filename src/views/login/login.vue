@@ -49,8 +49,7 @@
       };
 
       this.$axios.get('users/checkLogin')
-        .then(response => {
-          let res = response.data;
+        .then(res => {
           if (res.status === '0') {
             this.$store.commit("updateUserInfo", res.result.userName);
             this.$router.push({path: '/admin'})
@@ -71,8 +70,7 @@
         this.$axios.post("users/login", {
           userName: this.formInline.user,
           userPwd: this.formInline.password
-        }).then(response => {
-          let res = response.data;
+        }).then(res => {
           if (res.status === '0') {
             this.$Message.success('登录成功!');
             this.$store.commit("updateUserInfo", res.result.userName);

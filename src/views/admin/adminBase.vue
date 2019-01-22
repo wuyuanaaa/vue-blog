@@ -24,7 +24,7 @@
           <MenuItem name="3-5">流失用户</MenuItem>
         </MenuGroup>
       </Submenu>
-      <MenuItem name="4" to="/admin/redact">
+      <MenuItem name="4" to="/admin/newArticle">
         <Icon type="md-add" />
         新增文章
       </MenuItem>
@@ -50,8 +50,7 @@
     methods: {
       handleClickLogout () {
         this.$axios.post('users/logout')
-          .then(response => {
-            let res = response.data;
+          .then(res => {
             if (res.status === '0') {
               this.$store.commit("updateUserInfo", '');
               this.userName = '';
@@ -63,8 +62,7 @@
     },
     created() {
       this.$axios.get('users/checkLogin')
-        .then(response => {
-          let res = response.data;
+        .then(res => {
           if (res.status === '0') {
             this.isLogin = true;
             this.userName = res.result.userName;

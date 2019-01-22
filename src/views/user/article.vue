@@ -36,8 +36,7 @@
 
       this.$axios.get('articles/single',{_id: this.articleId})
         .then(res => {
-          this.articleData = res.data[0];
-          console.log(this.articleData);
+          this.articleData = res[0];
         })
     },
     filters: {
