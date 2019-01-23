@@ -24,12 +24,12 @@ export default new Router({
         {
           path: 'article/:articleId',
           name: 'article',
-          component: resolve => require(['@/views/user/archived'], resolve)
+          component: resolve => require(['@/views/user/article'], resolve)
         },
         {
           path: 'archived',
           name: 'archived',
-          component: resolve => require(['@/views/user/article'], resolve)
+          component: resolve => require(['@/views/user/archived'], resolve)
         },
         {
           path: 'about',
