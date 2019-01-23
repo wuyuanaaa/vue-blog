@@ -5,9 +5,12 @@
       v-for="(item, index) in articleListData"
       :key="index"
     >
-      <router-link :to="{name: 'article', params: {articleId: item._id}}">
-        <div class="item-title">{{item.title}}</div>
-      </router-link>
+        <div class="item-title">
+          <router-link :to="{name: 'article', params: {articleId: item._id}}">
+            {{item.title}}
+          </router-link>
+        </div>
+
       <div class="item-date">
         <span class="icon">
           <Icon type="ios-calendar" />
@@ -66,14 +69,13 @@
 
 <style lang="less" rel="stylesheet/less">
   .articleList {
-    padding: 80px 10px;
+    padding: 40px 10px 0;
     .ivu-icon {
       vertical-align: top;
     }
     .list-item {
       margin: 0 auto;
-      padding: 60px 10px;
-      max-width: 840px; /*no*/
+      padding: 60px 0;
       text-align: left;
       border-bottom: 1px solid rgba(0, 0, 0, 0.2); /*no*/
       &:last-child {
@@ -81,8 +83,8 @@
       }
     }
     .item-title {
-      line-height: 2.0;
-      font-size: @font-size-lg;
+      line-height: 3.0;
+      font-size: @font-size-md;
       font-weight: bold;
     }
     .item-date {

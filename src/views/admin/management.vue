@@ -9,8 +9,8 @@
     </Table>
     <div class="page" v-if="total > 10">
       <Page
-              prev-text="Previous"
-              next-text="Next"
+              prev-text="上一页"
+              next-text="下一页"
               :total="total"
               :page-size="pageSize"
               @on-change="handlePageChange"
@@ -81,8 +81,7 @@
           }
         ],
         removeModal: false,
-        removeId: '',
-        firstUpdate: true
+        removeId: ''
       }
     },
     methods: {
@@ -93,21 +92,15 @@
           all: '1'
         };
         this.$axios.get('articles/list', param).then(res => {
-          if(this.firstUpdate) {
-            this.$nextTick(function () {
-              this.total = res.result.total;
-              this.list = res.result.list;
-            });
-            this.firstUpdate = false
-          } else {
+          this.$nextTick(function () {
             this.total = res.result.total;
             this.list = res.result.list;
-          }
-
+          });
         })
       },
       handlePageChange(val) {
-        console.log(val);
+        this.page = val;
+        this.upDate();
       },
       // 编辑
       handleModify(i) {

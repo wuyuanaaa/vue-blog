@@ -1,6 +1,6 @@
 <template>
   <div class="nav-bar ts" :class="{navShow: isNavShow}">
-    <img class="nav-logo" src="../../assets/logo.png" alt="">
+    <img class="nav-logo" src="../../assets/logo.svg" alt="">
     <div class="nav-list">
       <router-link to="/">
         <div class="list-item">
@@ -8,19 +8,19 @@
           <div class="item-text">主页</div>
         </div>
       </router-link>
-      <router-link to="/">
+      <router-link to="/archived">
         <div class="list-item">
           <Icon class="item-icon" type="ios-copy"/>
           <div class="item-text">归档</div>
         </div>
       </router-link>
-      <router-link to="/">
+      <router-link to="/about">
         <div class="list-item">
           <Icon class="item-icon" type="ios-leaf"/>
           <div class="item-text">关于</div>
         </div>
       </router-link>
-      <div class="list-item list-search">
+      <div class="list-item list-search" @click="handleSearch">
         <Icon class="item-icon" type="md-search"/>
         <div class="item-text">搜索</div>
       </div>
@@ -56,6 +56,11 @@
         showMore: false
       }
     },
+    methods: {
+      handleSearch() {
+        this.$Message.warning('抱歉，还没实现呢!');
+      }
+    },
     props: {
       isNavShow: {
         type: Boolean
@@ -77,17 +82,22 @@
       right: 0;
     }
     .item-icon {
-      font-size: 28px;
+      font-size: 24px;
       margin-bottom: 6px;
     }
     .nav-logo {
       display: block;
       margin: 0 auto 40px;
-      width: 60px;
+      width: 40px;
     }
     .list-item {
       padding: 20px;
       color: #172d3e;
+      &:hover {
+        .item-text {
+          text-decoration: underline;
+        }
+      }
     }
     .list-search {
       cursor: pointer;

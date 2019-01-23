@@ -19,7 +19,7 @@
 <style lang="less" rel="stylesheet/less">
   @import "../../assets/css/variable";
   .viewTitle {
-    padding: 30px 20px;
+    padding: 30px 0;
     .title-text {
       text-align: left;
       font-size: @font-size-lg;

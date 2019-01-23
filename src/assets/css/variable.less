@@ -1,12 +1,17 @@
 // 侧栏宽度
-@side-width: 100px;
+@side-width: 80px;
 @footer-height: 60px;
-@content-max-Width: 1200px;
+@content-max-Width: 900px; /*no*/
 
 @font-size-lg: 28px;
-@font-size-xs: 12px;
-@font-size-sm: 14px;
+@font-size-md: 20px;
+@font-size-sm: 16px;
+@font-size-xs: 14px;
 
+// 基础色
+@color-base: #1e3e3f;
+// 边框色
+@color-border: rgba(0,0,0,0.2);
 // 浅色
 @color-tint: #666;
 // 链接颜色
@@ -52,6 +57,21 @@ body a {
   }
 }
 
+@keyframes heartbeat {
+  0% {
+    transform: scale(1);
+  }
+  20% {
+    transform: scale(1.2);
+  }
+  40% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 // xs
 @media (max-width: @screen-sm-min) {
   #app {
@@ -62,7 +82,7 @@ body a {
       }
     }
     .nav-menu {
-      right: 10px;
+      right: 20px;
       display: block;
     }
   }

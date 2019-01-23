@@ -1,12 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import userHome from './views/user/userHome.vue'
-import userBase from './views/user/userBase'
-import article from './views/user/article'
-import adminBase from './views/admin/adminBase'
-import management from './views/admin/management'
-import modifyArticle from './views/admin/modifyArticle'
-import login from './views/login/login'
+
 
 Vue.use(Router)
 
@@ -20,46 +14,56 @@ export default new Router({
     {
       path: '/user',
       name: 'userBase',
-      component: userBase,
+      component: resolve => require(['@/views/user/userBase'], resolve),
       alias: '/',
       children: [
         {
           path: 'home',
-          component: userHome
+          component: resolve => require(['@/views/user/userHome'], resolve)
         },
         {
           path: 'article/:articleId',
           name: 'article',
-          component: article
+          component: resolve => require(['@/views/user/archived'], resolve)
+        },
+        {
+          path: 'archived',
+          name: 'archived',
+          component: resolve => require(['@/views/user/article'], resolve)
+        },
+        {
+          path: 'about',
+          name: 'about',
+          component: resolve => require(['@/views/user/about'], resolve)
         }
       ]
     },
     {
       path: '/admin',
       name: 'adminBase',
-      component: adminBase,
+      component: resolve => require(['@/views/admin/adminBase'], resolve),
       redirect: '/admin/management',
       children: [
         {
           path: 'newArticle',
-          component: () => import(/* webpackChunkName: "about" */ './views/admin/newArticle.vue')
+          component: resolve => require(['@/views/admin/newArticle'], resolve)
         },
         {
           path: 'management',
           name: 'management',
-          component: management
+          component: resolve => require(['@/views/admin/management'], resolve)
         },
         {
           path: 'modifyArticle',
           name: 'modifyArticle',
-          component: modifyArticle
+          component: resolve => require(['@/views/admin/modifyArticle'], resolve)
         }
       ],
     },
     {
       path: '/login',
       name: 'login',
-      component: login
+      component: resolve => require(['@/views/login/login'], resolve)
     }
   ]
 })

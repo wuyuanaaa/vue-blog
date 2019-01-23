@@ -60,6 +60,9 @@ export default {
     }
     .content {
       position: relative;
+      margin: 0 auto;
+      padding: 0 20px;
+      max-width: @content-max-Width;
       top: -2px;
       background: #fff;
     }

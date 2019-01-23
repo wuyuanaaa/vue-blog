@@ -73,14 +73,14 @@
     &.navShow {
       margin-right: @side-width;
       .nav-menu {
-        right: 10 + @side-width;
+        right: 20 + @side-width;
       }
     }
     .nav-menu {
       display: none;
       position: fixed;
       top: 20px;
-      right: 10px;
+      right: 20px;
       padding: 4px 10px;
       border-radius: 4px;
       background: rgba(0,0,0,0.2);

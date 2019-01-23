@@ -98,7 +98,6 @@
     box-shadow: 0 0 10px #ccc;
     .login-input {
       margin: 0 auto;
-      /*width: 300px;*/
     }
   }
 </style>

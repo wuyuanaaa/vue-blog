@@ -15,7 +15,6 @@
 </script>
 
 <style lang="less" rel="stylesheet/less">
-  @import "./assets/css/variable";
   #app {
     position: relative;
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -23,5 +22,7 @@
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     height: 100%;
+    color: @color-base;
+    font-size: @font-size-xs;
   }
 </style>
