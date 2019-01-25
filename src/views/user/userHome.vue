@@ -5,7 +5,8 @@
         <router-link to="/">
           <h1 class="title">吴予安</h1>
         </router-link>
-        <p class="description">可能是甜点做的最好的前端</p>
+        <p class="description">自有林中趣 | 谁惊岁去频</p>
+        <img class="logo" src="../../assets/logo.svg" alt="">
       </div>
     </div>
     <div class="content">
@@ -40,22 +41,29 @@ export default {
       position: absolute;
       top: 0;
       left: 0;
-      padding-top: 30%;
+      padding-top: 26%;
       width: 100%;
       height: 100%;
       background: url(../../assets/head-shade.png) no-repeat;
       background-position: bottom -2px center;
       background-size: 101% auto;
       .title {
-        margin-bottom: 30px;
+        margin-bottom: 3.4%;
         font-size: @font-size-lg;
-        color: #fff;
-        text-shadow: 0 0 4px #ccc;
+        opacity: 0.9;
+        color: rgba( 255, 255, 255, 1);
+        text-shadow: 0 0 10px #595959;
       }
       .description {
+        margin-bottom: 2%;
         font-size: @font-size-sm;
-        color: #fff;
-        text-shadow: 0 0 4px #ccc;
+        opacity: 1;
+        color: #ebebeb;
+        text-shadow: 0 0 10px #595959;
+      }
+      .logo {
+        width: 56px;
+        opacity: 0.7;
       }
     }
     .content {

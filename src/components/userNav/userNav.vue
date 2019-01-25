@@ -10,22 +10,22 @@
       </router-link>
       <router-link to="/archived">
         <div class="list-item">
-          <Icon class="item-icon" type="ios-copy"/>
+          <Icon class="item-icon" type="md-git-commit"/>
           <div class="item-text">归档</div>
         </div>
       </router-link>
       <router-link to="/about">
         <div class="list-item">
-          <Icon class="item-icon" type="ios-leaf"/>
+          <Icon class="item-icon" type="md-list"/>
           <div class="item-text">关于</div>
         </div>
       </router-link>
-      <div class="list-item list-search" @click="handleSearch">
-        <Icon class="item-icon" type="md-search"/>
-        <div class="item-text">搜索</div>
-      </div>
+      <!--<div class="list-item list-search" @click="handleSearch">-->
+        <!--<Icon class="item-icon" type="md-search"/>-->
+        <!--<div class="item-text">搜索</div>-->
+      <!--</div>-->
     </div>
-    <div class="nav-more" @mouseenter="showMore = true" @mouseleave="showMore = false">
+    <div class="nav-more" @mouseenter="showMore = true" @mouseleave="showMore = false" @click="showMore = !showMore">
       <Icon v-if="!showMore" class="item-icon" type="md-apps" />
       <Icon v-if="showMore" class="item-icon" type="ios-arrow-up" />
       <transition name="fade">
@@ -57,9 +57,7 @@
       }
     },
     methods: {
-      handleSearch() {
-        this.$Message.warning('抱歉，还没实现呢!');
-      }
+
     },
     props: {
       isNavShow: {

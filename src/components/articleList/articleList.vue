@@ -75,7 +75,7 @@
     }
     .list-item {
       margin: 0 auto;
-      padding: 60px 0;
+      padding: 50px 0;
       text-align: left;
       border-bottom: 1px solid rgba(0, 0, 0, 0.2); /*no*/
       &:last-child {
@@ -83,6 +83,7 @@
       }
     }
     .item-title {
+      margin-bottom: 16px;
       line-height: 3.0;
       font-size: @font-size-md;
       font-weight: bold;
@@ -96,7 +97,7 @@
       }
     }
     .item-abstract {
-      padding: 30px 0;
+      padding: 20px 0;
       font-size: @font-size-xs;
       line-height: 1.8;
     }

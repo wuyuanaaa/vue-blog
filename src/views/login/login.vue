@@ -73,7 +73,7 @@
         }).then(res => {
           if (res.status === '0') {
             this.$Message.success('登录成功!');
-            this.$store.commit("updateUserInfo", res.result.userName);
+            // this.$store.commit("updateUserInfo", res.result.userName);
             this.$router.push({path: '/admin'})
           } else {
             this.$Message.error('登录失败!' + res.msg);

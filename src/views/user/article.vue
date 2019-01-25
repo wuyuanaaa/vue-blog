@@ -11,8 +11,8 @@
         </div>
       </div>
       <div class="info-row clearfix">
-        <div class="date">最后编辑于：<span>{{articleData.date | formatDate}}</span></div>
-        <div class="read-count">阅读量：<span>{{articleData.readCount}}</span></div>
+        <div class="date" v-show="articleData.lastDate">最后编辑于：<span>{{articleData.lastDate | formatDate}}</span></div>
+        <div class="read-count" v-show="articleData.readCount">阅读量：<span>{{articleData.readCount}}</span></div>
       </div>
     </div>
     <div class="content md2html" v-html="articleData.content">
@@ -23,6 +23,7 @@
 
 <script>
   import {formatDate} from '@/assets/js/formatDate'
+
   export default {
     name: "articlePage",
     data () {
@@ -50,11 +51,12 @@
 
 <style lang="less" rel="stylesheet/less">
   @import "../../assets/css/md2html.less";
+  @import "~highlight.js/styles/atom-one-light.css";
   .article {
-    padding: 40px 10px 40px;
+    padding: 40px 10px 60px;
     text-align: left;
     .title {
-      margin-bottom: 20px;
+      margin-bottom: 40px;
       font-size: @font-size-lg;
       font-weight: bold;
     }
@@ -78,10 +80,11 @@
       float: left;
     }
     .read-count {
+      margin-right: 4px;
       float: right;
     }
     .content {
-      padding: 20px 0 0;
+      padding: 10px 0 0;
     }
   }
 

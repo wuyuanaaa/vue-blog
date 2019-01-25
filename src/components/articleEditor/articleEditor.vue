@@ -19,10 +19,10 @@
     </Row>
     <Row type="flex" justify="start" class="redact-row redact-info" :gutter="16">
       <Col span="12">
-        <Input class="content-textarea" type="textarea" placeholder="开始表演吧..." v-model="mdText"/>
+        <Input class="content-textarea" type="textarea" placeholder="开始表演吧..." v-model="mdText" ref="mdContent" />
       </Col>
       <Col span="12">
-        <div class="content-show md2html" :rows="36" v-html="htmlText"></div>
+        <div class="content-show md2html" :rows="36" v-html="htmlText" ref="htmlContent"></div>
       </Col>
     </Row>
     <Row class="redact-row redact-info" :gutter="16">
@@ -183,7 +183,17 @@
         highlight: function (code) {
           return highlight.highlightAuto(code).value;
         }
-      })
+      });
+      // md 输入框内触发滚动事件时 预览内容同比例滚动
+      let mdContent = this.$refs.mdContent.$el;
+      let _this = this;
+      mdContent.addEventListener('scroll', function () {
+        let realArea = this.children[0];
+        let scrollTop = realArea.scrollTop;
+        let scrollHeight = realArea.scrollHeight - realArea.offsetHeight;
+        let htmlContent = _this.$refs.htmlContent;
+        htmlContent.scrollTop = (htmlContent.scrollHeight - htmlContent.offsetHeight) * (scrollTop / scrollHeight);
+      },true)
     },
     computed: {
       htmlText() {
@@ -254,5 +264,4 @@
       margin-right: 20px;
     }
   }
-
 </style>

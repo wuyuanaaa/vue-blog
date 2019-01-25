@@ -52,7 +52,7 @@
         this.$axios.post('users/logout')
           .then(res => {
             if (res.status === '0') {
-              this.$store.commit("updateUserInfo", '');
+              // this.$store.commit("updateUserInfo", '');
               this.userName = '';
               this.isLogin = false;
               this.$router.push({path: '/login'})
@@ -66,7 +66,7 @@
           if (res.status === '0') {
             this.isLogin = true;
             this.userName = res.result.userName;
-            this.$store.commit("updateUserInfo", res.result.userName);
+            // this.$store.commit("updateUserInfo", res.result.userName);
           } else {
             this.$router.push({path: '/login'})
           }

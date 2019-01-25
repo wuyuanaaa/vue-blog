@@ -81,10 +81,11 @@
       position: fixed;
       top: 20px;
       right: 20px;
-      padding: 4px 10px;
+      padding: 4px 10px 4px;
       border-radius: 4px;
       background: rgba(0,0,0,0.2);
       .ivu-icon {
+        vertical-align: center;
         font-size: 24px;
         color: #fff;
       }
