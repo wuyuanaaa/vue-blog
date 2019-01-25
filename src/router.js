@@ -14,8 +14,8 @@ export default new Router({
     {
       path: '/user',
       name: 'userBase',
-      component: resolve => require(['@/views/user/userBase'], resolve),
       alias: '/',
+      component: resolve => require(['@/views/user/userBase'], resolve),
       children: [
         {
           path: 'home',
