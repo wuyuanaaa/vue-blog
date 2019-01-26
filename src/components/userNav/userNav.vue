@@ -2,19 +2,19 @@
   <div class="nav-bar ts" :class="{navShow: isNavShow}">
     <img class="nav-logo" src="../../assets/logo.svg" alt="">
     <div class="nav-list">
-      <router-link to="/">
+      <router-link to="/user/home">
         <div class="list-item">
           <Icon class="item-icon" type="md-home"/>
           <div class="item-text">主页</div>
         </div>
       </router-link>
-      <router-link to="/archived">
+      <router-link to="/user/archived">
         <div class="list-item">
           <Icon class="item-icon" type="md-git-commit"/>
           <div class="item-text">归档</div>
         </div>
       </router-link>
-      <router-link to="/about">
+      <router-link to="/user/about">
         <div class="list-item">
           <Icon class="item-icon" type="md-list"/>
           <div class="item-text">关于</div>

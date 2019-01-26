@@ -5,16 +5,21 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
+    {
+      path: '*',
+      component: resolve => require(['@/views/404'], resolve)
+    },
     {
       path: '/',
       name: 'home',
-      redirect: '/home'
+      redirect: '/user/home'
     },
     {
       path: '/user',
       name: 'userBase',
-      alias: '/',
+      // alias: '/',
       component: resolve => require(['@/views/user/userBase'], resolve),
       children: [
         {
