@@ -7,7 +7,11 @@
           <span class="icon">
             <Icon type="ios-pricetag" />
           </span>
-          <span class="text">{{tag}}</span>
+          <span class="text">
+            <router-link :to="{name: 'tagArchived', params: {tag: tag}}">
+            {{tag}}
+            </router-link>
+          </span>
         </div>
       </div>
       <div class="info-row clearfix">
@@ -87,6 +91,5 @@
       padding: 10px 0 0;
     }
   }
-
 
 </style>

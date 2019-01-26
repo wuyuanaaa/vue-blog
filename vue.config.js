@@ -34,11 +34,11 @@ module.exports = {
   devServer: {
     proxy: {
       '/': {
-        target: 'http://101.132.109.246:3000',
+        target: 'https://blog.yuanaaa.top',
         changeOrigin: true,
         ws: false,
         pathRewrite: {
-          '^/api': ''
+          // '^/api': ''
         }
       }
     }

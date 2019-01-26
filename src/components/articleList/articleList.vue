@@ -25,7 +25,11 @@
           <span class="icon">
             <Icon type="ios-pricetag" />
           </span>
-          <span class="text">{{tag}}</span>
+          <span class="text">
+            <router-link :to="{name: 'tagArchived', params: {tag: tag}}">
+            {{tag}}
+            </router-link>
+          </span>
         </div>
         <div class="item-readCount">
           <span class="icon">

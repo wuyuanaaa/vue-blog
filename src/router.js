@@ -19,7 +19,7 @@ export default new Router({
     {
       path: '/user',
       name: 'userBase',
-      // alias: '/',
+      alias: '/',
       component: resolve => require(['@/views/user/userBase'], resolve),
       children: [
         {
@@ -30,6 +30,11 @@ export default new Router({
           path: 'article/:articleId',
           name: 'article',
           component: resolve => require(['@/views/user/article'], resolve)
+        },
+        {
+          path: 'tagArchived/:tag',
+          name: 'tagArchived',
+          component: resolve => require(['@/views/user/tagArchived'], resolve)
         },
         {
           path: 'archived',
