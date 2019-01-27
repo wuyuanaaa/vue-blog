@@ -1,11 +1,11 @@
 <template>
   <div class="article-redact">
-    <Row type="flex" justify="start" class="redact-row redact-info" :gutter="16">
-      <Col span="12" class="title">
+    <Row type="flex" justify="start" class="redact-row redact-info" :gutter="8">
+      <Col :xs='24' :sm="12" :md="12" class="title">
         <span class="text title-text">文章标题：</span>
         <Input class="title-input" v-model="title" placeholder="文章标题..." clearable/>
       </Col>
-      <Col span="8" class="add-tag">
+      <Col :xs='24' :sm="10" :md="6" class="add-tag">
         <span class="text title-text">添加标签：</span>
         <Input class="title-input" placeholder="标签..." clearable v-model="newTag"/>
         <Button class="add-btn" type="success" @click="handleAddTag">Add</Button>
@@ -17,18 +17,34 @@
         <Tag v-for="(tag, index) in tags" :key="index" :name="index" closable @on-close="handleDeleteTag">{{tag}}</Tag>
       </div>
     </Row>
-    <Row type="flex" justify="start" class="redact-row redact-info" :gutter="16">
-      <Col span="12">
+    <Row type="flex" justify="start" class="redact-row redact-info" :gutter="8">
+      <Col span="12" class-name="content-md">
         <Input class="content-textarea" type="textarea" placeholder="开始表演吧..." v-model="mdText" ref="mdContent" />
+        <div class="img-upload">
+          <Icon class="icon" type="md-images" v-show="!isUploadShow" @click="isUploadShow = true"/>
+          <Icon class="icon" type="md-close" v-show="isUploadShow" @click="isUploadShow = false"/>
+          <Upload
+                  class="upload-input"
+                  v-show="isUploadShow"
+                  name="smfile"
+                  type="drag"
+                  action="https://sm.ms/api/upload">
+            <div style="padding: 20px 40px">
+              <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
+              <p>点击或者拖拽上传</p>
+            </div>
+          </Upload>
+        </div>
+
       </Col>
       <Col span="12">
         <div class="content-show md2html" :rows="36" v-html="htmlText" ref="htmlContent"></div>
       </Col>
     </Row>
     <Row class="redact-row redact-info" :gutter="16">
-      <Col span="12" class="title">
+      <Col :xs='24' :sm="12" :md="12" class="title">
         <span class="text title-text">文章摘要：</span>
-        <Input class="digest-textarea" :rows="4" placeholder="文章摘要..." type="textarea" v-model="abstract"/>
+        <Input class="digest-textarea" :rows="3" placeholder="文章摘要..." type="textarea" v-model="abstract"/>
       </Col>
     </Row>
     <div class="redact-row">
@@ -68,6 +84,7 @@
         newTag: '',
         mdText: '',
         abstract: '',
+        isUploadShow: true,
         showModal: false
       }
     },
@@ -161,6 +178,7 @@
         this.tags = [];
         this.abstract = '';
       }
+      // 图片上传成功
     },
     created() {
       if(!this.isNew) {
@@ -207,10 +225,10 @@
   @import "~highlight.js/styles/atom-one-light.css";
 
   .article-redact {
-    padding-bottom: 40px;
+    padding-bottom: 20px;
     .redact-row {
       width: 100%;
-      padding: 10px 20px;
+      padding: 6px 10px;
       text-align: left;
       .text {
         font-size: @font-size-xs;
@@ -242,9 +260,27 @@
         line-height: 30px;
       }
     }
+    .content-md {
+      position: relative;
+      .img-upload {
+        display: none;
+        position: absolute;
+        bottom: 4px;
+        right: 10px;
+        text-align: right;
+      }
+      .upload-input {
+        margin-top: 10px;
+      }
+      .icon {
+        font-size: @font-size-lg;
+      }
+    }
+
+
     .content-textarea {
       & > textarea {
-        height: 760px;
+        height: 700px;
         resize: none;
       }
     }
@@ -255,7 +291,7 @@
     }
     .content-show {
       border: 0.017857rem solid #dcdee2;
-      height: 760px;
+      height: 700px;
       border-radius: 0.071429rem;
       padding: 0.071429rem 0.125rem;
       overflow: scroll;

@@ -1,7 +1,7 @@
 <template>
   <div class="page404">
-    <div class="text">你要找的页面不存在！</div>
-    <div class="link">还有{{time}}秒自动回到<router-link to="/user/home">首页</router-link></div>
+    <div class="text">你好像跑出了森林的范围，这里啥都没有。</div>
+    <div class="link">返回森林请点击<router-link to="/user/home">首页</router-link></div>
   </div>
 </template>
 
@@ -26,15 +26,18 @@
       }
     },
     mounted () {
-      this.timer()
+      // this.timer()
     }
   }
 </script>
 
 <style lang="less" rel="stylesheet/less">
   .page404 {
+    width: 100%;
+    height: 100%;
+    padding-top: 40px;
+    background: #e6e6e6;
     .text {
-      margin-top: 40px;
       font-size: @font-size-sm;
       text-align: center;
       color: @color-base;

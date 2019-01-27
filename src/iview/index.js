@@ -10,7 +10,9 @@ import {
   Icon,
   Input,
   Page,
-  Modal
+  Modal,
+  Tag,
+  Upload
 } from 'iview';
 
 const iview = {
@@ -27,6 +29,8 @@ const iview = {
     Vue.component('Input', Input);
     Vue.component('Page', Page);
     Vue.component('Modal', Modal);
+    Vue.component('Tag', Tag);
+    Vue.component('Upload', Upload);
   }
 };
 export default iview;

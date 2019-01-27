@@ -78,10 +78,10 @@
         &::before {
           content: '';
           position: absolute;
-          top: 0;
-          left: -8.5px;
-          width: 16px;
-          height: 16px;
+          top: 4px;
+          left: -6.6px;
+          width: 12px;
+          height: 12px;
           /*border-radius: 100%;*/
           transform: rotate(45deg);
           background: #d3d3d3;

@@ -9,7 +9,7 @@ export default new Router({
   routes: [
     {
       path: '*',
-      component: resolve => require(['@/views/404'], resolve)
+      component: resolve => require(['@/views/page404'], resolve)
     },
     {
       path: '/',

@@ -115,10 +115,10 @@
         &::before {
           content: '';
           position: absolute;
-          top: 0;
-          left: -9.5px;
-          width: 18px;
-          height: 18px;
+          top: 2px;
+          left: -6.4px;
+          width: 12px;
+          height: 12px;
           border-radius: 100%;
           background: #d3d3d3;
         }

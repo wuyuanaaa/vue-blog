@@ -2,9 +2,9 @@
   <div class="management">
     <Table border :columns="columns" :data="formatList">
       <template slot-scope="{ row, index }" slot="action">
-        <Button type="primary" size="small" style="margin-right: 5px" @click="handleModify(index)">编辑</Button>
-        <Button type="primary" size="small" style="margin-right: 5px" @click="handleTypeChange(index)">切换状态</Button>
-        <Button type="error" size="small" @click="handleRemove(index)">删除</Button>
+        <Button class="btn" type="primary" size="small" style="margin-right: 5px" @click="handleModify(index)">编辑</Button>
+        <Button class="btn" type="primary" size="small" style="margin-right: 5px" @click="handleTypeChange(index)">切换</Button>
+        <Button class="btn" type="error" size="small" style="margin-right: 5px" @click="handleRemove(index)">删除</Button>
       </template>
     </Table>
     <div class="page" v-if="total > 10">
@@ -23,7 +23,7 @@
             title="删除"
             @on-ok="modalClickOk"
       >
-      <p>确定要删除么？</p>
+      <p>确定要删除么？ </p>
 
     </Modal>
   </div>
@@ -44,40 +44,47 @@
           {
             title: '标题',
             key: 'title',
-            width: 260,
-            fixed: 'left'
+            minWidth: 120,
+            fixed: 'left',
+            // ellipsis: true
           },
           {
             title: '标签',
             key: 'tags',
-            width: 200
+            minWidth: 80,
+            maxWidth: 140
           },
           {
             title: '创建时间',
             key: 'date',
-            width: 160
+            minWidth: 80,
+            maxWidth: 140
           },
           {
             title: '最后编辑时间',
             key: 'lastDate',
-            width: 160
+            minWidth: 80,
+            maxWidth: 140
           },
           {
             title: '阅读量',
             key: 'readCount',
-            width: 100
+            width: 80,
+            align: 'center'
           },
           {
             title: '类型',
             key: 'type',
-            width: 100
+            width: 80,
+            align: 'center'
           },
           {
             title: '编辑',
             slot: 'action',
             fixed: 'right',
             align: 'center',
-            width: 200
+            minWidth: 80,
+            maxWidth: 180
           }
         ],
         removeModal: false,
@@ -165,6 +172,9 @@
     max-width: 1264px;
     .page {
       margin-top: 20px;
+    }
+    .btn {
+      margin: 6px 0;
     }
   }
 </style>
