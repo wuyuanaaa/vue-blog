@@ -19,21 +19,22 @@
     </Row>
     <Row type="flex" justify="start" class="redact-row redact-info" :gutter="8">
       <Col span="12" class-name="content-md">
-        <Input class="content-textarea" type="textarea" placeholder="开始表演吧..." v-model="mdText" ref="mdContent" />
+        <Input class="content-textarea" type="textarea" placeholder="开始表演吧..." v-model="mdText" ref="mdContent"/>
         <div class="img-upload">
           <Icon class="icon" type="md-images" v-show="!isUploadShow" @click="isUploadShow = true"/>
           <Icon class="icon" type="md-close" v-show="isUploadShow" @click="isUploadShow = false"/>
-          <Upload
-                  class="upload-input"
-                  v-show="isUploadShow"
-                  name="smfile"
-                  type="drag"
-                  action="https://sm.ms/api/upload">
-            <div style="padding: 20px 40px">
-              <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
-              <p>点击或者拖拽上传</p>
+          <form class="img-form" enctype="multipart/form-data" method="post" name="fileinfo" v-show="isUploadShow" >
+            <input class="img-input" id="" type="file" name="smfile" required ref="imgInput" @change="uploadImg"/>
+            <div
+                    class="img-content"
+                    @click="uploadImgClick"
+                    @dragover.stop.prevent="() => {}"
+                    @dragenter.stop.prevent="() => {}"
+                    @drop.prevent.stop="uploadImgDrop">
+              <div class="text">点击或者拖拽上传图片</div>
+              <Icon class="icon" type="ios-cloud-upload-outline"/>
             </div>
-          </Upload>
+          </form>
         </div>
 
       </Col>
@@ -57,91 +58,92 @@
             v-model="showModal"
             title="修改成功"
             @on-ok="modalClickOk"
-           >
+    >
       <p>是否返回【内容管理页面】？</p>
     </Modal>
   </div>
 </template>
 <script>
-  import Marked from 'marked';
-  import highlight from 'highlight.js';
+import Marked from 'marked';
+import highlight from 'highlight.js';
 
-  export default {
-    name: "redact",
-    props: {
-      isNew: {
-        type: Boolean
-      },
-      articleId: {
-        type: String,
-        default: ''
-      }
+export default {
+  name: "redact",
+  props: {
+    isNew: {
+      type: Boolean
     },
-    data() {
-      return {
-        title: '',
-        tags: [],
-        newTag: '',
-        mdText: '',
-        abstract: '',
-        isUploadShow: true,
-        showModal: false
-      }
+    articleId: {
+      type: String,
+      default: ''
+    }
+  },
+  data() {
+    return {
+      title: '',
+      tags: [],
+      newTag: '',
+      mdText: '',
+      abstract: '',
+      isUploadShow: false,
+      showModal: false,
+      form: {}
+    }
+  },
+  methods: {
+    // 删除标签
+    handleDeleteTag(event, name) {
+      this.tags.splice(name, 1)
     },
-    methods: {
-      // 删除标签
-      handleDeleteTag(event, name) {
-        this.tags.splice(name, 1)
-      },
-      // 新增标签
-      handleAddTag() {
-        if (!this.newTag.length) {
-          this.$Message.warning('拒绝添加空标签！');
-          return;
-        }
-        if (this.tags.includes(this.newTag)) {
-          this.$Message.warning('拒绝添加重复标签！');
-          return;
-        }
-        this.tags.push(this.newTag);
-        this.newTag = '';
-      },
-      // 发布文章
-      handleSendArticle(type) {
-        let time = (new Date()).getTime();
-        let articleData = {
-          title: this.title,
-          date: time,
-          lastDate: time,
-          tags: this.tags,
-          readCount: 0,
-          abstract: this.abstract,
-          content: this.htmlText,
-          mdContent: this.mdText,
-          type: type
-        };
-        if (!this.validateForm(articleData)) {
-          return;
-        }
-        this.$axios.post('articles/save', articleData)
+    // 新增标签
+    handleAddTag() {
+      if (!this.newTag.length) {
+        this.$Message.warning('拒绝添加空标签！');
+        return;
+      }
+      if (this.tags.includes(this.newTag)) {
+        this.$Message.warning('拒绝添加重复标签！');
+        return;
+      }
+      this.tags.push(this.newTag);
+      this.newTag = '';
+    },
+    // 发布文章
+    handleSendArticle(type) {
+      let time = (new Date()).getTime();
+      let articleData = {
+        title: this.title,
+        date: time,
+        lastDate: time,
+        tags: this.tags,
+        readCount: 0,
+        abstract: this.abstract,
+        content: this.htmlText,
+        mdContent: this.mdText,
+        type: type
+      };
+      if (!this.validateForm(articleData)) {
+        return;
+      }
+      this.$axios.post('articles/save', articleData)
           .then(res => {
             if (res.status === '0') {
               this.$Message.success('发布成功！');
               this.clearForm();
             }
           })
-      },
-      // 修改文章
-      handleChangeArticle() {
-        let newData = {
-          title: this.title,
-          tags: this.tags,
-          lastDate: (new Date()).getTime(),
-          abstract: this.abstract,
-          content: this.htmlText,
-          mdContent: this.mdText,
-        };
-        this.$axios.post('articles/change',{_id: this.articleId, newData: newData})
+    },
+    // 修改文章
+    handleChangeArticle() {
+      let newData = {
+        title: this.title,
+        tags: this.tags,
+        lastDate: (new Date()).getTime(),
+        abstract: this.abstract,
+        content: this.htmlText,
+        mdContent: this.mdText,
+      };
+      this.$axios.post('articles/change', {_id: this.articleId, newData: newData})
           .then(res => {
             if (res.status === '0') {
               this.showModal = true
@@ -149,40 +151,65 @@
               this.$Message.error('发布失败!');
             }
           })
-      },
-      // 模态框OK
-      modalClickOk() {
-        this.$router.push({ path: '/admin'})
-      },
-      // 表单校验
-      validateForm(data) {
-        const list = [
-          {type: 'title', msg: '还没写标题呢！'},
-          {type: 'tags', msg: '不加标签怎么归档？'},
-          {type: 'content', msg: '正文都没有发个啥！！'},
-          {type: 'abstract', msg: '加上摘要首页才好看啊！'},
-        ];
-        for (let i = 0; i < list.length; i++) {
-          let type = list[i].type;
-          if (!data[type].length) {
-            this.$Message.error(list[i].msg);
-            return false;
-          }
-        }
-        return true;
-      },
-      // 清空表单
-      clearForm() {
-        this.title = '';
-        this.mdText = '';
-        this.tags = [];
-        this.abstract = '';
-      }
-      // 图片上传成功
     },
-    created() {
-      if(!this.isNew) {
-        this.$axios.get('articles/single', {_id: this.articleId})
+    // 模态框OK
+    modalClickOk() {
+      this.$router.push({path: '/admin'})
+    },
+    // 表单校验
+    validateForm(data) {
+      const list = [
+        {type: 'title', msg: '还没写标题呢！'},
+        {type: 'tags', msg: '不加标签怎么归档？'},
+        {type: 'content', msg: '正文都没有发个啥！！'},
+        {type: 'abstract', msg: '加上摘要首页才好看啊！'},
+      ];
+      for (let i = 0; i < list.length; i++) {
+        let type = list[i].type;
+        if (!data[type].length) {
+          this.$Message.error(list[i].msg);
+          return false;
+        }
+      }
+      return true;
+    },
+    // 清空表单
+    clearForm() {
+      this.title = '';
+      this.mdText = '';
+      this.tags = [];
+      this.abstract = '';
+    },
+    // 图片上传成功
+    uploadImgClick() {
+      this.$refs.imgInput.click();
+    },
+    uploadImgDrop(event) {
+      this.postImg(event.dataTransfer.files[0])
+    },
+    uploadImg() {
+      this.postImg()
+    },
+    postImg(file) {
+      let oData = new FormData(this.from);
+      file && oData.append('smfile',file);
+
+      this.$axios.post('https://sm.ms/api/upload',oData)
+          .then(res =>{
+            let imgData = res.data;
+            this.mdText += `![${imgData.filename}](${imgData.url})`;
+            this.$axios.post('imgs/save',imgData)
+                .then(res => {
+              if (res.status === '0') {
+                this.$Message.success('图片上传成功！');
+              }
+            })
+          })
+    }
+  },
+  created() {
+    if (!this.isNew) {
+      this.$axios.get('articles/single', {_id: this.articleId})
           .then(res => {
             let articleData = res[0];
             this.$nextTick(function () {
@@ -192,33 +219,34 @@
               this.abstract = articleData.abstract;
             })
           })
+    }
+  },
+  mounted() {
+    Marked.setOptions({
+      renderer: new Marked.Renderer(),
+      smartLists: true,
+      highlight: function (code) {
+        return highlight.highlightAuto(code).value;
       }
-    },
-    mounted() {
-      Marked.setOptions({
-        renderer: new Marked.Renderer(),
-        smartLists: true,
-        highlight: function (code) {
-          return highlight.highlightAuto(code).value;
-        }
-      });
-      // md 输入框内触发滚动事件时 预览内容同比例滚动
-      let mdContent = this.$refs.mdContent.$el;
-      let _this = this;
-      mdContent.addEventListener('scroll', function () {
-        let realArea = this.children[0];
-        let scrollTop = realArea.scrollTop;
-        let scrollHeight = realArea.scrollHeight - realArea.offsetHeight;
-        let htmlContent = _this.$refs.htmlContent;
-        htmlContent.scrollTop = (htmlContent.scrollHeight - htmlContent.offsetHeight) * (scrollTop / scrollHeight);
-      },true)
-    },
-    computed: {
-      htmlText() {
-        return Marked(this.mdText);
-      }
+    });
+    // md 输入框内触发滚动事件时 预览内容同比例滚动
+    let mdContent = this.$refs.mdContent.$el;
+    let _this = this;
+    mdContent.addEventListener('scroll', function () {
+      let realArea = this.children[0];
+      let scrollTop = realArea.scrollTop;
+      let scrollHeight = realArea.scrollHeight - realArea.offsetHeight;
+      let htmlContent = _this.$refs.htmlContent;
+      htmlContent.scrollTop = (htmlContent.scrollHeight - htmlContent.offsetHeight) * (scrollTop / scrollHeight);
+    }, true);
+    this.from = document.forms.namedItem("fileinfo");
+  },
+  computed: {
+    htmlText() {
+      return Marked(this.mdText);
     }
   }
+}
 </script>
 <style lang="less" rel="stylesheet/less">
   @import "../../assets/css/md2html";
@@ -263,20 +291,40 @@
     .content-md {
       position: relative;
       .img-upload {
-        display: none;
         position: absolute;
         bottom: 4px;
         right: 10px;
         text-align: right;
       }
-      .upload-input {
-        margin-top: 10px;
-      }
       .icon {
         font-size: @font-size-lg;
+        cursor: pointer;
+      }
+      .img-form {
+        position: relative;
+        margin: 0 0 1% 20%;
+        width: 80%;
+        height: 100px;
+        border: 1px dashed @color-border;
+      }
+      .img-input {
+        opacity: 0;
+      }
+      .img-content {
+        position: absolute;
+        top: 0;
+        left: 0;
+        box-sizing: border-box;
+        padding: 20px 0 0 0;
+        text-align: center;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+      }
+      .text {
+        margin-bottom: 10px;
       }
     }
-
 
     .content-textarea {
       & > textarea {

@@ -67,6 +67,11 @@ export default new Router({
           path: 'modifyArticle',
           name: 'modifyArticle',
           component: resolve => require(['@/views/admin/modifyArticle'], resolve)
+        },
+        {
+          path: 'imageManagement',
+          name: 'imageManagement',
+          component: resolve => require(['@/views/admin/imageManagement'], resolve)
         }
       ],
     },

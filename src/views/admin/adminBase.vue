@@ -5,11 +5,11 @@
         <Icon type="ios-paper" />
         内容管理
       </MenuItem>
-      <MenuItem name="2">
-        <Icon type="ios-people" />
-        用户管理
+      <MenuItem name="2" to="/admin/imageManagement">
+        <Icon type="md-images" />
+        图片管理
       </MenuItem>
-      <MenuItem name="4" to="/admin/newArticle">
+      <MenuItem name="3" to="/admin/newArticle">
         <Icon type="md-add" />
         新增文章
       </MenuItem>

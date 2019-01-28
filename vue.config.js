@@ -34,7 +34,7 @@ module.exports = {
   devServer: {
     proxy: {
       '/': {
-        target: 'https://blog.yuanaaa.top',
+        target: 'https://test.yuanaaa.top',
         changeOrigin: true,
         ws: false,
         pathRewrite: {

@@ -11,8 +11,7 @@ import {
   Input,
   Page,
   Modal,
-  Tag,
-  Upload
+  Tag
 } from 'iview';
 
 const iview = {
@@ -30,7 +29,6 @@ const iview = {
     Vue.component('Page', Page);
     Vue.component('Modal', Modal);
     Vue.component('Tag', Tag);
-    Vue.component('Upload', Upload);
   }
 };
 export default iview;
