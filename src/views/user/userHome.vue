@@ -2,9 +2,7 @@
   <div class="home">
     <div class="head-wrapper">
       <div class="head-inner">
-        <router-link to="/">
-          <h1 class="title">吴予安</h1>
-        </router-link>
+        <h1 class="title">吴予安</h1>
         <p class="description">自有林中趣 | 谁惊岁去频</p>
         <img class="logo" src="../../assets/logo.svg" alt="">
       </div>
@@ -74,6 +72,5 @@ export default {
       top: -2px;
       background: #fff;
     }
-
   }
 </style>

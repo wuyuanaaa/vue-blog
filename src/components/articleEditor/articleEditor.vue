@@ -306,6 +306,7 @@ export default {
         width: 80%;
         height: 100px;
         border: 1px dashed @color-border;
+        background: rgba(255,255,255,0.8);
       }
       .img-input {
         opacity: 0;

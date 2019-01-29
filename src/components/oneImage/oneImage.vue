@@ -2,6 +2,7 @@
   <div class="one-image">
     <img class="img" :src="src" alt="">
     <div class="icons">
+      <Icon class="icon" type="md-resize" @click="resizeClick" />
       <Icon class="icon" type="md-link" @click="copyClick"/>
       <Icon class="icon" type="md-trash" @click="deleteClick" />
     </div>
@@ -30,6 +31,9 @@ export default {
     },
     deleteClick() {
       this.$emit('deleteClick',this.index);
+    },
+    resizeClick() {
+      this.$emit('resizeClick',this.index);
     }
   }
 }
@@ -51,13 +55,19 @@ export default {
       max-height: 100%;
     }
     .icons {
+      display: flex;
       position: absolute;
+      justify-content: space-around;
       bottom: 8px;
-      right: 20px;
+      left: 0;
+      width: 100%;
       .icon {
-        margin: 0 0 0 40px;
         font-size: @font-size-lg;
         cursor: pointer;
+        &:nth-child(1) {
+          padding-top: 2px;
+          font-size: 22px;
+        }
       }
     }
   }
