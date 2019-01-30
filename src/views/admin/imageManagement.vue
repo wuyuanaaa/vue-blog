@@ -64,12 +64,15 @@ export default {
     },
     // 删除确认模态框
     modalClickOk() {
-      window.open(this.currentImgDeleteLink);
       this.$axios.post('imgs/remove', {_id: this.currentImgId})
           .then(res => {
             if(res.status === '0') {
               this.$Message.success('删除成功!');
+              window.open(this.currentImgDeleteLink);
               this.upDate();
+            }
+            if(res.status === '3') {
+              this.$Message.error(res.msg);
             }
           })
     },

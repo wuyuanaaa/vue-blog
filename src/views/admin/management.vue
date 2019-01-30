@@ -122,8 +122,9 @@
             if (res.status === '0') {
               this.$Message.success('切换成功!');
               this.upDate();
-            } else {
-              this.$Message.error('切换失败!');
+            }
+            if(res.status === '3') {
+              this.$Message.error(res.msg);
             }
           })
       },
@@ -138,6 +139,10 @@
               this.$Message.success('删除成功!');
               this.upDate();
             }
+            if(res.status === '3') {
+              this.$Message.error(res.msg);
+            }
+
           })
       }
     },

@@ -1,11 +1,11 @@
 import axios from 'axios'
-// import Router from '../router'
+import Router from '../router'
 
 axios.interceptors.request.use(config => {
   return config
 }, error => {
   return Promise.reject(error)
-})
+});
 
 axios.interceptors.response.use(response => {
   /* 检测某种状态进行重定向
@@ -17,7 +17,7 @@ axios.interceptors.response.use(response => {
   return response
 }, error => {
   return Promise.resolve(error.response)
-})
+});
 
 const checkStatus = response => {
   // loading
@@ -31,22 +31,30 @@ const checkStatus = response => {
     status: -404,
     msg: '网络异常'
   }
-}
+};
 
-function checkCode (res) {
+/*
+* status 状态值
+* 0 正常 不做处理
+* 1 普通异常 不做处理
+* 2 需登陆但未登陆 返回登陆页面
+*
+* */
+
+function checkCode(res) {
   // 如果code异常(这里已经包括网络错误，服务器错误，后端抛出的错误)，可以弹出一个错误提示，告诉用户
   if (res.status === -404) {
     // console.log(res.msg)
   }
-  if (res.data && (!res.data.success)) {
-    // console.log(res)
-    // console.log(res.data.msg)
+  if (res && res.status === '2') {
+    Router.push({path: '/login'});
+    return res;
   }
   return res
 }
 
 export default {
-  post (url, data) {
+  post(url, data) {
     return axios({
       method: 'post',
       baseURL: '/api',
@@ -58,16 +66,16 @@ export default {
         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
       }*/
     }).then(
-      (response) => {
-        return checkStatus(response)
-      }
+        (response) => {
+          return checkStatus(response)
+        }
     ).then(
-      (res) => {
-        return checkCode(res)
-      }
+        (res) => {
+          return checkCode(res)
+        }
     )
   },
-  get (url, params) {
+  get(url, params) {
     return axios({
       method: 'get',
       baseURL: '/api',
@@ -78,13 +86,13 @@ export default {
         'X-Requested-With': 'XMLHttpRequest'
       }
     }).then(
-      (response) => {
-        return checkStatus(response)
-      }
+        (response) => {
+          return checkStatus(response)
+        }
     ).then(
-      (res) => {
-        return checkCode(res)
-      }
+        (res) => {
+          return checkCode(res)
+        }
     )
   }
 }

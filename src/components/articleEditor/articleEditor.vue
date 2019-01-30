@@ -131,6 +131,9 @@ export default {
               this.$Message.success('发布成功！');
               this.clearForm();
             }
+            if(res.status === '3') {
+              this.$Message.error(res.msg);
+            }
           })
     },
     // 修改文章
@@ -147,8 +150,9 @@ export default {
           .then(res => {
             if (res.status === '0') {
               this.showModal = true
-            } else {
-              this.$Message.error('发布失败!');
+            }
+            if(res.status === '3') {
+              this.$Message.error(res.msg);
             }
           })
     },

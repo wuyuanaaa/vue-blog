@@ -30,6 +30,12 @@
       <Icon v-if="showMore" class="item-icon" type="ios-arrow-up" />
       <transition name="fade">
         <div class="more-list" v-if="showMore">
+          <router-link to="/admin">
+            <div class="list-item">
+              <!--<Icon type="logo-github" />-->
+              <div class="item-text"> </div>
+            </div>
+          </router-link>
           <a href="https://github.com/wuyuanaaa">
             <div class="list-item">
               <Icon type="logo-github" />

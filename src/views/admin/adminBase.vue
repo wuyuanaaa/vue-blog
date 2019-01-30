@@ -52,8 +52,6 @@
             this.isLogin = true;
             this.userName = res.result.userName;
             // this.$store.commit("updateUserInfo", res.result.userName);
-          } else {
-            this.$router.push({path: '/login'})
           }
         })
     }

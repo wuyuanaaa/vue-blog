@@ -14,8 +14,7 @@ export default {
   name: 'oneImage',
   props: {
     src: {
-      type: String,
-      default: 'https://i.loli.net/2019/01/28/5c4ee9eda8db0.jpg'
+      type: String
     },
     index: {
       type: Number
