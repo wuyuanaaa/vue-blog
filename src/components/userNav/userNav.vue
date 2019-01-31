@@ -36,13 +36,13 @@
               <div class="item-text"> </div>
             </div>
           </router-link>
-          <a href="https://github.com/wuyuanaaa">
+          <a href="https://github.com/wuyuanaaa" target="_blank">
             <div class="list-item">
               <Icon type="logo-github" />
               <div class="item-text">GitHub</div>
             </div>
           </a>
-          <a href="https://juejin.im/user/5bc6d92ce51d450e597ba327">
+          <a href="https://juejin.im/user/5bc6d92ce51d450e597ba327" target="_blank">
             <div class="list-item">
               <Icon type="md-book" />
               <div class="item-text">掘金</div>

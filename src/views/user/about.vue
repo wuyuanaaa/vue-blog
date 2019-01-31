@@ -8,9 +8,15 @@
       </div>
     </div>
     <div class="about-part clearfix">
+      <span class="part-title">源码</span>
+      <div class="path-info">
+        <div class="info-item"><a href="https://github.com/wuyuanaaa/vue-blog" target="_blank">github 仓库地址</a></div>
+      </div>
+    </div>
+    <div class="about-part clearfix">
       <span class="part-title">UI</span>
       <div class="path-info">
-        <div class="info-item">模仿自博客<a href="https://zhwangart.github.io/">数学家</a>，非常喜欢这套主题</div>
+        <div class="info-item">模仿自博客<a href="https://zhwangart.github.io/" target="_blank">数学家</a>，非常喜欢这套主题</div>
       </div>
     </div>
     <div class="about-part clearfix">
@@ -23,6 +29,12 @@
       <span class="part-title">后端</span>
       <div class="path-info">
         <div class="info-item">Nodejs+Express+MongoDB</div>
+      </div>
+    </div>
+    <div class="about-part clearfix">
+      <span class="part-title">功能</span>
+      <div class="path-info">
+        <div class="info-item">见 github </div>
       </div>
     </div>
     <div class="about-part clearfix">
