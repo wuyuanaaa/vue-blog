@@ -7,7 +7,7 @@
         <Button class="btn" type="error" size="small" style="margin-right: 5px" @click="handleRemove(index)">删除</Button>
       </template>
     </Table>
-    <div class="page" v-if="total > 10">
+    <div class="page">
       <Page
               prev-text="上一页"
               next-text="下一页"

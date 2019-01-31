@@ -5,10 +5,10 @@
         <span class="text title-text">文章标题：</span>
         <Input class="title-input" v-model="title" placeholder="文章标题..." clearable/>
       </Col>
-      <Col :xs='24' :sm="10" :md="6" class="add-tag">
+      <Col :xs='12' :sm="10" :md="8" class="add-tag">
         <span class="text title-text">添加标签：</span>
         <Input class="title-input" placeholder="标签..." clearable v-model="newTag"/>
-        <Button class="add-btn" type="success" @click="handleAddTag">Add</Button>
+        <Button class="add-btn" type="primary" @click="handleAddTag" icon="md-add"></Button>
       </Col>
     </Row>
     <Row class="redact-row redact-info">
@@ -19,7 +19,7 @@
     </Row>
     <Row type="flex" justify="start" class="redact-row redact-info" :gutter="8">
       <Col span="12" class-name="content-md">
-        <Input class="content-textarea" type="textarea" placeholder="开始表演吧..." v-model="mdText" ref="mdContent"/>
+        <Input class="content-textarea" type="textarea" placeholder="开始表演吧..." v-model="mdContent" ref="mdContent"/>
         <div class="img-upload">
           <Icon class="icon" type="md-images" v-show="!isUploadShow" @click="isUploadShow = true"/>
           <Icon class="icon" type="md-close" v-show="isUploadShow" @click="isUploadShow = false"/>
@@ -61,6 +61,18 @@
     >
       <p>是否返回【内容管理页面】？</p>
     </Modal>
+
+    <Modal
+            v-model="showLocalStorageModal"
+            title="恢复本地存档"
+            :closable="false"
+            :mask-closable="false"
+            @on-ok="modalLocalStorageClickOk"
+            @on-cancel="modalLocalStorageClickCancel"
+    >
+      <p>检测到有本地存档的内容，是否恢复存档？</p>
+      <p>ps:取消则会删除本地存档!</p>
+    </Modal>
   </div>
 </template>
 <script>
@@ -83,10 +95,11 @@ export default {
       title: '',
       tags: [],
       newTag: '',
-      mdText: '',
+      mdContent: '',
       abstract: '',
       isUploadShow: false,
       showModal: false,
+      showLocalStorageModal: false,
       form: {}
     }
   },
@@ -108,8 +121,40 @@ export default {
       this.tags.push(this.newTag);
       this.newTag = '';
     },
+    // 添加本地存档
+    setLocalStorage() {
+      let articleData = {
+        title: this.title,
+        tags: this.tags,
+        abstract: this.abstract,
+        mdContent: this.mdContent
+      };
+      window.localStorage.setItem('_article',JSON.stringify(articleData));
+    },
+    // 自动保存事件
+    autoSave() {
+      if (this.title.length || this.tags.length || this.mdContent.length || this.abstract.length){
+        this.setLocalStorage();
+        this.$Message.success('自动保存成功！');
+      } // 有内容则保存
+      setTimeout(this.autoSave,1000*60*2); // 2分钟一次
+    },
+    // 恢复存档至页面
+    modalLocalStorageClickOk() {
+      let articleData = JSON.parse(window.localStorage.getItem('_article'));
+      this.title = articleData.title;
+      this.tags = articleData.tags;
+      this.abstract = articleData.abstract;
+      this.mdContent = articleData.mdContent;
+    },
+    // 取消恢复存档,重新开始自动记录存档
+    modalLocalStorageClickCancel() {
+      window.localStorage.removeItem('_article'); // 移除存档
+      this.autoSave();
+    },
     // 发布文章
     handleSendArticle(type) {
+      this.setLocalStorage(); // 保存至本地，因为提交请求后如果登陆超时会跳转登陆页面
       let time = (new Date()).getTime();
       let articleData = {
         title: this.title,
@@ -119,7 +164,7 @@ export default {
         readCount: 0,
         abstract: this.abstract,
         content: this.htmlText,
-        mdContent: this.mdText,
+        mdContent: this.mdContent,
         type: type
       };
       if (!this.validateForm(articleData)) {
@@ -138,13 +183,14 @@ export default {
     },
     // 修改文章
     handleChangeArticle() {
+      this.setLocalStorage(); // 保存至本地，因为提交请求后如果登陆超时会跳转登陆页面
       let newData = {
         title: this.title,
         tags: this.tags,
         lastDate: (new Date()).getTime(),
         abstract: this.abstract,
         content: this.htmlText,
-        mdContent: this.mdText,
+        mdContent: this.mdContent,
       };
       this.$axios.post('articles/change', {_id: this.articleId, newData: newData})
           .then(res => {
@@ -180,11 +226,11 @@ export default {
     // 清空表单
     clearForm() {
       this.title = '';
-      this.mdText = '';
+      this.mdContent = '';
       this.tags = [];
       this.abstract = '';
     },
-    // 图片上传成功
+    // 图片上传
     uploadImgClick() {
       this.$refs.imgInput.click();
     },
@@ -192,6 +238,7 @@ export default {
       this.postImg(event.dataTransfer.files[0])
     },
     uploadImg() {
+      this.setLocalStorage(); // 保存至本地，因为提交请求后如果登陆超时会跳转登陆页面
       this.postImg()
     },
     postImg(file) {
@@ -201,7 +248,7 @@ export default {
       this.$axios.post('https://sm.ms/api/upload',oData)
           .then(res =>{
             let imgData = res.data;
-            this.mdText += `![${imgData.filename}](${imgData.url})`;
+            this.mdContent += `![${imgData.filename}](${imgData.url})`;
             this.$axios.post('imgs/save',imgData)
                 .then(res => {
               if (res.status === '0') {
@@ -209,7 +256,8 @@ export default {
               }
             })
           })
-    }
+    },
+
   },
   created() {
     if (!this.isNew) {
@@ -219,7 +267,7 @@ export default {
             this.$nextTick(function () {
               this.title = articleData.title;
               this.tags = articleData.tags;
-              this.mdText = articleData.mdContent;
+              this.mdContent = articleData.mdContent;
               this.abstract = articleData.abstract;
             })
           })
@@ -244,10 +292,17 @@ export default {
       htmlContent.scrollTop = (htmlContent.scrollHeight - htmlContent.offsetHeight) * (scrollTop / scrollHeight);
     }, true);
     this.from = document.forms.namedItem("fileinfo");
+    // 如果有内容，则出发自动保存
+    if (window.localStorage.getItem('_article')) {
+      this.showLocalStorageModal = true;
+    } else {
+      this.autoSave();
+    }
+
   },
   computed: {
     htmlText() {
-      return Marked(this.mdText);
+      return Marked(this.mdContent);
     }
   }
 }
@@ -257,7 +312,7 @@ export default {
   @import "~highlight.js/styles/atom-one-light.css";
 
   .article-redact {
-    padding-bottom: 20px;
+    padding: 10px 0 20px;
     .redact-row {
       width: 100%;
       padding: 6px 10px;

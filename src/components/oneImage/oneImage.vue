@@ -48,10 +48,11 @@ export default {
     border: 1px solid @color-border;
     .img {
       position: absolute;
-      top: 0;
-      left: 0;
-      max-width: 100%;
-      max-height: 100%;
+      top: 1%;
+      left: 50%;
+      transform: translate3d(-50%, 0, 0);
+      max-width: 98%;
+      max-height: 98%;
     }
     .icons {
       display: flex;

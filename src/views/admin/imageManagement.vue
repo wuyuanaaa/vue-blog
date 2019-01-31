@@ -1,10 +1,22 @@
 <template>
   <div class="image-management">
     <Row :gutter="16">
-      <Col v-for="(item, index) in imgList" :key="index" :xs="12" :sm="6" :md="4" class="img-col" >
+      <Col v-for="(item, index) in imgList" :key="index" :xs="12" :sm="6" :md="4" class="img-col">
         <oneImage :src="item.url" :index="index" @deleteClick="deleteClick" @resizeClick="resizeClick"></oneImage>
       </Col>
     </Row>
+
+    <div class="page" v-if="total > 10">
+      <Page
+              prev-text="上一页"
+              next-text="下一页"
+              :total="total"
+              :page-size="pageSize"
+              @on-change="handlePageChange"
+              show-total
+      />
+    </div>
+
     <Modal
             v-model="deleteModal"
             title="删除图片"
@@ -14,7 +26,10 @@
       <p>由于图床设置，该操作会打开一个新的标签页。</p>
     </Modal>
     <transition name="fade">
-      <div class="image-enlargement" v-show="isEnlargementShow" @click="isEnlargementShow = !isEnlargementShow">
+      <div
+              class="image-enlargement"
+              v-show="isEnlargementShow"
+              @click="isEnlargementShow = !isEnlargementShow">
         <img class="img-current" :src=currentImgSrc alt="">
       </div>
     </transition>
@@ -28,7 +43,7 @@ export default {
   data() {
     return {
       page: 1,
-      pageSize: 20,
+      pageSize: 24,
       total: 0,
       imgList: [],
       currentImgFileName: '',
@@ -79,7 +94,11 @@ export default {
     resizeClick(index) {
       this.currentImgSrc = this.imgList[index].url;
       this.isEnlargementShow = true;
-    }
+    },
+    handlePageChange(val) {
+      this.page = val;
+      this.upDate();
+    },
   },
   created() {
     this.upDate();
@@ -115,7 +134,7 @@ export default {
       }
     }
     .fade-enter-active, .fade-leave-active {
-      transition: opacity .3s;
+      transition: opacity .2s;
     }
     .fade-enter, .fade-leave-to {
       opacity: 0;
