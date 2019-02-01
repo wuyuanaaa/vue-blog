@@ -51,24 +51,53 @@
         </div>
       </transition>
     </div>
+    <div class="nav-menu ts" @click.stop="showNav">
+      <Icon v-if="!isNavShow" type="md-menu" />
+      <Icon v-if="isNavShow" type="md-arrow-round-forward" />
+    </div>
+    <div class="back-top" v-show="isBackTopShow" @click.stop="backTopClick">
+      <Icon type="md-arrow-up" />
+    </div>
   </div>
 </template>
 
 <script>
   export default {
     name: "userNav",
-    data () {
-      return {
-        showMore: false
-      }
-    },
-    methods: {
-
-    },
     props: {
       isNavShow: {
         type: Boolean
       }
+    },
+    data () {
+      return {
+        showMore: false,
+        isBackTopShow: false
+      }
+    },
+    methods: {
+      showNav() {
+        this.$emit('navMenuClick')
+      },
+      backTopClick() {
+        this.backToTop();
+      },
+      backToTop() {
+        let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        let speed = Math.floor(-scrollTop/20);
+        if (scrollTop !== 0) {
+          setTimeout(() => {
+            document.documentElement.scrollTop = document.body.scrollTop = scrollTop + speed;
+            this.backToTop();
+          }, 8)
+        }
+      }
+    },
+    mounted() {
+      window.addEventListener('scroll', () => {
+        let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        this.isBackTopShow = scrollTop > 300;
+      })
     }
   }
 </script>
@@ -123,6 +152,33 @@
       }
       .fade-enter, .fade-leave-to {
         opacity: 1;
+      }
+    }
+    .nav-menu,
+    .back-top {
+      cursor: pointer;
+      position: absolute;
+      left: -68px;
+      width: 48px;
+      height: 36px;
+      line-height: 36px;
+      border-radius: 4px;
+      background: rgba(0,0,0,0.2);
+      .ivu-icon {
+        vertical-align: center;
+        font-size: 24px;
+        color: #fff;
+      }
+    }
+    .nav-menu {
+      display: none;
+      top: 20px;
+    }
+    .back-top {
+      bottom: 30px;
+      transition: all 0.2s;
+      &:hover {
+        background: rgba(0,0,0,0.4);
       }
     }
   }

@@ -34,7 +34,7 @@
     <div class="about-part clearfix">
       <span class="part-title">功能</span>
       <div class="path-info">
-        <div class="info-item">见 github </div>
+        <div class="info-item">见 github 页面 README</div>
       </div>
     </div>
     <div class="about-part clearfix">

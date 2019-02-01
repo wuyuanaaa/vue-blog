@@ -137,7 +137,7 @@ export default {
         this.setLocalStorage();
         this.$Message.success('自动保存成功！');
       } // 有内容则保存
-      setTimeout(this.autoSave,1000*60*2); // 2分钟一次
+      setTimeout(this.autoSave,1000*60); // 1分钟一次
     },
     // 恢复存档至页面
     modalLocalStorageClickOk() {

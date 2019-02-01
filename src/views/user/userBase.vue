@@ -1,16 +1,13 @@
 <template>
-  <div id="userBase" ref="userBase">
+  <div id="userBase"  ref="userBase">
     <div class="userBase-content ts" :class="{navShow: isNavShow}" @click="contentClick">
       <router-view></router-view>
-      <div class="nav-menu ts" @click.stop="showNav">
-        <Icon v-if="!isNavShow" type="md-menu" />
-        <Icon v-if="isNavShow" type="md-arrow-round-forward" />
-      </div>
       <div class="footer">
         <userFooter></userFooter>
       </div>
+
     </div>
-    <userNav :isNavShow="isNavShow"></userNav>
+    <userNav @navMenuClick="navMenuClick" :isNavShow="isNavShow"></userNav>
   </div>
 </template>
 
@@ -33,9 +30,6 @@
       this.bindResizeEvent();
     },
     methods: {
-      showNav () {
-        this.isNavShow = !this.isNavShow;
-      },
       bindResizeEvent () {
         const _this = this;
         window.addEventListener('resize', debounce(function () {
@@ -46,7 +40,13 @@
       },
       contentClick () {
         this.isSmallScreen && (this.isNavShow = false);
+      },
+      navMenuClick () {
+        this.isNavShow = !this.isNavShow;
       }
+    },
+    computed: {
+
     },
     components: {
       userNav,
@@ -71,27 +71,9 @@
     padding-bottom: @footer-height;
     overflow: hidden;
     &.navShow {
-      margin-right: @side-width;
-      .nav-menu {
-        right: 20 + @side-width;
-      }
-    }
-    .nav-menu {
-      display: none;
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      padding: 4px 10px 4px;
-      border-radius: 4px;
-      background: rgba(0,0,0,0.2);
-      .ivu-icon {
-        vertical-align: center;
-        font-size: 24px;
-        color: #fff;
-      }
+      transform: translate3d(-@side-width, 0, 0);
     }
   }
-
   .footer {
     position: absolute;
     bottom: 0;

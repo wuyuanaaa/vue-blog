@@ -9,7 +9,10 @@ export default new Router({
   routes: [
     {
       path: '*',
-      component: resolve => require(['@/views/page404'], resolve)
+      component: resolve => require(['@/views/page404'], resolve),
+      meta: {
+        title: '404'
+      }
     },
     {
       path: '/',
@@ -24,27 +27,42 @@ export default new Router({
       children: [
         {
           path: 'home',
-          component: resolve => require(['@/views/user/userHome'], resolve)
+          component: resolve => require(['@/views/user/userHome'], resolve),
+          meta: {
+            title: '博客|吴予安—首页'
+          }
         },
         {
           path: 'article/:articleId',
           name: 'article',
-          component: resolve => require(['@/views/user/article'], resolve)
+          component: resolve => require(['@/views/user/article'], resolve),
+          meta: {
+            title: '博客|吴予安—文章页'
+          }
         },
         {
           path: 'tagArchived/:tag',
           name: 'tagArchived',
-          component: resolve => require(['@/views/user/tagArchived'], resolve)
+          component: resolve => require(['@/views/user/tagArchived'], resolve),
+          meta: {
+            title: '博客|吴予安—标签页'
+          }
         },
         {
           path: 'archived',
           name: 'archived',
-          component: resolve => require(['@/views/user/archived'], resolve)
+          component: resolve => require(['@/views/user/archived'], resolve),
+          meta: {
+            title: '博客|吴予安—归档页'
+          }
         },
         {
           path: 'about',
           name: 'about',
-          component: resolve => require(['@/views/user/about'], resolve)
+          component: resolve => require(['@/views/user/about'], resolve),
+          meta: {
+            title: '博客|吴予安—关于页'
+          }
         }
       ]
     },
@@ -56,22 +74,34 @@ export default new Router({
       children: [
         {
           path: 'newArticle',
-          component: resolve => require(['@/views/admin/newArticle'], resolve)
+          component: resolve => require(['@/views/admin/newArticle'], resolve),
+          meta: {
+            title: '博客|吴予安—新增文章'
+          }
         },
         {
           path: 'management',
           name: 'management',
-          component: resolve => require(['@/views/admin/management'], resolve)
+          component: resolve => require(['@/views/admin/management'], resolve),
+          meta: {
+            title: '博客|吴予安—文章管理'
+          }
         },
         {
           path: 'modifyArticle',
           name: 'modifyArticle',
-          component: resolve => require(['@/views/admin/modifyArticle'], resolve)
+          component: resolve => require(['@/views/admin/modifyArticle'], resolve),
+          meta: {
+            title: '博客|吴予安—文章编辑'
+          }
         },
         {
           path: 'imageManagement',
           name: 'imageManagement',
-          component: resolve => require(['@/views/admin/imageManagement'], resolve)
+          component: resolve => require(['@/views/admin/imageManagement'], resolve),
+          meta: {
+            title: '博客|吴予安—图片管理'
+          }
         }
       ],
     },

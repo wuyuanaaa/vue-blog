@@ -16,6 +16,13 @@ Vue.prototype.$Message = Message;
 Vue.prototype.$axios = axios;
 Vue.config.productionTip = false;
 
+router.beforeEach((to, from, next) =>{
+  if (to.meta.title) {
+    document.title = to.meta.title;
+  }
+  next();
+});
+
 
 new Vue({
   router,
