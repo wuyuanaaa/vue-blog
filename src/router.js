@@ -37,7 +37,7 @@ export default new Router({
           name: 'article',
           component: resolve => require(['@/views/user/article'], resolve),
           meta: {
-            title: '博客|吴予安—文章页'
+            title: '博客|吴予安—文章详情'
           }
         },
         {
@@ -108,7 +108,10 @@ export default new Router({
     {
       path: '/login',
       name: 'login',
-      component: resolve => require(['@/views/login/login'], resolve)
+      component: resolve => require(['@/views/login/login'], resolve),
+      meta: {
+        title: '博客|吴予安—后台登录'
+      }
     }
   ]
 })

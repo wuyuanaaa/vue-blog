@@ -75,8 +75,9 @@ body a {
 // xs
 @media (max-width: @screen-sm-min) {
   #app {
-    .userBase-content {
-
+    .userBase-content.navShow {
+      padding-right: 0;
+      transform: translate3d(-@side-width, 0, 0);
     }
     .nav-bar {
       .nav-menu {

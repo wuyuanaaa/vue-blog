@@ -71,7 +71,7 @@
     padding-bottom: @footer-height;
     overflow: hidden;
     &.navShow {
-      transform: translate3d(-@side-width, 0, 0);
+      padding-right: @side-width;
     }
   }
   .footer {
