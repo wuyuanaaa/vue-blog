@@ -84,7 +84,7 @@
       },
       backToTop() {
         let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-        let speed = Math.floor(-scrollTop/20);
+        let speed = Math.floor(-scrollTop/10);
         if (scrollTop !== 0) {
           setTimeout(() => {
             document.documentElement.scrollTop = document.body.scrollTop = scrollTop + speed;

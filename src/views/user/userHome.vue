@@ -1,11 +1,14 @@
 <template>
   <div class="home">
-    <div class="head-wrapper">
+    <div class="head-wrapper" ref="headWrapper">
       <div class="head-inner">
+      </div>
+      <div class="head-text">
         <h1 class="title">吴予安</h1>
         <p class="description">自有林中趣 | 谁惊岁去频</p>
         <img class="logo" src="../../assets/logo.svg" alt="">
       </div>
+      <Icon class="head-showContent" type="ios-arrow-down" @click="handlerClickShowContent" />
     </div>
     <div class="content">
       <articleList></articleList>
@@ -15,11 +18,37 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import articleList from '@/components/articleList/articleList'
 
 export default {
   name: 'home',
+  data() {
+    return {
+      innerHeight: ''
+    }
+  },
+  mounted() {
+    this.setHeight();
+    window.addEventListener('resize', () => {
+      this.setHeight();
+    })
+  },
+  methods: {
+    setHeight() {
+      this.innerHeight = window.innerHeight;
+      this.$refs.headWrapper.style.height = innerHeight - 40 + 'px';
+    },
+    handlerClickShowContent() {
+      let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+      let speed = Math.floor((this.innerHeight - 20)/20);
+      if (scrollTop < this.innerHeight) {
+        setTimeout(() => {
+          document.documentElement.scrollTop = document.body.scrollTop = scrollTop + speed;
+          this.handlerClickShowContent();
+        }, 10)
+      }
+    }
+  },
   components: {
     articleList
   }
@@ -30,30 +59,34 @@ export default {
     .head-wrapper {
       position: relative;
       width: 100%;
-      padding-bottom: 58%;
-      background: #fff url(../../assets/head-bg.jpg) no-repeat;
-      background-position: bottom -2px center;
+      background: url('https://i.loli.net/2019/02/13/5c6368f0dc7f2.jpg') no-repeat;
+      background-position: top center;
       background-size: cover;
     }
     .head-inner {
       position: absolute;
-      top: 0;
+      bottom: 0;
       left: 0;
-      padding-top: 26%;
       width: 100%;
-      height: 100%;
+      height: 200px;
       background: url(../../assets/head-shade.png) no-repeat;
       background-position: bottom -2px center;
       background-size: 101% auto;
+    }
+    .head-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate3d(-50%,-50%,0);
       .title {
-        margin-bottom: 3.4%;
+        margin-bottom: 20px;
         font-size: @font-size-lg;
         opacity: 0.9;
         color: rgba( 255, 255, 255, 1);
         text-shadow: 0 0 10px #595959;
       }
       .description {
-        margin-bottom: 2%;
+        margin-bottom: 10px;
         font-size: @font-size-sm;
         opacity: 1;
         color: #ebebeb;
@@ -64,10 +97,20 @@ export default {
         opacity: 0.7;
       }
     }
+    .head-showContent {
+      padding: 6px;
+      position: absolute;
+      bottom: -36px;
+      left: 50%;
+      transform: translate3d(-50%, 0, 0);
+      font-size: @font-size-lg;
+      z-index: 88;
+      cursor: pointer;
+    }
     .content {
       position: relative;
       margin: 0 auto;
-      padding: 0 20px;
+      padding: 0 20px 0;
       max-width: @content-max-Width;
       top: -2px;
       background: #fff;

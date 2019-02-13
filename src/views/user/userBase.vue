@@ -5,7 +5,6 @@
       <div class="footer">
         <userFooter></userFooter>
       </div>
-
     </div>
     <userNav @navMenuClick="navMenuClick" :isNavShow="isNavShow"></userNav>
   </div>
