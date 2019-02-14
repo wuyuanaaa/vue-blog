@@ -175,6 +175,7 @@ export default {
             if (res.status === '0') {
               this.$Message.success('发布成功！');
               this.clearForm();
+              window.localStorage.removeItem('_article'); // 移除存档
             }
             if(res.status === '3') {
               this.$Message.error(res.msg);
@@ -195,7 +196,8 @@ export default {
       this.$axios.post('articles/change', {_id: this.articleId, newData: newData})
           .then(res => {
             if (res.status === '0') {
-              this.showModal = true
+              this.showModal = true;
+              window.localStorage.removeItem('_article'); // 移除存档
             }
             if(res.status === '3') {
               this.$Message.error(res.msg);

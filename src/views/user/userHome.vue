@@ -68,7 +68,7 @@ export default {
       bottom: 0;
       left: 0;
       width: 100%;
-      height: 200px;
+      height: 50%;
       background: url(../../assets/head-shade.png) no-repeat;
       background-position: bottom -2px center;
       background-size: 101% auto;
@@ -81,16 +81,16 @@ export default {
       .title {
         margin-bottom: 20px;
         font-size: @font-size-lg;
-        opacity: 0.9;
+        opacity: 1;
         color: rgba( 255, 255, 255, 1);
-        text-shadow: 0 0 10px #595959;
+        text-shadow: 0 0 4px #1e1e1e;
       }
       .description {
         margin-bottom: 10px;
         font-size: @font-size-sm;
         opacity: 1;
-        color: #ebebeb;
-        text-shadow: 0 0 10px #595959;
+        color: rgba( 255, 255, 255, 1);
+        text-shadow: 0 0 2px #1e1e1e;
       }
       .logo {
         width: 56px;
