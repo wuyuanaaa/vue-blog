@@ -1,6 +1,9 @@
 <template>
   <div class="management">
     <Table border :columns="columns" :data="formatList" :loading="tableLoading">
+      <template slot-scope="{ row, index }" slot="articleTitle">
+        <a :href=articleLink(list[index]._id) target="_blank">{{list[index].title}}</a>
+      </template>
       <template slot-scope="{ row, index }" slot="action">
         <Button class="btn" type="primary" size="small" style="margin-right: 5px" @click="handleModify(index)">编辑</Button>
         <Button class="btn" type="primary" size="small" style="margin-right: 5px" @click="handleTypeChange(index)">切换</Button>
@@ -44,7 +47,7 @@
         columns: [
           {
             title: '标题',
-            key: 'title',
+            slot: 'articleTitle',
             minWidth: 120,
             fixed: 'left',
             // ellipsis: true
@@ -147,6 +150,9 @@
             }
 
           })
+      },
+      articleLink(id) {
+        return 'https://blog.yuanaaa.top/user/article/'+id;
       }
     },
     computed: {
