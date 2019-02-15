@@ -5,13 +5,13 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 export default new Router({
-  // mode: 'history',
+  mode: 'history',
   routes: [
     {
       path: '*',
       component: resolve => require(['@/views/page404'], resolve),
       meta: {
-        title: '404'
+        title: '404 · 博客 | 吴予安'
       }
     },
     {
@@ -29,7 +29,7 @@ export default new Router({
           path: 'home',
           component: resolve => require(['@/views/user/userHome'], resolve),
           meta: {
-            title: '博客|吴予安—首页'
+            title: '首页 · 博客 | 吴予安'
           }
         },
         {
@@ -37,7 +37,7 @@ export default new Router({
           name: 'article',
           component: resolve => require(['@/views/user/article'], resolve),
           meta: {
-            title: '博客|吴予安—文章详情'
+            title: '文章 · 博客 | 吴予安'
           }
         },
         {
@@ -45,7 +45,7 @@ export default new Router({
           name: 'tagArchived',
           component: resolve => require(['@/views/user/tagArchived'], resolve),
           meta: {
-            title: '博客|吴予安—标签页'
+            title: '标签 · 博客 | 吴予安'
           }
         },
         {
@@ -53,7 +53,7 @@ export default new Router({
           name: 'archived',
           component: resolve => require(['@/views/user/archived'], resolve),
           meta: {
-            title: '博客|吴予安—归档页'
+            title: '归档 · 博客 | 吴予安'
           }
         },
         {
@@ -61,7 +61,7 @@ export default new Router({
           name: 'about',
           component: resolve => require(['@/views/user/about'], resolve),
           meta: {
-            title: '博客|吴予安—关于页'
+            title: '关于 · 博客 | 吴予安'
           }
         }
       ]
@@ -76,7 +76,7 @@ export default new Router({
           path: 'newArticle',
           component: resolve => require(['@/views/admin/newArticle'], resolve),
           meta: {
-            title: '博客|吴予安—新增文章'
+            title: '新增文章 · 博客 | 吴予安'
           }
         },
         {
@@ -84,7 +84,7 @@ export default new Router({
           name: 'management',
           component: resolve => require(['@/views/admin/management'], resolve),
           meta: {
-            title: '博客|吴予安—文章管理'
+            title: '文章管理 · 博客 | 吴予安'
           }
         },
         {
@@ -92,7 +92,7 @@ export default new Router({
           name: 'modifyArticle',
           component: resolve => require(['@/views/admin/modifyArticle'], resolve),
           meta: {
-            title: '博客|吴予安—文章编辑'
+            title: '文章编辑 · 博客 | 吴予安'
           }
         },
         {
@@ -100,7 +100,7 @@ export default new Router({
           name: 'imageManagement',
           component: resolve => require(['@/views/admin/imageManagement'], resolve),
           meta: {
-            title: '博客|吴予安—图片管理'
+            title: '图片管理 · 博客 | 吴予安'
           }
         }
       ],
@@ -110,7 +110,7 @@ export default new Router({
       name: 'login',
       component: resolve => require(['@/views/login/login'], resolve),
       meta: {
-        title: '博客|吴予安—后台登录'
+        title: '登录 · 博客 | 吴予安'
       }
     }
   ]
