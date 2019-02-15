@@ -1,6 +1,6 @@
 <template>
   <div class="management">
-    <Table border :columns="columns" :data="formatList">
+    <Table border :columns="columns" :data="formatList" :loading="tableLoading">
       <template slot-scope="{ row, index }" slot="action">
         <Button class="btn" type="primary" size="small" style="margin-right: 5px" @click="handleModify(index)">编辑</Button>
         <Button class="btn" type="primary" size="small" style="margin-right: 5px" @click="handleTypeChange(index)">切换</Button>
@@ -36,10 +36,11 @@
     name: "management",
     data() {
       return {
-        total: '',
+        total: 0,
         page: 1,
         pageSize: 10,
         list: [],
+        tableLoading: true,
         columns: [
           {
             title: '标题',
@@ -99,6 +100,7 @@
           all: '1'
         };
         this.$axios.get('articles/list', param).then(res => {
+          this.tableLoading = false;
           this.$nextTick(function () {
             this.total = res.result.total;
             this.list = res.result.list;
@@ -107,6 +109,7 @@
       },
       handlePageChange(val) {
         this.page = val;
+        this.tableLoading = true;
         this.upDate();
       },
       // 编辑
@@ -154,7 +157,7 @@
           list.title = val.title;
           list.tags = val.tags.reduce((a, b) => a + ',' + b);
           list.date = formatDate(new Date(val.date), 'yyyy-MM-dd hh:mm');
-          list.lastDate = val.lastDate || list.date;
+          list.lastDate = formatDate(new Date(val.lastDate || list.date), 'yyyy-MM-dd hh:mm');
           list.readCount = val.readCount;
           list.type = val.type === 1 ? '私密' : '公开';
           return list;

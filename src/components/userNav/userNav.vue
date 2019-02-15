@@ -91,13 +91,17 @@
             this.backToTop();
           }, 8)
         }
+      },
+      checkIsBackTopShow() {
+        let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        this.isBackTopShow = scrollTop > 300;
       }
     },
     mounted() {
-      window.addEventListener('scroll', () => {
-        let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-        this.isBackTopShow = scrollTop > 300;
-      })
+      window.addEventListener('scroll', this.checkIsBackTopShow);
+    },
+    beforeDestroy() {
+      window.removeEventListener('scroll', this.checkIsBackTopShow);
     }
   }
 </script>

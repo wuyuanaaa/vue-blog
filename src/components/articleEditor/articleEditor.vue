@@ -259,7 +259,6 @@ export default {
             })
           })
     },
-
   },
   created() {
     if (!this.isNew) {
@@ -300,7 +299,6 @@ export default {
     } else {
       this.autoSave();
     }
-
   },
   computed: {
     htmlText() {

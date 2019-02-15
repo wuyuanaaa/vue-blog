@@ -13,7 +13,6 @@
 <script>
   import userNav from '@/components/userNav/userNav'
   import userFooter from '@/components/userFooter/userFooter'
-  import {debounce} from '@/assets/js/tools.js'
 
   export default {
     name: 'userBase',
@@ -26,16 +25,13 @@
     mounted () {
       this.isSmallScreen = window.innerWidth < 768;
       this.isNavShow = !this.isSmallScreen;
-      this.bindResizeEvent();
+      window.addEventListener('resize', this.checkInnerWidth);
     },
     methods: {
-      bindResizeEvent () {
-        const _this = this;
-        window.addEventListener('resize', debounce(function () {
-          let innerWidth = window.innerWidth;
-          _this.isSmallScreen = innerWidth < 768;
-          _this.isNavShow = !_this.isSmallScreen;
-        }, 50))
+      checkInnerWidth() {
+        let innerWidth = window.innerWidth;
+        this.isSmallScreen = innerWidth < 768;
+        this.isNavShow = !this.isSmallScreen;
       },
       contentClick () {
         this.isSmallScreen && (this.isNavShow = false);
@@ -44,8 +40,8 @@
         this.isNavShow = !this.isNavShow;
       }
     },
-    computed: {
-
+    beforeDestroy() {
+      window.removeEventListener('resize', this.checkInnerWidth);
     },
     components: {
       userNav,

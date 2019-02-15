@@ -29,9 +29,7 @@ export default {
   },
   mounted() {
     this.setHeight();
-    window.addEventListener('resize', () => {
-      this.setHeight();
-    })
+    window.addEventListener('resize', this.resizeFn)
   },
   methods: {
     setHeight() {
@@ -47,7 +45,13 @@ export default {
           this.handlerClickShowContent();
         }, 10)
       }
+    },
+    resizeFn() {
+      this.setHeight();
     }
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.resizeFn);
   },
   components: {
     articleList

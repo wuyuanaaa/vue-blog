@@ -3,12 +3,12 @@
     <Form ref="formInline" :model="formInline" :rules="ruleInline">
       <FormItem prop="user">
         <Input class="login-input" type="text" v-model="formInline.user" placeholder="用户名">
-        <Icon type="ios-person-outline" slot="prepend"></Icon>
+          <Icon type="ios-person-outline" slot="prepend"></Icon>
         </Input>
       </FormItem>
       <FormItem prop="password">
         <Input class="login-input" type="password" v-model="formInline.password" placeholder="密码">
-        <Icon type="ios-lock-outline" slot="prepend"></Icon>
+          <Icon type="ios-lock-outline" slot="prepend"></Icon>
         </Input>
       </FormItem>
       <FormItem>
@@ -51,7 +51,6 @@
       this.$axios.get('users/checkLogin')
         .then(res => {
           if (res.status === '0') {
-            this.$store.commit("updateUserInfo", res.result.userName);
             this.$router.push({path: '/admin'})
           }
         })
@@ -80,6 +79,9 @@
           }
         })
       }
+    },
+    beforeDestroy() {
+      document.onkeydown = Function.prototype;
     }
   }
 </script>
