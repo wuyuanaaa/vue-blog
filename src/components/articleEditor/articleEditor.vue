@@ -366,6 +366,9 @@ export default {
         height: 100px;
         border: 1px dashed @color-border;
         background: rgba(255,255,255,0.8);
+        &:hover {
+          border-color: rgba(0,0,0,0.5);
+        }
       }
       .img-input {
         opacity: 0;
