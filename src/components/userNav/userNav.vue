@@ -57,6 +57,7 @@
     </div>
     <div class="back-top" v-show="isBackTopShow" @click.stop="backTopClick">
       <Icon type="md-arrow-up" />
+      <span class="scroll-scale">{{scrollScale}}%</span>
     </div>
   </div>
 </template>
@@ -72,7 +73,8 @@
     data () {
       return {
         showMore: false,
-        isBackTopShow: false
+        isBackTopShow: false,
+        scrollScale: 0
       }
     },
     methods: {
@@ -94,7 +96,11 @@
       },
       checkIsBackTopShow() {
         let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        let innerHeight = window.innerHeight;
+        let scrollHeight = (document.documentElement.scrollHeight || document.body.scrollHeight) - innerHeight;
+
         this.isBackTopShow = scrollTop > 300;
+        this.scrollScale = Math.ceil((scrollTop / scrollHeight) * 100);
       }
     },
     mounted() {
@@ -163,13 +169,13 @@
       cursor: pointer;
       position: absolute;
       left: -68px;
-      width: 48px;
+      width: 52px;
       height: 36px;
       line-height: 36px;
-      border-radius: 4px;
+      border-radius: 2px;
       background: rgba(0,0,0,0.2);
       .ivu-icon {
-        vertical-align: center;
+        vertical-align: middle;
         font-size: 24px;
         color: #fff;
       }
@@ -183,6 +189,14 @@
       transition: all 0.2s;
       &:hover {
         background: rgba(0,0,0,0.4);
+      }
+      .ivu-icon {
+        font-size: 12px;
+      }
+      .scroll-scale {
+        vertical-align: middle;
+        font-size: @font-size-xs;
+        color: #fff;
       }
     }
   }
