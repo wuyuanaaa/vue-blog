@@ -24,6 +24,7 @@
       padding: 0 10px;
       font-size: 12px;
       line-height: 1;
+      list-style: none;
       a {
         color: #236666;
       }
