@@ -17,9 +17,11 @@
         </span>
         <span class="text">{{item.date | formatDate}}</span>
       </div>
-      <div class="item-abstract">
-        {{item.abstract}}
-      </div>
+      <router-link :to="{name: 'article', params: {articleId: item._id}}">
+        <div class="item-abstract">
+            {{item.abstract}}
+        </div>
+      </router-link>
       <div class="item-info clearfix">
         <div class="item-tags" v-for="(tag, index) in item.tags" :key="index">
           <span class="icon">
@@ -101,9 +103,10 @@
       }
     }
     .item-abstract {
-      padding: 20px 0;
+      margin: 20px 0;
       font-size: @font-size-xs;
       line-height: 1.8;
+      color: @color-base;
     }
     .item-info {
       line-height: 1;
