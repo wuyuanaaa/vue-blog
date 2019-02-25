@@ -66,13 +66,13 @@ export default {
         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
       }*/
     }).then(
-        (response) => {
-          return checkStatus(response)
-        }
+      (response) => {
+        return checkStatus(response)
+      }
     ).then(
-        (res) => {
-          return checkCode(res)
-        }
+      (res) => {
+        return checkCode(res)
+      }
     )
   },
   get(url, params) {
@@ -86,13 +86,20 @@ export default {
         'X-Requested-With': 'XMLHttpRequest'
       }
     }).then(
-        (response) => {
-          return checkStatus(response)
-        }
+      (response) => {
+        return checkStatus(response)
+      }
     ).then(
-        (res) => {
-          return checkCode(res)
-        }
+      (res) => {
+        return checkCode(res)
+      }
     )
+  },
+  cors(url) {
+    return axios({
+      method: 'get',
+      url: 'https://cors-anywhere.herokuapp.com/' + url,
+      timeout: 10000
+    })
   }
 }

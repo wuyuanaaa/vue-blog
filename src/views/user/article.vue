@@ -88,7 +88,8 @@
       float: right;
     }
     .content {
-      padding: 10px 0 0;
+      padding: 10px 0 40px;
+      border-bottom: 1px solid @color-border;
     }
   }
 

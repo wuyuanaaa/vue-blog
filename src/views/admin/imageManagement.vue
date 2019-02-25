@@ -23,7 +23,7 @@
             @on-ok="modalClickOk"
     >
       <p>确定要删除图片 <b>{{currentImgFileName}}</b> 么？ </p>
-      <p>由于图床设置，该操作会打开一个新的标签页。</p>
+      <p>由于使用第三方图床，该操作会有一定延迟。</p>
     </Modal>
     <transition name="fade">
       <div
@@ -79,7 +79,25 @@ export default {
     },
     // 删除确认模态框
     modalClickOk() {
-      this.$axios.post('imgs/remove', {_id: this.currentImgId})
+      this.$axios.cors(this.currentImgDeleteLink)
+        .then(res => {
+          if (res && (res.data.includes('File delete success') || res.data.includes('File already deleted'))) {
+            this.$Message.success('远程删除成功!');
+            this.$axios.post('imgs/remove', {_id: this.currentImgId})
+              .then(res => {
+                if(res.status === '0') {
+                  this.$Message.success('本地删除成功!');
+                  this.upDate();
+                }
+                if(res.status === '3') {
+                  this.$Message.error(res.msg);
+                }
+              })
+          } else {
+            this.$Message.error('删除失败!请稍后重试！');
+          }
+        })
+      /*this.$axios.post('imgs/remove', {_id: this.currentImgId})
           .then(res => {
             if(res.status === '0') {
               this.$Message.success('删除成功!');
@@ -89,7 +107,7 @@ export default {
             if(res.status === '3') {
               this.$Message.error(res.msg);
             }
-          })
+          })*/
     },
     resizeClick(index) {
       this.currentImgSrc = this.imgList[index].url;
