@@ -40,7 +40,7 @@
     <div class="about-part clearfix">
       <span class="part-title">flag</span>
       <div class="path-info">
-        <div class="info-item">完成全局搜索功能</div>
+        <div class="info-item info-disable">完成全局搜索功能</div>
         <div class="info-item">增加评论功能</div>
         <div class="info-item">增加文章锚点功能</div>
         <div class="info-item">完善更多动效</div>
@@ -98,6 +98,9 @@
           transform: rotate(45deg);
           background: #d3d3d3;
         }
+      }
+      .info-disable {
+        text-decoration: line-through;
       }
     }
   }

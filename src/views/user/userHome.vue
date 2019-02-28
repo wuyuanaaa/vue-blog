@@ -85,20 +85,18 @@ export default {
       .title {
         margin-bottom: 20px;
         font-size: @font-size-lg;
-        opacity: 1;
         color: rgba( 255, 255, 255, 1);
-        text-shadow: 0 0 4px #1e1e1e;
+        text-shadow: -2px 2px 8px #1e1e1e;
       }
       .description {
         margin-bottom: 10px;
         font-size: @font-size-sm;
-        opacity: 1;
         color: rgba( 255, 255, 255, 1);
-        text-shadow: 0 0 2px #1e1e1e;
+        text-shadow: -2px 2px 4px #1e1e1e;
       }
       .logo {
         width: 56px;
-        opacity: 0.7;
+        opacity: 0.8;
       }
     }
     .head-showContent {

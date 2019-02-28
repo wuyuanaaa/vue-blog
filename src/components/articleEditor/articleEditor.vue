@@ -23,7 +23,7 @@
         <div class="img-upload">
           <Icon class="icon" type="md-images" v-show="!isUploadShow" @click="isUploadShow = true"/>
           <Icon class="icon" type="md-close" v-show="isUploadShow" @click="isUploadShow = false"/>
-          <form class="img-form" enctype="multipart/form-data" method="post" name="fileinfo" v-show="isUploadShow" >
+          <form class="img-form" enctype="multipart/form-data" method="post" name="fileinfo" v-show="isUploadShow">
             <input class="img-input" id="" type="file" name="smfile" required ref="imgInput" @change="uploadImg"/>
             <div
                     class="img-content"
@@ -70,242 +70,249 @@
             @on-ok="modalLocalStorageClickOk"
             @on-cancel="modalLocalStorageClickCancel"
     >
-      <p>检测到有本地存档的内容，是否恢复存档？</p>
+      <p>检测到当前数据与本地存档的内容不同，是否恢复存档？</p>
       <p>ps:取消则会删除本地存档!</p>
     </Modal>
   </div>
 </template>
 <script>
-import Marked from 'marked';
-import highlight from 'highlight.js';
+  import Marked from 'marked';
+  import highlight from 'highlight.js';
 
-export default {
-  name: "redact",
-  props: {
-    isNew: {
-      type: Boolean
-    },
-    articleId: {
-      type: String,
-      default: ''
-    }
-  },
-  data() {
-    return {
-      title: '',
-      tags: [],
-      newTag: '',
-      mdContent: '',
-      abstract: '',
-      isUploadShow: false,
-      showModal: false,
-      showLocalStorageModal: false,
-      form: {}
-    }
-  },
-  methods: {
-    // 删除标签
-    handleDeleteTag(event, name) {
-      this.tags.splice(name, 1)
-    },
-    // 新增标签
-    handleAddTag() {
-      if (!this.newTag.length) {
-        this.$Message.warning('拒绝添加空标签！');
-        return;
+  export default {
+    name: "redact",
+    props: {
+      isNew: {
+        type: Boolean
+      },
+      articleId: {
+        type: String,
+        default: ''
       }
-      if (this.tags.includes(this.newTag)) {
-        this.$Message.warning('拒绝添加重复标签！');
-        return;
+    },
+    data() {
+      return {
+        title: '',
+        tags: [],
+        newTag: '',
+        mdContent: '',
+        abstract: '',
+        isUploadShow: false,
+        showModal: false,
+        showLocalStorageModal: false,
+        form: {}
       }
-      this.tags.push(this.newTag);
-      this.newTag = '';
     },
-    // 添加本地存档
-    setLocalStorage() {
-      let articleData = {
-        title: this.title,
-        tags: this.tags,
-        abstract: this.abstract,
-        mdContent: this.mdContent
-      };
-      window.localStorage.setItem('_article',JSON.stringify(articleData));
-    },
-    // 自动保存事件
-    autoSave() {
-      if (this.title.length || this.tags.length || this.mdContent.length || this.abstract.length){
-        this.setLocalStorage();
-        this.$Message.success('自动保存成功！');
-      } // 有内容则保存
-      setTimeout(this.autoSave,1000*60); // 1分钟一次
-    },
-    // 恢复存档至页面
-    modalLocalStorageClickOk() {
-      let articleData = JSON.parse(window.localStorage.getItem('_article'));
-      this.title = articleData.title;
-      this.tags = articleData.tags;
-      this.abstract = articleData.abstract;
-      this.mdContent = articleData.mdContent;
-    },
-    // 取消恢复存档,重新开始自动记录存档
-    modalLocalStorageClickCancel() {
-      window.localStorage.removeItem('_article'); // 移除存档
-      this.autoSave();
-    },
-    // 发布文章
-    handleSendArticle(type) {
-      this.setLocalStorage(); // 保存至本地，因为提交请求后如果登陆超时会跳转登陆页面
-      let time = (new Date()).getTime();
-      let articleData = {
-        title: this.title,
-        date: time,
-        lastDate: time,
-        tags: this.tags,
-        readCount: 0,
-        abstract: this.abstract,
-        content: this.htmlText,
-        mdContent: this.mdContent,
-        type: type
-      };
-      if (!this.validateForm(articleData)) {
-        return;
-      }
-      this.$axios.post('articles/save', articleData)
+    methods: {
+      // 删除标签
+      handleDeleteTag(event, name) {
+        this.tags.splice(name, 1)
+      },
+      // 新增标签
+      handleAddTag() {
+        if (!this.newTag.length) {
+          this.$Message.warning('拒绝添加空标签！');
+          return;
+        }
+        if (this.tags.includes(this.newTag)) {
+          this.$Message.warning('拒绝添加重复标签！');
+          return;
+        }
+        this.tags.push(this.newTag);
+        this.newTag = '';
+      },
+      // 添加本地存档
+      setLocalStorage() {
+        let articleData = {
+          title: this.title,
+          tags: this.tags,
+          abstract: this.abstract,
+          mdContent: this.mdContent
+        };
+        window.localStorage.setItem('_article', JSON.stringify(articleData));
+      },
+      // 自动保存事件
+      autoSave() {
+        if (this.title.length || this.tags.length || this.mdContent.length || this.abstract.length) {
+          this.setLocalStorage();
+          this.$Message.success('自动保存成功！');
+        } // 有内容则保存
+        setTimeout(this.autoSave, 1000 * 60); // 1分钟一次
+      },
+      // 恢复存档至页面
+      modalLocalStorageClickOk() {
+        let articleData = JSON.parse(window.localStorage.getItem('_article'));
+        this.title = articleData.title;
+        this.tags = articleData.tags;
+        this.abstract = articleData.abstract;
+        this.mdContent = articleData.mdContent;
+        this.autoSave();
+      },
+      // 取消恢复存档,重新开始自动记录存档
+      modalLocalStorageClickCancel() {
+        window.localStorage.removeItem('_article'); // 移除存档
+        this.autoSave();
+      },
+      // 检测存档是否与当前数据相同，如果不同则弹窗提醒
+      checkIsSameAsLocalStorage() {
+        if (window.localStorage.getItem('_article')) {
+          let articleData = JSON.parse(window.localStorage.getItem('_article'));
+          if (articleData.title !== this.title || articleData.tags.join('') !== this.tags.join('') || articleData.mdContent !== this.mdContent || articleData.abstract !== this.abstract) {
+            this.showLocalStorageModal = true;
+          } else {
+            this.autoSave();
+          }
+        } else {
+          this.autoSave();
+        }
+      },
+      // 发布文章
+      handleSendArticle(type) {
+        this.setLocalStorage(); // 保存至本地，因为提交请求后如果登陆超时会跳转登陆页面
+        let time = (new Date()).getTime();
+        let articleData = {
+          title: this.title,
+          date: time,
+          lastDate: time,
+          tags: this.tags,
+          readCount: 0,
+          abstract: this.abstract,
+          content: this.htmlText,
+          mdContent: this.mdContent,
+          type: type
+        };
+        if (!this.validateForm(articleData)) {
+          return;
+        }
+        this.$axios.post('articles/save', articleData)
           .then(res => {
             if (res.status === '0') {
               this.$Message.success('发布成功！');
               this.clearForm();
               window.localStorage.removeItem('_article'); // 移除存档
             }
-            if(res.status === '3') {
+            if (res.status === '3') {
               this.$Message.error(res.msg);
             }
           })
-    },
-    // 修改文章
-    handleChangeArticle() {
-      this.setLocalStorage(); // 保存至本地，因为提交请求后如果登陆超时会跳转登陆页面
-      let newData = {
-        title: this.title,
-        tags: this.tags,
-        lastDate: (new Date()).getTime(),
-        abstract: this.abstract,
-        content: this.htmlText,
-        mdContent: this.mdContent,
-      };
-      this.$axios.post('articles/change', {_id: this.articleId, newData: newData})
+      },
+      // 修改文章
+      handleChangeArticle() {
+        this.setLocalStorage(); // 保存至本地，因为提交请求后如果登陆超时会跳转登陆页面
+        let newData = {
+          title: this.title,
+          tags: this.tags,
+          lastDate: (new Date()).getTime(),
+          abstract: this.abstract,
+          content: this.htmlText,
+          mdContent: this.mdContent,
+        };
+        this.$axios.post('articles/change', {_id: this.articleId, newData: newData})
           .then(res => {
             if (res.status === '0') {
               this.showModal = true;
               window.localStorage.removeItem('_article'); // 移除存档
             }
-            if(res.status === '3') {
+            if (res.status === '3') {
               this.$Message.error(res.msg);
             }
           })
-    },
-    // 模态框OK
-    modalClickOk() {
-      this.$router.push({path: '/admin'})
-    },
-    // 表单校验
-    validateForm(data) {
-      const list = [
-        {type: 'title', msg: '还没写标题呢！'},
-        {type: 'tags', msg: '不加标签怎么归档？'},
-        {type: 'content', msg: '正文都没有发个啥！！'},
-        {type: 'abstract', msg: '加上摘要首页才好看啊！'},
-      ];
-      for (let i = 0; i < list.length; i++) {
-        let type = list[i].type;
-        if (!data[type].length) {
-          this.$Message.error(list[i].msg);
-          return false;
+      },
+      // 模态框OK
+      modalClickOk() {
+        this.$router.push({path: '/admin'})
+      },
+      // 表单校验
+      validateForm(data) {
+        const list = [
+          {type: 'title', msg: '还没写标题呢！'},
+          {type: 'tags', msg: '不加标签怎么归档？'},
+          {type: 'content', msg: '正文都没有发个啥！！'},
+          {type: 'abstract', msg: '加上摘要首页才好看啊！'},
+        ];
+        for (let i = 0; i < list.length; i++) {
+          let type = list[i].type;
+          if (!data[type].length) {
+            this.$Message.error(list[i].msg);
+            return false;
+          }
         }
-      }
-      return true;
-    },
-    // 清空表单
-    clearForm() {
-      this.title = '';
-      this.mdContent = '';
-      this.tags = [];
-      this.abstract = '';
-    },
-    // 图片上传
-    uploadImgClick() {
-      this.$refs.imgInput.click();
-    },
-    uploadImgDrop(event) {
-      this.postImg(event.dataTransfer.files[0])
-    },
-    uploadImg() {
-      this.setLocalStorage(); // 保存至本地，因为提交请求后如果登陆超时会跳转登陆页面
-      this.postImg()
-    },
-    postImg(file) {
-      let oData = new FormData(this.from);
-      file && oData.append('smfile',file);
+        return true;
+      },
+      // 清空表单
+      clearForm() {
+        this.title = '';
+        this.mdContent = '';
+        this.tags = [];
+        this.abstract = '';
+      },
+      // 图片上传
+      uploadImgClick() {
+        this.$refs.imgInput.click();
+      },
+      uploadImgDrop(event) {
+        this.postImg(event.dataTransfer.files[0])
+      },
+      uploadImg() {
+        this.setLocalStorage(); // 保存至本地，因为提交请求后如果登陆超时会跳转登陆页面
+        this.postImg()
+      },
+      postImg(file) {
+        let oData = new FormData(this.from);
+        file && oData.append('smfile', file);
 
-      this.$axios.post('https://sm.ms/api/upload',oData)
-          .then(res =>{
+        this.$axios.post('https://sm.ms/api/upload', oData)
+          .then(res => {
             let imgData = res.data;
             this.mdContent += `![${imgData.filename}](${imgData.url})`;
-            this.$axios.post('imgs/save',imgData)
-                .then(res => {
-              if (res.status === '0') {
-                this.$Message.success('图片上传成功！');
-              }
-            })
+            this.$axios.post('imgs/save', imgData)
+              .then(res => {
+                if (res.status === '0') {
+                  this.$Message.success('图片上传成功！');
+                }
+              })
           })
+      },
     },
-  },
-  created() {
-    if (!this.isNew) {
-      this.$axios.get('articles/single', {_id: this.articleId})
+    created() {
+      if (!this.isNew) {
+        this.$axios.get('articles/single', {_id: this.articleId})
           .then(res => {
             let articleData = res[0];
-            this.$nextTick(function () {
-              this.title = articleData.title;
-              this.tags = articleData.tags;
-              this.mdContent = articleData.mdContent;
-              this.abstract = articleData.abstract;
-            })
+            this.title = articleData.title;
+            this.tags = articleData.tags;
+            this.mdContent = articleData.mdContent;
+            this.abstract = articleData.abstract;
+            this.checkIsSameAsLocalStorage();
           })
-    }
-  },
-  mounted() {
-    Marked.setOptions({
-      renderer: new Marked.Renderer(),
-      smartLists: true,
-      highlight: function (code) {
-        return highlight.highlightAuto(code).value;
       }
-    });
-    // md 输入框内触发滚动事件时 预览内容同比例滚动
-    let mdContent = this.$refs.mdContent.$el;
-    let _this = this;
-    mdContent.addEventListener('scroll', function () {
-      let realArea = this.children[0];
-      let scrollTop = realArea.scrollTop;
-      let scrollHeight = realArea.scrollHeight - realArea.offsetHeight;
-      let htmlContent = _this.$refs.htmlContent;
-      htmlContent.scrollTop = (htmlContent.scrollHeight - htmlContent.offsetHeight) * (scrollTop / scrollHeight);
-    }, true);
-    this.from = document.forms.namedItem("fileinfo");
-    // 如果有内容，则出发自动保存
-    if (window.localStorage.getItem('_article')) {
-      this.showLocalStorageModal = true;
-    } else {
-      this.autoSave();
-    }
-  },
-  computed: {
-    htmlText() {
-      return Marked(this.mdContent);
+    },
+    mounted() {
+      Marked.setOptions({
+        renderer: new Marked.Renderer(),
+        smartLists: true,
+        highlight: function (code) {
+          return highlight.highlightAuto(code).value;
+        }
+      });
+      // md 输入框内触发滚动事件时 预览内容同比例滚动
+      let mdContent = this.$refs.mdContent.$el;
+      let _this = this;
+      mdContent.addEventListener('scroll', function () {
+        let realArea = this.children[0];
+        let scrollTop = realArea.scrollTop;
+        let scrollHeight = realArea.scrollHeight - realArea.offsetHeight;
+        let htmlContent = _this.$refs.htmlContent;
+        htmlContent.scrollTop = (htmlContent.scrollHeight - htmlContent.offsetHeight) * (scrollTop / scrollHeight);
+      }, true);
+      this.from = document.forms.namedItem("fileinfo");
+    },
+    computed: {
+      htmlText() {
+        return Marked(this.mdContent);
+      }
     }
   }
-}
 </script>
 <style lang="less" rel="stylesheet/less">
   @import "../../assets/css/md2html";
@@ -365,9 +372,9 @@ export default {
         width: 80%;
         height: 100px;
         border: 1px dashed @color-border;
-        background: rgba(255,255,255,0.8);
+        background: rgba(255, 255, 255, 0.8);
         &:hover {
-          border-color: rgba(0,0,0,0.5);
+          border-color: rgba(0, 0, 0, 0.5);
         }
       }
       .img-input {
