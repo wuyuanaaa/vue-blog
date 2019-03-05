@@ -285,6 +285,8 @@
             this.abstract = articleData.abstract;
             this.checkIsSameAsLocalStorage();
           })
+      } else {
+        this.autoSave()
       }
     },
     mounted() {
