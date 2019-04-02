@@ -283,11 +283,10 @@
             this.tags = articleData.tags;
             this.mdContent = articleData.mdContent;
             this.abstract = articleData.abstract;
-            this.checkIsSameAsLocalStorage();
+
           })
-      } else {
-        this.autoSave()
       }
+      this.checkIsSameAsLocalStorage();
     },
     mounted() {
       Marked.setOptions({
