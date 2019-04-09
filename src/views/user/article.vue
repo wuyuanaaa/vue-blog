@@ -60,9 +60,13 @@
     padding: 40px 10px 60px;
     text-align: left;
     .title {
-      margin-bottom: 40px;
+      margin-bottom: 20px;
       font-size: @font-size-lg;
       font-weight: bold;
+    }
+    .info {
+      padding: 6px;
+      border-bottom: 1px solid @color-border;
     }
     .info-row {
       padding: 4px 0;
@@ -71,7 +75,12 @@
       margin-bottom: 10px;
       font-size: @font-size-sm;
       line-height: 1;
-
+      .item-tags {
+        display: inline;
+        &+.item-tags {
+          margin-left: 10px;
+        }
+      }
       .text {
         color: @color-link;
         cursor: pointer;
@@ -86,10 +95,6 @@
     .read-count {
       margin-right: 4px;
       float: right;
-    }
-    .content {
-      padding: 10px 0 40px;
-      border-bottom: 1px solid @color-border;
     }
   }
 

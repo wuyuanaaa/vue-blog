@@ -133,6 +133,7 @@
       },
       // 自动保存事件
       autoSave() {
+        console.log('autoSave');
         if (this.title.length || this.tags.length || this.mdContent.length || this.abstract.length) {
           this.setLocalStorage();
           this.$Message.success('自动保存成功！');
@@ -283,7 +284,6 @@
             this.tags = articleData.tags;
             this.mdContent = articleData.mdContent;
             this.abstract = articleData.abstract;
-
           })
       }
       this.checkIsSameAsLocalStorage();

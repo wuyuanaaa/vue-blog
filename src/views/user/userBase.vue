@@ -66,7 +66,7 @@
     padding-bottom: @footer-height;
     overflow: hidden;
     &.navShow {
-      padding-right: @side-width;
+      margin-right: @side-width;
     }
   }
   .footer {

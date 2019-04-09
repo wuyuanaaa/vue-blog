@@ -1,5 +1,6 @@
 <template>
   <div class="login-wrapper">
+    <h2 class="login-title">管理后台登陆</h2>
     <Form ref="formInline" :model="formInline" :rules="ruleInline">
       <FormItem prop="user">
         <Input class="login-input" type="text" v-model="formInline.user" placeholder="用户名">
@@ -93,11 +94,14 @@
     top: 100px;
     left: 50%;
     padding: 40px 40px;
-    width: 400px;
-    height: 200px;
+    width: 500px;
+    height: 300px;
     border-radius: 4px;
-    margin-left: -200px;
+    margin-left: -250px;
     box-shadow: 0 0 10px #ccc;
+    .login-title {
+      margin-bottom: 40px;
+    }
     .login-input {
       margin: 0 auto;
     }
