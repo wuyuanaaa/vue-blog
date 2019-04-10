@@ -16,7 +16,7 @@
 
 <style lang="less" rel="stylesheet/less">
   .footer-list {
-    padding: 20px 0 16px;
+    padding: 20px 0 36px;
     text-align: center;
     border-top: 1px dashed rgba(0, 0, 0, 0.1); /*no*/
     .list-item {

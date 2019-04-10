@@ -19,7 +19,7 @@
         <div class="read-count" v-show="articleData.readCount">阅读量：<span>{{articleData.readCount}}</span></div>
       </div>
     </div>
-    <div class="content md2html" v-html="articleData.content">
+    <div class="content md2html" v-show="articleData.content" v-html="articleData.content">
 
     </div>
     <div class="more clearfix">
@@ -104,7 +104,7 @@
 
     .info {
       padding: 6px;
-      border-bottom: 1px solid @color-border;
+
     }
 
     .info-row {
@@ -145,6 +145,7 @@
 
     .content {
       padding-bottom: 20px;
+      border-top: 1px solid @color-border;
       border-bottom: 1px solid @color-border;
     }
 

@@ -52,12 +52,8 @@
       </transition>
     </div>
     <div class="nav-menu ts" @click.stop="showNav">
-      <Icon v-if="!isNavShow" type="md-menu" />
-      <Icon v-if="isNavShow" type="md-arrow-round-forward" />
-    </div>
-    <div class="back-top" v-show="isBackTopShow" @click.stop="backTopClick">
-      <Icon type="md-arrow-up" />
-      <span class="scroll-scale">{{scrollScale}}%</span>
+      <img v-if="!isNavShow" class="nav-menu-img" src="../../assets/bird.png" alt="">
+      <img v-if="isNavShow" class="nav-menu-img" src="../../assets/bird-active.png" alt="">
     </div>
   </div>
 </template>
@@ -73,41 +69,13 @@
     data () {
       return {
         showMore: false,
-        isBackTopShow: false,
-        scrollScale: 0
+        isBackTopShow: false
       }
     },
     methods: {
       showNav() {
         this.$emit('navMenuClick')
-      },
-      backTopClick() {
-        this.backToTop();
-      },
-      backToTop() {
-        let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-        let speed = Math.floor(-scrollTop/10);
-        if (scrollTop !== 0) {
-          setTimeout(() => {
-            document.documentElement.scrollTop = document.body.scrollTop = scrollTop + speed;
-            this.backToTop();
-          }, 8)
-        }
-      },
-      checkIsBackTopShow() {
-        let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-        let innerHeight = window.innerHeight;
-        let scrollHeight = (document.documentElement.scrollHeight || document.body.scrollHeight) - innerHeight;
-
-        this.isBackTopShow = scrollTop > 300;
-        this.scrollScale = Math.ceil((scrollTop / scrollHeight) * 100);
       }
-    },
-    mounted() {
-      window.addEventListener('scroll', this.checkIsBackTopShow);
-    },
-    beforeDestroy() {
-      window.removeEventListener('scroll', this.checkIsBackTopShow);
     }
   }
 </script>
@@ -164,40 +132,20 @@
         opacity: 1;
       }
     }
-    .nav-menu,
-    .back-top {
+    .nav-menu {
       cursor: pointer;
       position: absolute;
-      left: -68px;
-      width: 52px;
-      height: 36px;
-      line-height: 36px;
-      border-radius: 2px;
-      background: rgba(0,0,0,0.2);
-      .ivu-icon {
-        vertical-align: middle;
-        font-size: 24px;
-        color: #fff;
-      }
-    }
-    .nav-menu {
-      display: none;
       top: 20px;
-    }
-    .back-top {
-      bottom: 30px;
-      transition: all 0.2s;
-      &:hover {
-        background: rgba(0,0,0,0.4);
-      }
-      .ivu-icon {
-        font-size: 12px;
-      }
-      .scroll-scale {
-        vertical-align: middle;
-        font-size: @font-size-xs;
-        color: #fff;
+      left: -50px;
+      width: 50px;
+      height: 40px;
+      line-height: 36px;
+      border-bottom: 2px solid #141818; /*no*/
+      .nav-menu-img {
+        height: 100%;
+        margin-top: 4px;
       }
     }
+
   }
 </style>

@@ -4,7 +4,9 @@
       <router-view></router-view>
       <div class="footer">
         <userFooter></userFooter>
+        <backTop></backTop>
       </div>
+
     </div>
     <userNav @navMenuClick="navMenuClick" :isNavShow="isNavShow"></userNav>
   </div>
@@ -13,6 +15,7 @@
 <script>
   import userNav from '@/components/userNav/userNav'
   import userFooter from '@/components/userFooter/userFooter'
+  import backTop from '@/components/backTop/backTop'
 
   export default {
     name: 'userBase',
@@ -45,7 +48,8 @@
     },
     components: {
       userNav,
-      userFooter
+      userFooter,
+      backTop
     }
   }
 </script>
