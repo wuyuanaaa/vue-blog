@@ -116,7 +116,7 @@ export default new Router({
   ],
   scrollBehavior (to, from, savedPosition) {
     // return 期望滚动到哪个的位置
-    if (from.name === 'article') {
+    if (to.name === 'article') {
       return {
         x: 0,
         y: 0
