@@ -10,7 +10,7 @@
     props: {},
     data() {
       return {
-        width: '10%'
+        width: '0%'
       }
     },
     methods: {
@@ -29,7 +29,10 @@
         let innerHeight = window.innerHeight;
         let scrollHeight = (document.documentElement.scrollHeight || document.body.scrollHeight) - innerHeight;
 
-        this.width = Math.ceil((scrollTop / scrollHeight) * 100) + '%';
+        this.width = Math.ceil((scrollTop / scrollHeight) * 100);
+        this.width = this.width || 0;
+        this.width += '%';
+        console.log('scrollTop' + scrollTop + ' innerHeight' + innerHeight + ' scrollHeight' + scrollHeight + ' %' + this.width);
       }
     },
     mounted() {
@@ -37,6 +40,11 @@
     },
     beforeDestroy() {
       window.removeEventListener('scroll', this.checkIsBackTopShow);
+    },
+    watch: {
+      "$route": function () {
+        this.checkIsBackTopShow();
+      }
     }
   }
 </script>
@@ -46,7 +54,6 @@
     position: fixed;
     bottom: 0;
     left: 0;
-    width: 80%;
     height: 32px;
     border-bottom: 4px solid #333;
     opacity: 0.8;

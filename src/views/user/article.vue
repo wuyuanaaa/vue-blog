@@ -24,13 +24,13 @@
     </div>
     <div class="more clearfix">
       <div class="more-item more-prev" v-if="prev">
-        <router-link :to="{name: 'article', params: {articleId: prev._id}}">
+        <router-link :to="{name: 'article', params: {articleId: prev._id}}" replace>
           上一篇：{{prev.title}}
         </router-link>
       </div>
 
       <div class="more-item more-next" v-if="next">
-        <router-link :to="{name: 'article', params: {articleId: next._id}}">
+        <router-link :to="{name: 'article', params: {articleId: next._id}}" replace>
           下一篇：{{next.title}}
         </router-link>
       </div>
@@ -57,7 +57,7 @@
     },
     methods: {
       getData() {
-        document.documentElement.scrollTop = document.body.scrollTop = 0 + 'px';
+        // document.documentElement.scrollTop = document.body.scrollTop = 0 + 'px';
         this.articleId = this.$route.params.articleId;
         this.$axios.get('articles/single', {_id: this.articleId})
           .then(res => {

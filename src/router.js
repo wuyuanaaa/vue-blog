@@ -5,7 +5,7 @@ import Router from 'vue-router'
 Vue.use(Router);
 
 export default new Router({
-  mode: 'history',
+  // mode: 'history',
   routes: [
     {
       path: '*',
@@ -113,5 +113,14 @@ export default new Router({
         title: '登录 · 博客 | 吴予安'
       }
     }
-  ]
+  ],
+  scrollBehavior (to, from, savedPosition) {
+    // return 期望滚动到哪个的位置
+    if (from.name === 'article') {
+      return {
+        x: 0,
+        y: 0
+      }
+    }
+  }
 })

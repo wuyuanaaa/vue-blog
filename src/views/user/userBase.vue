@@ -1,7 +1,9 @@
 <template>
   <div id="userBase"  ref="userBase">
     <div class="userBase-content ts" :class="{navShow: isNavShow}" @click="contentClick">
-      <router-view></router-view>
+      <keep-alive>
+        <router-view></router-view>
+      </keep-alive>
       <div class="footer">
         <userFooter></userFooter>
         <backTop></backTop>
