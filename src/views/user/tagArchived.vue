@@ -14,12 +14,20 @@
         para: {}
       }
     },
+    methods: {
+      resetData() {
+        this.tag = this.$route.params.tag;
+        this.para = {tag: this.tag};
+      }
+    },
     created() {
-      this.tag = this.$route.params.tag;
-      this.para = {tag: this.tag};
+      this.resetData();
     },
     components: {
       timeLine
+    },
+    watch: {
+      '$route': 'resetData'
     }
   }
 </script>

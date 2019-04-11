@@ -42,6 +42,16 @@
       }
     },
     methods: {
+      getListData() {
+        this.$axios.get('articles/'+this.apiName,this.para)
+          .then(res => {
+            this.articleListData = res.result.list;
+            this.$nextTick(function () {
+              this.yearsData = [];
+              this.getYearsData();
+            })
+          })
+      },
       getYearsData() {
         let count = 0;
         let years = {};
@@ -69,13 +79,7 @@
       }
     },
     created() {
-      this.$axios.get('articles/'+this.apiName,this.para)
-        .then(res => {
-          this.articleListData = res.result.list;
-          this.$nextTick(function () {
-            this.getYearsData();
-          })
-        })
+      this.getListData();
     },
     filters: {
       formatDate (time) {
@@ -85,6 +89,13 @@
     },
     components: {
       viewTitle
+    },
+    watch: {
+      $route(to, from) {
+        if (to.name === 'tagArchived') {
+          this.getListData();
+        }
+      }
     }
   }
 </script>
