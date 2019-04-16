@@ -79,35 +79,25 @@ export default {
     },
     // 删除确认模态框
     modalClickOk() {
-      this.$axios.cors(this.currentImgDeleteLink)
+      this.$axios.post('imgs/remove', {_id: this.currentImgId})
         .then(res => {
-          if (res && (res.data.includes('File delete success') || res.data.includes('File already deleted'))) {
-            this.$Message.success('远程删除成功!');
-            this.$axios.post('imgs/remove', {_id: this.currentImgId})
+          if(res.status === '0') {
+            this.$Message.success('本地删除成功!');
+            this.upDate();
+            this.$axios.cors(this.currentImgDeleteLink)
               .then(res => {
-                if(res.status === '0') {
-                  this.$Message.success('本地删除成功!');
-                  this.upDate();
-                }
-                if(res.status === '3') {
-                  this.$Message.error(res.msg);
+                if (res && (res.data.includes('File delete success') || res.data.includes('File already deleted'))) {
+                  this.$Message.success('远程删除成功!');
+                } else {
+                  this.$Message.error('远程删除失败!请稍后重试！');
                 }
               })
-          } else {
-            this.$Message.error('删除失败!请稍后重试！');
+          }
+          if(res.status === '3') {
+            this.$Message.error(res.msg);
           }
         })
-      /*this.$axios.post('imgs/remove', {_id: this.currentImgId})
-          .then(res => {
-            if(res.status === '0') {
-              this.$Message.success('删除成功!');
-              window.open(this.currentImgDeleteLink);
-              this.upDate();
-            }
-            if(res.status === '3') {
-              this.$Message.error(res.msg);
-            }
-          })*/
+
     },
     resizeClick(index) {
       this.currentImgSrc = this.imgList[index].url;

@@ -32,7 +32,6 @@
         this.width = Math.ceil((scrollTop / scrollHeight) * 100);
         this.width = this.width || 0;
         this.width += '%';
-        console.log('scrollTop' + scrollTop + ' innerHeight' + innerHeight + ' scrollHeight' + scrollHeight + ' %' + this.width);
       }
     },
     mounted() {

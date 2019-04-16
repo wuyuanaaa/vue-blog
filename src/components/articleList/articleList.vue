@@ -1,6 +1,11 @@
 <template>
   <div class="articleList">
     <div
+      class="msg"
+      v-if="!articleListData.length"
+    >
+      {{msg}}</div>
+    <div
       class="list-item"
       v-for="(item, index) in articleListData"
       :key="index"
@@ -51,6 +56,7 @@
     name: "articleList",
     data () {
       return {
+        msg: '树苗种植中...',
         articleListData: ''
       }
     },
@@ -62,6 +68,7 @@
       this.$axios.get('articles/list',param)
         .then(res => {
           this.articleListData = res.result.list;
+          !this.articleListData.length && (this.msg = '网络出错啦！这里什么都没有！')
         })
     },
     filters: {
@@ -76,6 +83,11 @@
 <style lang="less" rel="stylesheet/less">
   .articleList {
     padding: 40px 10px 0;
+    .msg {
+      margin: 40px 0;
+      font-size: @font-size-md;
+      color: @color-link;
+    }
     .ivu-icon {
       vertical-align: top;
     }

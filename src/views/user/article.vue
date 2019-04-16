@@ -53,12 +53,11 @@
       }
     },
     created() {
+      this.articleId = this.$route.params.articleId;
       this.getData();
     },
     methods: {
       getData() {
-        // document.documentElement.scrollTop = document.body.scrollTop = 0 + 'px';
-        this.articleId = this.$route.params.articleId;
         this.$axios.get('articles/single', {_id: this.articleId})
           .then(res => {
             this.articleData = res[0];
@@ -82,8 +81,12 @@
         return formatDate(date, 'yyyy-MM-dd hh:mm');
       }
     },
-    watch: {
-      "$route": "getData"
+    beforeRouteUpdate(to, from, next) {
+      if (from.name === 'article') {
+        this.articleId = to.params.articleId;
+        this.getData();
+      }
+      next();
     }
   }
 </script>

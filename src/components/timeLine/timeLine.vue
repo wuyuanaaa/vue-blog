@@ -81,6 +81,9 @@
     created() {
       this.getListData();
     },
+    activated() {
+      this.getListData();
+    },
     filters: {
       formatDate (time) {
         let date = new Date(time);
@@ -89,13 +92,6 @@
     },
     components: {
       viewTitle
-    },
-    watch: {
-      $route(to, from) {
-        if (to.name === 'tagArchived') {
-          this.getListData();
-        }
-      }
     }
   }
 </script>

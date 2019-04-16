@@ -16,18 +16,19 @@
     },
     methods: {
       resetData() {
-        this.tag = this.$route.params.tag;
-        this.para = {tag: this.tag};
+        this.$set(this.para,'tag',this.tag);
       }
     },
     created() {
+      this.tag = this.$route.params.tag;
+      this.resetData();
+    },
+    activated() {
+      this.tag = this.$route.params.tag;
       this.resetData();
     },
     components: {
       timeLine
-    },
-    watch: {
-      '$route': 'resetData'
     }
   }
 </script>
