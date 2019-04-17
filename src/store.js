@@ -1,18 +1,18 @@
-/*import Vue from 'vue'
+import Vue from 'vue'
 import Vuex from 'vuex'
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    userName: ''
+    userInfo: {}
   },
   mutations: {
-    updateUserInfo(info) {
-      this.state.userName = info;
+    updateUserInfo(state, info) {
+      state.userInfo = info;
     }
   },
   actions: {
 
   }
-})*/
+})

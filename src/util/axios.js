@@ -38,7 +38,6 @@ const checkStatus = response => {
 * 0 正常 不做处理
 * 1 普通异常 不做处理
 * 2 需登陆但未登陆 返回登陆页面
-*
 * */
 
 function checkCode(res) {

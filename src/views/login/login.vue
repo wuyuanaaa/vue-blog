@@ -52,7 +52,7 @@
       this.$axios.get('users/checkLogin')
         .then(res => {
           if (res.status === '0') {
-            this.$router.push({path: '/admin'})
+            this.$router.replace({path: '/admin'})
           }
         })
     },
@@ -74,7 +74,7 @@
           if (res.status === '0') {
             this.$Message.success('登录成功!');
             // this.$store.commit("updateUserInfo", res.result.userName);
-            this.$router.push({path: '/admin'})
+            this.$router.replace({path: '/admin'})
           } else {
             this.$Message.error('登录失败!' + res.msg);
           }

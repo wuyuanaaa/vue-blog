@@ -112,6 +112,14 @@ export default new Router({
       meta: {
         title: '登录 · 博客 | 吴予安'
       }
+    },
+    {
+      path: '/github_login',
+      name: 'github_login',
+      component: resolve => require(['@/views/login/github_login'], resolve),
+      meta: {
+        title: '第三方登录 · 博客 | 吴予安'
+      }
     }
   ],
   scrollBehavior (to) {

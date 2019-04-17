@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-// import store from './store'
+import store from './store'
 import 'lib-flexible'
 import axios from './util/axios'
 import 'iview/dist/styles/iview.css'
@@ -16,6 +16,7 @@ Vue.prototype.$Message = Message;
 Vue.prototype.$axios = axios;
 Vue.config.productionTip = false;
 
+
 router.beforeEach((to, from, next) =>{
   if (to.meta.title) {
     document.title = to.meta.title;
@@ -26,7 +27,7 @@ router.beforeEach((to, from, next) =>{
 
 new Vue({
   router,
-  // store,
+  store,
   render: h => h(App)
 }).$mount('#app');
 

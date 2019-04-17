@@ -25,32 +25,12 @@
         <!--<div class="item-text">搜索</div>-->
       <!--</div>-->
     </div>
-    <div class="nav-more" @mouseenter="showMore = true" @mouseleave="showMore = false" @click="showMore = !showMore">
-      <Icon v-if="!showMore" class="item-icon" type="md-apps" />
-      <Icon v-if="showMore" class="item-icon" type="ios-arrow-up" />
-      <transition name="fade">
-        <div class="more-list" v-if="showMore">
-          <router-link to="/admin">
-            <div class="list-item">
-              <!--<Icon type="logo-github" />-->
-              <div class="item-text"> </div>
-            </div>
-          </router-link>
-          <a href="https://github.com/wuyuanaaa" target="_blank">
-            <div class="list-item">
-              <Icon type="logo-github" />
-              <div class="item-text">GitHub</div>
-            </div>
-          </a>
-          <a href="https://juejin.im/user/5bc6d92ce51d450e597ba327" target="_blank">
-            <div class="list-item">
-              <Icon type="md-book" />
-              <div class="item-text">掘金</div>
-            </div>
-          </a>
-        </div>
-      </transition>
+
+    <div class="nav-log" :class="{'isLogin': isLogin}" @click="logClick" :title="isLogin?'退出登陆':'使用github登陆'">
+      <img class="avatar" :src="avatarUrl" alt="">
+      <div class="userName">{{userName}}</div>
     </div>
+
     <div class="nav-menu ts" @click.stop="showNav">
       <img v-if="!isNavShow" class="nav-menu-img" src="../../assets/bird.png" alt="">
       <img v-if="isNavShow" class="nav-menu-img" src="../../assets/bird-active.png" alt="">
@@ -69,12 +49,53 @@
     data () {
       return {
         showMore: false,
-        isBackTopShow: false
+        isBackTopShow: false,
+        avatarUrl: 'https://i.loli.net/2019/04/17/5cb69f3a9606f.jpg',
+        userName: '未登录',
+        isLogin: false
       }
+    },
+    created() {
+      this.checkLog();
     },
     methods: {
       showNav() {
         this.$emit('navMenuClick')
+      },
+      logClick() {
+        if(!this.isLogin) {
+          window.localStorage.setItem('_lastPage', window.location.href);
+          window.location.href = 'https://github.com/login/oauth/authorize?client_id=5c971effe02228b9a039&scope=user:email';
+        } else {
+          this.isLogin = false;
+          this.avatarUrl = 'https://i.loli.net/2019/04/17/5cb69f3a9606f.jpg';
+          this.userName = '未登录';
+          window.localStorage.removeItem('_login');
+          this.$Message.success('登出成功!');
+
+          this.$store.commit('updateUserInfo',{});
+        }
+      },
+      checkLog() {
+        let login = window.localStorage.getItem('_login');
+        if (!login) {
+          return ;
+        }
+        login = JSON.parse(login);
+        // 计算登陆信息的时效
+        let days = (new Date().getTime() - login.date) / (1000 * 3600 * 24);
+        if (days > 10) {
+          // 超过十天则情况 _login
+          window.localStorage.removeItem('_login');
+          return;
+        }
+        this.isLogin = true;
+        let data = login.data;
+        this.avatarUrl = data.avatar_url;
+        this.userName = data.name;
+        this.$Message.success(this.userName + '，欢迎!');
+
+        this.$store.commit('updateUserInfo',data);
       }
     }
   }
@@ -113,25 +134,33 @@
     .list-search {
       cursor: pointer;
     }
-    .nav-more {
+
+    .nav-log {
       position: absolute;
-      padding: 10px 0;
-      bottom: 20px;
+      bottom: 40px;
       width: 100%;
+      text-align: center;
       cursor: pointer;
-      .more-list {
-        position: absolute;
-        bottom: 50px;
-        padding-bottom: 10px;
-        width: 100%;
+      .avatar {
+        margin-bottom: 4px;
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
       }
-      .fade-enter-active, .fade-enter-active {
-        transition: opacity 0.4s;
-      }
-      .fade-enter, .fade-leave-to {
-        opacity: 1;
+      .userName {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font-size: 12px;
+        color: @color-tint;
       }
     }
+    .isLogin {
+      .userName {
+        color: @color-main;
+      }
+    }
+
     .nav-menu {
       cursor: pointer;
       position: absolute;
