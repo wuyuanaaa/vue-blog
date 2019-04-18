@@ -1,5 +1,5 @@
 <template>
-  <div class="back-top" :style="{width: width}" @click="backToTop">
+  <div class="back-top" :style="{width: width}" @click="backToTop" title="回到顶部">
 
   </div>
 </template>

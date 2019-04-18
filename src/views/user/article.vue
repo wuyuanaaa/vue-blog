@@ -34,13 +34,14 @@
           下一篇：{{next.title}}
         </router-link>
       </div>
-
     </div>
+    <comment ref="comment" :articleId="articleId" :articleTitle="articleData.title"></comment>
   </div>
 </template>
 
 <script>
   import {formatDate} from '@/assets/js/formatDate'
+  import comment from '@/components/comment/comment'
 
   export default {
     name: "articlePage",
@@ -72,6 +73,9 @@
               .then(res => {
                 this.next = res[0];
               });
+
+            // 获取评论
+            this.$refs.comment.getComments();
           })
       }
     },
@@ -87,6 +91,9 @@
         this.getData();
       }
       next();
+    },
+    components: {
+      comment
     }
   }
 </script>
