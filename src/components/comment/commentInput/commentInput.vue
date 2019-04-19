@@ -85,7 +85,7 @@
       newCommentClick() {
         let userInfo = this.$store.state.userInfo;
         if (!userInfo.id) {
-          this.$store.emit('changeIsLoginModalShow');
+          this.$store.commit('changeIsLoginModalShow');
           return;
         }
         let commentData = {
