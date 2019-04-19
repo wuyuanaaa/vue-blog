@@ -28,7 +28,7 @@
               }));
               let lastPage = window.localStorage.getItem('_lastPage');
               if (lastPage) {
-                window.location.href = lastPage;
+                window.location.replace(lastPage);
               } else {
                 this.$router.replace({path: '/home'})
               }
