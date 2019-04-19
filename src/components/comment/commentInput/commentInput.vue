@@ -21,14 +21,7 @@
         </button>
       </div>
     </div>
-    <!--提示登陆模态框-->
-    <Modal
-            v-model="loginModal"
-            title="登陆提示"
-            @on-ok="loginModalOk"
-            @on-cancel="loginModalCancel">
-      <p>需要登陆，是否前往 github 授权登陆？</p>
-    </Modal>
+
   </div>
 
 </template>
@@ -56,8 +49,7 @@
     data() {
       return {
         commentValue: '',
-        isControlShow: false,
-        loginModal: false,
+        isControlShow: false
       }
     },
     created() {
@@ -72,7 +64,6 @@
       if(this.currentFollowId) {
         this.$refs.inputTextarea.focus();
       }
-
     },
     beforeDestroy() {
       // 移除 document 的 click 事件
@@ -94,14 +85,13 @@
       newCommentClick() {
         let userInfo = this.$store.state.userInfo;
         if (!userInfo.id) {
-          this.loginModal = true;
+          this.$store.emit('changeIsLoginModalShow');
           return;
         }
         let commentData = {
           user: userInfo.name,
           avatar_url: userInfo.avatar_url,
           comment_content: this.commentValue,
-          date: +new Date()
         };
         let url = '';
         if(this.currentFollowId) {
@@ -134,15 +124,6 @@
           )
       },
 
-      // 登陆模态框确认
-      loginModalOk() {
-        window.localStorage.setItem('_lastPage', window.location.href);
-        window.location.href = 'https://github.com/login/oauth/authorize?client_id=5c971effe02228b9a039&scope=user:email';
-      },
-      // 登陆模态框取消
-      loginModalCancel() {
-        this.loginModal = false;
-      },
       // 隐藏输入框
       hideInput() {
         if(!this.commentValue) {
@@ -164,11 +145,16 @@
 
 <style lang="less" rel="stylesheet/less">
   .comment-input {
-    margin: 20px 0;
+    margin: 10px 0;
     padding: 14px 10px;
-    background: rgba(0,0,0,0.04);
+    border-radius: 4px;
+    background-color: rgba(0,0,0,0.02);
+    .input-textarea {
+      overflow-x: hidden;
+    }
     .input-textarea>textarea {
       resize: none;
+      overflow-x: hidden;
     }
     .input-control {
       margin-top: 10px;

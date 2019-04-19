@@ -103,7 +103,7 @@
   @import "~highlight.js/styles/atom-one-light.css";
 
   .article {
-    padding: 40px 10px 10px;
+    padding: 40px 10px 0;
     text-align: left;
 
     .title {

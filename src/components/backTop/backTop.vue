@@ -59,5 +59,6 @@
     background: url(../../assets/tree.png) repeat-x ;
     background-size: 83px 30px;
     background-clip: content-box;
+    cursor: pointer;
   }
 </style>

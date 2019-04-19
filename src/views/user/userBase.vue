@@ -11,6 +11,15 @@
 
     </div>
     <userNav @navMenuClick="navMenuClick" :isNavShow="isNavShow"></userNav>
+
+    <!--提示登陆模态框-->
+    <Modal
+            v-model="isLoginModalShow"
+            title="登陆提示"
+            @on-ok="loginModalOk"
+            @on-cancel="loginModalCancel">
+      <p>需要登陆，是否前往 github 授权登陆？</p>
+    </Modal>
   </div>
 </template>
 
@@ -32,6 +41,9 @@
       this.isNavShow = !this.isSmallScreen;
       window.addEventListener('resize', this.checkInnerWidth);
     },
+    beforeDestroy() {
+      window.removeEventListener('resize', this.checkInnerWidth);
+    },
     methods: {
       checkInnerWidth() {
         let innerWidth = window.innerWidth;
@@ -43,10 +55,21 @@
       },
       navMenuClick () {
         this.isNavShow = !this.isNavShow;
+      },
+      // 登陆模态框确认
+      loginModalOk() {
+        window.localStorage.setItem('_lastPage', window.location.href);
+        window.location.href = 'https://github.com/login/oauth/authorize?client_id=5c971effe02228b9a039&scope=user:email';
+      },
+      // 登陆模态框取消
+      loginModalCancel() {
+        this.$store.emit('changeIsLoginModalShow');
       }
     },
-    beforeDestroy() {
-      window.removeEventListener('resize', this.checkInnerWidth);
+    computed: {
+      isLoginModalShow() {
+        return this.$store.state.isLoginModalShow;
+      }
     },
     components: {
       userNav,

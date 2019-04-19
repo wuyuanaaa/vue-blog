@@ -6,7 +6,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     userInfo: {},
-    isLogin: false
+    isLogin: false,
+    isLoginModalShow: false
   },
   mutations: {
     updateUserInfo(state, info) {
@@ -14,6 +15,9 @@ export default new Vuex.Store({
     },
     changeIsLogin(state, isLogin) {
       state.isLogin = isLogin;
+    },
+    changeIsLoginModalShow(state) {
+      state.isLoginModalShow = !state.isLoginModalShow;
     }
   },
   actions: {

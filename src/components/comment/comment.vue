@@ -41,7 +41,6 @@
         this.$axios.get('comments/get_comments',{article_id: this.articleId})
           .then(res => {
             if(res.status === '0') {
-              console.log(res);
               this.comments = res.result;
             } else {
               console.warn(res.msg);

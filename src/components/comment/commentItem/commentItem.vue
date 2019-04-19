@@ -1,5 +1,5 @@
 <template>
-  <div class="comment-part comment-primary" >
+  <div class="comment-part" >
     <img class="comment-avatar" :src="comment.avatar_url" alt="">
     <div class="comment-content">
       <div class="content-userName">{{comment.user}}</div>
@@ -9,7 +9,14 @@
       </div>
       <div class="content-info">
         <span class="comment-date">{{comment.date | formatTime}}</span>
-        <button class="comment-btn" @click="addFollowClick">回复</button>
+        <button class="comment-btn" @click="addCommentClick">
+          <Icon class="comment-icon" type="ios-text-outline" />
+          <span class="comment-text">回复</span>
+        </button>
+        <button class="comment-btn" @click="removeCommentClick(comment._id, topCommentId)" v-if="isRemoveShow">
+          <Icon class="comment-icon" type="md-trash" />
+          <span class="comment-text">删除</span>
+        </button>
         <commentInput
                 v-if="isShowInput"
                 @hideInput="hideInput"
@@ -22,7 +29,9 @@
               v-for="(comment_f, index) in comment.comment_follow"
               :key="index"
               :comment="comment_f"
+              :topCommentId="comment._id"
               @getComments="getComments"
+              class="comment-follow"
       ></commentItem>
     </div>
   </div>
@@ -37,6 +46,9 @@
     props: {
       comment: {
         type: Object
+      },
+      topCommentId: {
+        type: String
       }
     },
     data() {
@@ -46,8 +58,29 @@
     },
     methods: {
       // 回复评论
-      addFollowClick() {
+      addCommentClick() {
         this.isShowInput = true;
+      },
+      // 删除评论
+      removeCommentClick(id, topId) {
+        let param = {
+          _id: id
+        };
+        let url = 'comments/remove_comment';
+        if(topId) {
+          param.top_id = topId;
+          url = 'comments/remove_follow_comment'
+        }
+        this.$axios.post(url,param)
+          .then(res => {
+            if(res.status === '0') {
+              this.$Message.success('删除成功!');
+              this.getComments();
+            }
+            if(res.status === '3') {
+              this.$Message.error(res.msg);
+            }
+          })
       },
       // 移除输入框
       hideInput() {
@@ -56,6 +89,11 @@
       // 传递 getComments
       getComments() {
         this.$emit('getComments');
+      }
+    },
+    computed: {
+      isRemoveShow() {
+        return this.$store.state.userInfo.id === 35567374
       }
     },
     filters: {
@@ -72,13 +110,14 @@
 <style lang="less" rel="stylesheet/less">
   .comment-part {
     display: flex;
-    margin-bottom: 20px;
+    padding: 10px 0;
+    /*margin: 20px 0 10px;*/
     .comment-avatar{
       margin-right: 10px;
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      box-shadow: 0 0 4px rgba(0,0,0,0.14);
+      box-shadow: 0 0 4px rgba(0,0,0,0.10);
     }
     &:last-child{
       margin-bottom: 0;
@@ -88,6 +127,7 @@
     }
     .comment-content {
       flex: 1;
+      padding-bottom: 10px;
       border-bottom: 1px solid @color-border; /*no*/
       .content-userName {
         margin-bottom: 6px;
@@ -100,14 +140,36 @@
     .content-info {
       margin: 10px 0;
       color: @color-tint;
+      transition: height 0.5s;
       .comment-btn {
         float: right;
+        margin-left: 20px;
         border: none;
         background-color: transparent;
         color: inherit;
         font-size: 12px;
+        cursor: pointer;
+      }
+      .comment-icon {
+        font-size: 16px;
+        vertical-align: top;
+      }
+      .comment-text {
+        display: inline-block;
+        vertical-align: top;
+      }
+    }
+    div.comment-follow {
+      padding: 10px;
+      background: rgba(0,0,0,0.02);
+      .comment-content {
+        padding-bottom: 0;
+      }
+      .comment-input {
+        background-color: #fff;
       }
     }
   }
+
 
 </style>
