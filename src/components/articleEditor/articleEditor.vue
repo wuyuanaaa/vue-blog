@@ -64,13 +64,13 @@
 
     <Modal
             v-model="showLocalStorageModal"
-            title="恢复本地存档"
+            title="本地存档"
             :closable="false"
             :mask-closable="false"
             @on-ok="modalLocalStorageClickOk"
             @on-cancel="modalLocalStorageClickCancel"
     >
-      <p>检测到当前数据与本地存档的内容不同，是否恢复存档？</p>
+      <p>检测到有未发布的本地存档，是否恢复存档继续上次的编辑？</p>
       <p>ps:取消则会删除本地存档!</p>
     </Modal>
   </div>
@@ -100,7 +100,8 @@
         isUploadShow: false,
         showModal: false,
         showLocalStorageModal: false,
-        form: {}
+        form: {},
+        timer: null
       }
     },
     methods: {
@@ -137,7 +138,7 @@
           this.setLocalStorage();
           this.$Message.success('自动保存成功！');
         } // 有内容则保存
-        setTimeout(this.autoSave, 1000 * 60); // 1分钟一次
+        this.timer = setTimeout(this.autoSave, 1000 * 60); // 1分钟一次
       },
       // 恢复存档至页面
       modalLocalStorageClickOk() {
@@ -283,9 +284,11 @@
             this.tags = articleData.tags;
             this.mdContent = articleData.mdContent;
             this.abstract = articleData.abstract;
+            this.checkIsSameAsLocalStorage();
           })
+      } else {
+        this.checkIsSameAsLocalStorage();
       }
-      this.checkIsSameAsLocalStorage();
     },
     mounted() {
       Marked.setOptions({
@@ -306,6 +309,9 @@
         htmlContent.scrollTop = (htmlContent.scrollHeight - htmlContent.offsetHeight) * (scrollTop / scrollHeight);
       }, true);
       this.from = document.forms.namedItem("fileinfo");
+    },
+    beforeDestroy() {
+      clearTimeout(this.timer);
     },
     computed: {
       htmlText() {

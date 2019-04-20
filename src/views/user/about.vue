@@ -10,7 +10,7 @@
     <div class="about-part clearfix">
       <span class="part-title">作者</span>
       <div class="path-info">
-        <div class="info-item">大龄转行者，可能时前端里面甜点做的最好的。</div>
+        <div class="info-item">大龄转行者，可能是前端里面甜点做的最好的。</div>
       </div>
     </div>
     <div class="about-part clearfix">
