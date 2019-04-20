@@ -65,8 +65,10 @@
         page: 1,
         pageSize: 10,
       };
+      this.$LoadingBar.start();
       this.$axios.get('articles/list',param)
         .then(res => {
+          this.$LoadingBar.finish();
           this.articleListData = res.result.list;
           !this.articleListData.length && (this.msg = '网络出错啦！这里什么都没有！')
         })

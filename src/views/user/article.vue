@@ -1,5 +1,5 @@
 <template>
-  <div class="main article">
+  <div class="main article" v-show="isArticlePageShow">
     <div class="title">{{articleData.title}}</div>
     <div class="info">
       <div class="info-row tags">
@@ -50,7 +50,8 @@
         articleId: '',
         articleData: '',
         prev: '',
-        next: ''
+        next: '',
+        isArticlePageShow: false
       }
     },
     created() {
@@ -59,10 +60,13 @@
     },
     methods: {
       getData() {
+        this.isArticlePageShow = false;
+        this.$LoadingBar.start();
         this.$axios.get('articles/single', {_id: this.articleId})
           .then(res => {
+            this.$LoadingBar.finish();
             this.articleData = res[0];
-
+            this.isArticlePageShow = true;
             // 获取上一篇及下一篇
             let curDate = this.articleData.date;
             this.$axios.get('articles/prev', {date: curDate})
@@ -85,11 +89,14 @@
         return formatDate(date, 'yyyy-MM-dd hh:mm');
       }
     },
+    activated() {
+      this.articleId = this.$route.params.articleId;
+      this.getData();
+    },
     beforeRouteUpdate(to, from, next) {
-      if (from.name === 'article') {
-        this.articleId = to.params.articleId;
-        this.getData();
-      }
+      this.articleId = to.params.articleId;
+      this.getData();
+
       next();
     },
     components: {

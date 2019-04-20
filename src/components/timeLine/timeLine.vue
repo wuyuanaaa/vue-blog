@@ -1,5 +1,5 @@
 <template>
-  <div class="timeLine">
+  <div class="timeLine" v-show="isTimeLineShow">
     <viewTitle :titleText="timeLineName"></viewTitle>
     <div class="year-part clearfix" v-for="(item, index) of yearsData" :key="index">
       <span class="year-num">{{item.year}}</span>
@@ -38,13 +38,18 @@
     data() {
       return {
         yearsData: [],
-        articleListData: []
+        articleListData: [],
+        isTimeLineShow: false
       }
     },
     methods: {
       getListData() {
+        this.isTimeLineShow = false;
+        this.$LoadingBar.start();
         this.$axios.get('articles/'+this.apiName,this.para)
           .then(res => {
+            this.isTimeLineShow = true;
+            this.$LoadingBar.finish();
             this.articleListData = res.result.list;
             this.$nextTick(function () {
               this.yearsData = [];

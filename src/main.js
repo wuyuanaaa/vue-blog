@@ -7,12 +7,14 @@ import axios from './util/axios'
 import 'iview/dist/styles/iview.css'
 import iview  from "@/iview"
 import {Message} from 'iview'
+import {LoadingBar} from 'iview'
 import VueClipboard from 'vue-clipboard2'
 
 Vue.use(iview);
 Vue.use(VueClipboard);
 
 Vue.prototype.$Message = Message;
+Vue.prototype.$LoadingBar = LoadingBar;
 Vue.prototype.$axios = axios;
 Vue.config.productionTip = false;
 
