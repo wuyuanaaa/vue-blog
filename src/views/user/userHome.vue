@@ -13,7 +13,6 @@
     <div class="content">
       <articleList></articleList>
     </div>
-
   </div>
 </template>
 

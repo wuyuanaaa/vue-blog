@@ -26,7 +26,7 @@
       },
       checkIsBackTopShow() {
         let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-        let innerHeight = window.innerHeight;
+        let innerHeight = window.innerHeight || document.documentElement.clientHeight;
         let scrollHeight = (document.documentElement.scrollHeight || document.body.scrollHeight) - innerHeight;
 
         this.width = Math.ceil((scrollTop / scrollHeight) * 100);
