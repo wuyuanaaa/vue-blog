@@ -20,6 +20,7 @@
       }
     },
     created() {
+
       this.tag = this.$route.params.tag;
       this.resetData();
     },

@@ -89,10 +89,6 @@
         return formatDate(date, 'yyyy-MM-dd hh:mm');
       }
     },
-    activated() {
-      this.articleId = this.$route.params.articleId;
-      this.getData();
-    },
     beforeRouteUpdate(to, from, next) {
       this.articleId = to.params.articleId;
       this.getData();

@@ -11,7 +11,9 @@ export function formatTime (date) {
   } else if (passTime < 24 * 3600 * 1000) {
     time = Math.floor(passTime / (60 * 60 * 1000)) + '小时前';
   } else if (passTime < 365 * 24 * 3600 * 1000) {
-    time = Math.floor(passTime / (60 * 60 * 1000)) + '年前';
+    time = Math.floor(passTime / (24 * 3600 * 1000)) + '天前';
+  } else {
+    time = Math.floor(passTime / (365 * 24 * 3600 * 1000)) + '年前';
   }
 
   return time;
