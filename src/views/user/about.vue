@@ -1,5 +1,5 @@
 <template>
-  <div class="about">
+  <div id="about">
     <viewTitle titleText="关于"></viewTitle>
     <div class="about-part clearfix">
       <span class="part-title">版本</span>
@@ -59,7 +59,7 @@
         <div class="info-item">增加评论功能 √</div>
         <div class="info-item">增加文章列表下拉加载 √</div>
         <div class="info-item">增加评论表情支持</div>
-        <div class="info-item">增加文章锚点功能</div>
+        <div class="info-item">增加文章锚点功能 √</div>
         <div class="info-item">完善更多动效</div>
       </div>
     </div>
@@ -83,7 +83,7 @@
 </script>
 
 <style lang="less" rel="stylesheet/less">
-  .about {
+  #about {
     margin: 0 auto;
     padding: 20px 20px;
     max-width: @content-max-Width;

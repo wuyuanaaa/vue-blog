@@ -20,10 +20,12 @@
           <div class="item-text">关于</div>
         </div>
       </router-link>
-      <!--<div class="list-item list-search" @click="handleSearch">-->
-        <!--<Icon class="item-icon" type="md-search"/>-->
-        <!--<div class="item-text">搜索</div>-->
-      <!--</div>-->
+      <router-link to="/user/friendLink">
+        <div class="list-item">
+          <Icon class="item-icon" type="md-link" />
+          <div class="item-text">友链</div>
+        </div>
+      </router-link>
     </div>
 
     <div class="nav-log" :class="{'isLogin': isLogin}" @click="logClick" :title="isLogin?'退出登陆':'使用github登陆'">

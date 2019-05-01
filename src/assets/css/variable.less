@@ -1,7 +1,7 @@
 // 侧栏宽度
 @side-width: 80px;
 @footer-height: 116px;
-@content-max-Width: 900px; /*no*/
+@content-max-Width: 1000px; /*no*/
 
 @font-size-lg: 28px;
 @font-size-md: 20px;
@@ -54,7 +54,7 @@ button {
 
 .main {
   margin: 0 auto;
-  max-width: 840px;
+  max-width: @content-max-Width;
 }
 
 
@@ -80,8 +80,9 @@ button {
   }
 }
 
-// xs
-@media (max-width: @screen-sm-min) {
+
+// sm
+@media (max-width: @screen-md-min) {
   #app {
     .userBase-content.navShow {
       margin-right: 0;
@@ -93,11 +94,21 @@ button {
       }
     }
   }
-}
-// sm
-@media (min-width: @screen-sm-min) and (max-width: @screen-md-min) {
 
 }
+
+// xs
+@media (max-width: @screen-sm-min) {
+  #article {
+    div.article-content {
+      margin-left: 0;
+    }
+    div.article-catalog {
+      display: none;
+    }
+  }
+}
+
 // md
 @media (min-width: @screen-md-min) and (max-width: @screen-lg-min) {
 

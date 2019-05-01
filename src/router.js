@@ -63,6 +63,14 @@ export default new Router({
           meta: {
             title: '关于 · 博客 | 吴予安'
           }
+        },
+        {
+          path: 'friendLink',
+          name: 'friendLink',
+          component: resolve => require(['@/views/user/friendLink'], resolve),
+          meta: {
+            title: '友链 · 博客 | 吴予安'
+          }
         }
       ]
     },

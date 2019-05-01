@@ -47,7 +47,7 @@
     methods: {
       checkInnerWidth() {
         let innerWidth = window.innerWidth;
-        this.isSmallScreen = innerWidth < 768;
+        this.isSmallScreen = innerWidth < 992;
         this.isNavShow = !this.isSmallScreen;
       },
       contentClick () {

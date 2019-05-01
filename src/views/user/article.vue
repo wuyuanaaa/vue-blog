@@ -1,41 +1,62 @@
 <template>
-  <div class="main article" v-show="isArticlePageShow">
-    <div class="title">{{articleData.title}}</div>
-    <div class="info">
-      <div class="info-row tags">
-        <div class="item-tags" v-for="(tag, index) in articleData.tags" :key="index">
+  <div id="article" class="main article" v-show="isArticlePageShow">
+    <div class="article-content">
+      <!--标题-->
+      <h1 class="title">{{articleData.title}}</h1>
+      <!--信息-->
+      <div class="info">
+        <div class="info-row tags">
+          <div class="item-tags" v-for="(tag, index) in articleData.tags" :key="index">
           <span class="icon">
             <Icon type="ios-pricetag"/>
           </span>
-          <span class="text">
+            <span class="text">
             <router-link :to="{name: 'tagArchived', params: {tag: tag}}">
             {{tag}}
             </router-link>
           </span>
+          </div>
+        </div>
+        <div class="info-row clearfix">
+          <div class="date" v-show="articleData.lastDate">最后编辑于：<span>{{articleData.lastDate | formatDate}}</span></div>
+          <div class="read-count" v-show="articleData.readCount">阅读量：<span>{{articleData.readCount}}</span></div>
         </div>
       </div>
-      <div class="info-row clearfix">
-        <div class="date" v-show="articleData.lastDate">最后编辑于：<span>{{articleData.lastDate | formatDate}}</span></div>
-        <div class="read-count" v-show="articleData.readCount">阅读量：<span>{{articleData.readCount}}</span></div>
-      </div>
-    </div>
-    <div class="content md2html" v-show="articleData.content" v-html="articleData.content">
+      <!--内容-->
+      <div ref="content" class="content md2html" v-show="articleData.content" v-html="articleData.content">
 
-    </div>
-    <div class="more clearfix">
-      <div class="more-item more-prev" v-if="prev">
-        <router-link :to="{name: 'article', params: {articleId: prev._id}}" replace>
-          上一篇：{{prev.title}}
-        </router-link>
       </div>
+      <!--其他-->
+      <div class="more clearfix">
+        <div class="more-item more-prev" v-if="prev">
+          <router-link :to="{name: 'article', params: {articleId: prev._id}}" replace>
+            上一篇：{{prev.title}}
+          </router-link>
+        </div>
 
-      <div class="more-item more-next" v-if="next">
-        <router-link :to="{name: 'article', params: {articleId: next._id}}" replace>
-          下一篇：{{next.title}}
-        </router-link>
+        <div class="more-item more-next" v-if="next">
+          <router-link :to="{name: 'article', params: {articleId: next._id}}" replace>
+            下一篇：{{next.title}}
+          </router-link>
+        </div>
+      </div>
+      <!--评论-->
+      <comment ref="comment" :articleId="articleId" :articleTitle="articleData.title"></comment>
+    </div>
+    <div class="article-catalog">
+      <div class="catalog-title">目录</div>
+      <div class="catalog-list">
+        <a
+                class="list-item"
+                :data-lev="item.lev"
+                v-for="(item, index) in titleTree"
+                :href="'#'+item.id"
+                :key="index"
+        >
+          {{item.text}}
+        </a>
       </div>
     </div>
-    <comment ref="comment" :articleId="articleId" :articleTitle="articleData.title"></comment>
   </div>
 </template>
 
@@ -51,7 +72,8 @@
         articleData: '',
         prev: '',
         next: '',
-        isArticlePageShow: false
+        isArticlePageShow: false,
+        titleTree: []
       }
     },
     created() {
@@ -78,9 +100,38 @@
                 this.next = res[0];
               });
 
+            // 获取标题树
+            this.$nextTick(() => {
+              this.createTitleTree();
+            });
             // 获取评论
             this.$refs.comment.getComments();
           })
+      },
+      // 生成标题树
+      createTitleTree() {
+        let tree = [];
+        const title = {H1: 1,H2: 1,H3: 1,H4: 1,H5: 1};
+        traverseNode(this.$refs['content']);
+        function traverseNode(node) {
+          let tag = node.tagName,
+            children = node.children;
+
+          if(title[tag]) {
+            let id = tag + '-' + title[tag];
+            tree.push({
+              lev: parseInt(tag.slice(1)),
+              text: node.innerText,
+              id: id
+            });
+            node.setAttribute('id',id);
+            title[tag]++;
+          }
+          for (let i = 0, len = children.length; i < len; i++) {
+            traverseNode(children[i])
+          }
+        }
+        this.titleTree = tree;
       }
     },
     filters: {
@@ -90,9 +141,10 @@
       }
     },
     beforeRouteUpdate(to, from, next) {
-      this.articleId = to.params.articleId;
-      this.getData();
-
+      if(to.params.articleId !== this.articleId) {
+        this.articleId = to.params.articleId;
+        this.getData();
+      }
       next();
     },
     components: {
@@ -105,63 +157,55 @@
   @import "../../assets/css/md2html.less";
   @import "~highlight.js/styles/atom-one-light.css";
 
-  .article {
+  #article {
     padding: 40px 10px 0;
     text-align: left;
-
+    flex-wrap: nowrap;
+    /*主体部分*/
+    .article-content {
+      margin-left: 220px;
+    }
     .title {
       margin-bottom: 20px;
       font-size: @font-size-lg;
       font-weight: bold;
     }
-
     .info {
       padding: 6px;
-
     }
-
     .info-row {
       padding: 4px 0;
     }
-
     .tags {
       margin-bottom: 10px;
       font-size: @font-size-sm;
       line-height: 1;
-
       .item-tags {
         display: inline;
-
         & + .item-tags {
           margin-left: 10px;
         }
       }
-
       .text {
         color: @color-link;
         cursor: pointer;
       }
-
       .icon {
         margin-right: 6px;
       }
     }
-
     .date {
       float: left;
     }
-
     .read-count {
       margin-right: 4px;
       float: right;
     }
-
     .content {
       padding-bottom: 20px;
       border-top: 1px solid @color-border;
       border-bottom: 1px solid @color-border;
     }
-
     .more {
       margin-top: 10px;
       line-height: 30px;
@@ -176,6 +220,43 @@
       }
       .more-next {
         float: right;
+      }
+    }
+    /*目录*/
+    .article-catalog {
+      position: fixed;
+      top: 60px;
+      width: 200px;
+      .catalog-title {
+        margin-bottom: 10px;
+        color: @color-tint;
+        font-size: @font-size-md;
+        font-weight: bold;
+      }
+      .list-item {
+        display: block;
+        line-height: 2;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        color: @color-base;
+        &:hover {
+          background-color: rgba(0,0,0,0.06);
+        }
+        &[data-lev='2'] {
+          padding-left: 4px;
+          font-weight: bold;
+        }
+        &[data-lev='3'] {
+          padding-left: 10px;
+          font-weight: bold;
+        }
+        &[data-lev='4'] {
+          padding-left: 16px;
+        }
+        &[data-lev='5'] {
+          padding-left: 22px;
+        }
       }
     }
   }
