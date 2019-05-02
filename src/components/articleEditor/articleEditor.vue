@@ -101,7 +101,9 @@
         showModal: false,
         showLocalStorageModal: false,
         form: {},
-        timer: null
+        timer: null,
+        catalog: [],
+        content: ''
       }
     },
     methods: {
@@ -167,9 +169,36 @@
           this.autoSave();
         }
       },
+      // 生成目录
+      createCatalog() {
+        let tree = [];
+        const title = {H1: 1,H2: 1,H3: 1,H4: 1,H5: 1};
+        traverseNode(this.$refs['htmlContent']);
+        function traverseNode(node) {
+          let tag = node.tagName,
+            children = node.children;
+
+          if(title[tag]) {
+            let id = tag + '-' + title[tag];
+            tree.push({
+              lev: parseInt(tag.slice(1)),
+              text: node.innerText,
+              id: id
+            });
+            node.setAttribute('id',id);
+            title[tag]++;
+          }
+          for (let i = 0, len = children.length; i < len; i++) {
+            traverseNode(children[i])
+          }
+        }
+        this.catalog = tree;
+        this.content = this.$refs['htmlContent'].innerHTML;
+      },
       // 发布文章
       handleSendArticle(type) {
         this.setLocalStorage(); // 保存至本地，因为提交请求后如果登陆超时会跳转登陆页面
+        this.createCatalog(); // 生成目录
         let time = (new Date()).getTime();
         let articleData = {
           title: this.title,
@@ -178,9 +207,10 @@
           tags: this.tags,
           readCount: 0,
           abstract: this.abstract,
-          content: this.htmlText,
+          content: this.content,
           mdContent: this.mdContent,
-          type: type
+          type: type,
+          catalog: this.catalog
         };
         if (!this.validateForm(articleData)) {
           return;
@@ -200,13 +230,15 @@
       // 修改文章
       handleChangeArticle() {
         this.setLocalStorage(); // 保存至本地，因为提交请求后如果登陆超时会跳转登陆页面
+        this.createCatalog(); // 生成目录
         let newData = {
           title: this.title,
           tags: this.tags,
           lastDate: (new Date()).getTime(),
           abstract: this.abstract,
-          content: this.htmlText,
+          content: this.content,
           mdContent: this.mdContent,
+          catalog: this.catalog
         };
         this.$axios.post('articles/change', {_id: this.articleId, newData: newData})
           .then(res => {

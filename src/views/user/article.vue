@@ -49,7 +49,7 @@
         <a
                 class="list-item"
                 :data-lev="item.lev"
-                v-for="(item, index) in titleTree"
+                v-for="(item, index) in articleData.catalog"
                 :href="'#'+item.id"
                 :key="index"
         >
@@ -72,8 +72,7 @@
         articleData: '',
         prev: '',
         next: '',
-        isArticlePageShow: false,
-        titleTree: []
+        isArticlePageShow: false
       }
     },
     created() {
@@ -100,38 +99,9 @@
                 this.next = res[0];
               });
 
-            // 获取标题树
-            this.$nextTick(() => {
-              this.createTitleTree();
-            });
             // 获取评论
             this.$refs.comment.getComments();
           })
-      },
-      // 生成标题树
-      createTitleTree() {
-        let tree = [];
-        const title = {H1: 1,H2: 1,H3: 1,H4: 1,H5: 1};
-        traverseNode(this.$refs['content']);
-        function traverseNode(node) {
-          let tag = node.tagName,
-            children = node.children;
-
-          if(title[tag]) {
-            let id = tag + '-' + title[tag];
-            tree.push({
-              lev: parseInt(tag.slice(1)),
-              text: node.innerText,
-              id: id
-            });
-            node.setAttribute('id',id);
-            title[tag]++;
-          }
-          for (let i = 0, len = children.length; i < len; i++) {
-            traverseNode(children[i])
-          }
-        }
-        this.titleTree = tree;
       }
     },
     filters: {
