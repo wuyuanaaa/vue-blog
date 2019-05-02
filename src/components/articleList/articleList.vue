@@ -19,9 +19,9 @@
       </div>
 
       <div class="item-date">
-          <span class="icon">
-            <Icon type="ios-calendar"/>
-          </span>
+        <span class="icon">
+          <Icon type="ios-calendar"/>
+        </span>
         <span class="text">{{item.date | formatDate}}</span>
       </div>
       <router-link :to="{name: 'article', params: {articleId: item._id}}">
@@ -31,19 +31,23 @@
       </router-link>
       <div class="item-info clearfix">
         <div class="item-tags" v-for="(tag, index) in item.tags" :key="index">
-            <span class="icon">
-              <Icon type="ios-pricetag"/>
-            </span>
+          <span class="icon">
+            <Icon type="ios-pricetag"/>
+          </span>
           <span class="text">
-              <router-link :to="{name: 'tagArchived', params: {tag: tag}}">
-              {{tag}}
-              </router-link>
-            </span>
+            <router-link :to="{name: 'tagArchived', params: {tag: tag}}">
+            {{tag}}
+            </router-link>
+          </span>
         </div>
-        <div class="item-readCount">
-            <span class="icon">
-              <Icon type="ios-eye"/>
-            </span>
+        <div class="item-readAndComment">
+          <span class="icon">
+            <Icon type="md-chatboxes"/>
+          </span>
+          <span class="text">{{item.commentCount}}</span>
+          <span class="icon">
+            <Icon type="ios-eye"/>
+          </span>
           <span class="text">{{item.readCount}}</span>
         </div>
       </div>
@@ -74,16 +78,16 @@
       this.getArticlesList(1);
     },
     mounted() {
-      window.addEventListener('scroll',this.onScroll);
+      window.addEventListener('scroll', this.onScroll);
     },
     activated() {
-      window.addEventListener('scroll',this.onScroll);
+      window.addEventListener('scroll', this.onScroll);
     },
     deactivated() {
-      window.removeEventListener('scroll',this.onScroll);
+      window.removeEventListener('scroll', this.onScroll);
     },
     beforeDestroy() {
-      window.removeEventListener('scroll',this.onScroll);
+      window.removeEventListener('scroll', this.onScroll);
     },
     methods: {
       getArticlesList() {
@@ -102,7 +106,7 @@
             newList.push(...list);
             this.articleListData = newList;
             // 检查是否全部加载完
-            if(list.length < this.pageSize) {
+            if (list.length < this.pageSize) {
               this.isLoadOver = true;
             }
             // 如果加载失败
@@ -113,7 +117,7 @@
           })
       },
       onScroll() {
-        if(this.isInLoading || this.isLoadOver) {
+        if (this.isInLoading || this.isLoadOver) {
           return
         }
         let pageHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
@@ -202,14 +206,15 @@
       }
     }
 
-    .item-readCount {
+    .item-readAndComment {
       margin-right: 4px;
       float: right;
 
       .icon {
         position: relative;
         bottom: -1px;
-        margin-right: 4px;
+        margin-right: 2px;
+        margin-left: 8px;
         font-size: 16px;
       }
     }

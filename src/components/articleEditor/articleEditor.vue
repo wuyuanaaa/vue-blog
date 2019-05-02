@@ -172,26 +172,28 @@
       // 生成目录
       createCatalog() {
         let tree = [];
-        const title = {H1: 1,H2: 1,H3: 1,H4: 1,H5: 1};
+        const title = {H1: 1, H2: 1, H3: 1, H4: 1, H5: 1};
         traverseNode(this.$refs['htmlContent']);
+
         function traverseNode(node) {
           let tag = node.tagName,
             children = node.children;
 
-          if(title[tag]) {
+          if (title[tag]) {
             let id = tag + '-' + title[tag];
             tree.push({
               lev: parseInt(tag.slice(1)),
               text: node.innerText,
               id: id
             });
-            node.setAttribute('id',id);
+            node.setAttribute('id', id);
             title[tag]++;
           }
           for (let i = 0, len = children.length; i < len; i++) {
             traverseNode(children[i])
           }
         }
+
         this.catalog = tree;
         this.content = this.$refs['htmlContent'].innerHTML;
       },
@@ -358,52 +360,64 @@
 
   .article-redact {
     padding: 10px 0 20px;
+
     .redact-row {
       width: 100%;
       padding: 6px 10px;
       text-align: left;
+
       .text {
         font-size: @font-size-xs;
       }
     }
+
     .redact-info {
       position: relative;
+
       .title,
       .add-tag {
         display: flex;
+
         .title-text {
           flex: 0 0 70px;
           vertical-align: center;
           line-height: 34px;
           font-weight: bold;
         }
+
         .title-input {
           flex: 1;
           height: 40px;
         }
       }
+
       .add-tag {
         .add-btn {
           margin-left: 10px;
           height: 32px;
         }
       }
+
       .tags {
         line-height: 30px;
       }
     }
+
     .content-md {
       position: relative;
+
       .img-upload {
         position: absolute;
         bottom: 4px;
         right: 10px;
         text-align: right;
       }
+
       .icon {
         font-size: @font-size-lg;
         cursor: pointer;
       }
+
       .img-form {
         position: relative;
         margin: 0 0 1% 20%;
@@ -411,13 +425,16 @@
         height: 100px;
         border: 1px dashed @color-border;
         background: rgba(255, 255, 255, 0.8);
+
         &:hover {
           border-color: rgba(0, 0, 0, 0.5);
         }
       }
+
       .img-input {
         opacity: 0;
       }
+
       .img-content {
         position: absolute;
         top: 0;
@@ -429,6 +446,7 @@
         height: 100%;
         cursor: pointer;
       }
+
       .text {
         margin-bottom: 10px;
       }
@@ -440,11 +458,13 @@
         resize: none;
       }
     }
+
     .digest-textarea {
       & > textarea {
         resize: none;
       }
     }
+
     .content-show {
       border: 0.017857rem solid #dcdee2;
       height: 700px;
@@ -452,6 +472,7 @@
       padding: 0.071429rem 0.125rem;
       overflow: scroll;
     }
+
     .send-btn {
       margin-right: 20px;
     }

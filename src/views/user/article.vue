@@ -110,9 +110,18 @@
         return formatDate(date, 'yyyy-MM-dd hh:mm');
       }
     },
+    // keep-alive 命中缓存时 如果文章 id 改变，则更新内容
+    activated() {
+      let articleId = this.$route.params.articleId;
+      if(articleId !== this.articleId) {
+        this.articleId = articleId;
+        this.getData();
+      }
+    },
     beforeRouteUpdate(to, from, next) {
-      if(to.params.articleId !== this.articleId) {
-        this.articleId = to.params.articleId;
+      let articleId = to.params.articleId;
+      if(articleId !== this.articleId) {
+        this.articleId = articleId;
         this.getData();
       }
       next();

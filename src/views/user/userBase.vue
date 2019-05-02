@@ -37,7 +37,7 @@
       }
     },
     mounted () {
-      this.isSmallScreen = window.innerWidth < 768;
+      this.isSmallScreen = window.innerWidth < 992;
       this.isNavShow = !this.isSmallScreen;
       window.addEventListener('resize', this.checkInnerWidth);
     },
