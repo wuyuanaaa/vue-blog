@@ -41,13 +41,13 @@
           </span>
         </div>
         <div class="item-readAndComment">
-          <span class="icon">
-            <Icon type="md-chatboxes"/>
-          </span>
+
+            <Icon class="icon" type="md-chatboxes"/>
+
           <span class="text">{{item.commentCount}}</span>
-          <span class="icon">
-            <Icon type="ios-eye"/>
-          </span>
+
+            <Icon class="icon icon-read" type="ios-eye"/>
+
           <span class="text">{{item.readCount}}</span>
         </div>
       </div>
@@ -182,7 +182,7 @@
 
     .item-abstract {
       margin: 20px 0;
-      font-size: @font-size-xs;
+      font-size: @font-size-sm;
       line-height: 1.8;
       color: @color-base;
     }
@@ -209,13 +209,17 @@
     .item-readAndComment {
       margin-right: 4px;
       float: right;
-
+      color: @color-tint;
       .icon {
         position: relative;
         bottom: -1px;
         margin-right: 2px;
         margin-left: 8px;
         font-size: 16px;
+      }
+      .icon-read {
+        margin-top: -3px;
+        font-size: 20px;
       }
     }
 

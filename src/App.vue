@@ -15,6 +15,7 @@
 </script>
 
 <style lang="less" rel="stylesheet/less">
+  @import "./assets/css/base.less";
   #app {
     position: relative;
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -23,6 +24,6 @@
     text-align: center;
     height: 100%;
     color: @color-base;
-    font-size: @font-size-xs;
+    font-size: @font-size-sm;
   }
 </style>

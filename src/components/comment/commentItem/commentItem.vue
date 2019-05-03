@@ -147,10 +147,10 @@
         border: none;
         background-color: transparent;
         color: inherit;
-        font-size: 12px;
         cursor: pointer;
       }
       .comment-icon {
+        margin-top: 4px;
         font-size: 16px;
         vertical-align: top;
       }

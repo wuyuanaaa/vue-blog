@@ -1,0 +1,93 @@
+//公共样式
+
+html,body {
+  height: 100%;
+}
+
+body a {
+  color: #4f8e54;
+}
+
+button {
+  outline: none;
+}
+
+.ts {
+  transition: all 0.3s;
+}
+.clearfix::before,
+.clearfix::after {
+  content: '';
+  display: table;
+}
+.clearfix::after {
+  clear: both;
+}
+.clearfix {
+  zoom: 1
+}
+
+.main {
+  margin: 0 auto;
+  max-width: @content-max-Width;
+}
+
+.icon {
+  .ivu-icon {
+    line-height: 1;
+    vertical-align: top;
+  }
+}
+
+@keyframes heartbeat {
+  0% {
+    transform: scale(1);
+  }
+  20% {
+    transform: scale(1.3);
+  }
+  40% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+
+// sm
+@media (max-width: @screen-md-min) {
+  #app {
+    .userBase-content.navShow {
+      margin-right: 0;
+      transform: translate3d(-@side-width, 0, 0);
+    }
+    .nav-bar {
+      .nav-menu {
+        display: block;
+      }
+    }
+  }
+
+}
+
+// xs
+@media (max-width: @screen-sm-min) {
+  #article {
+    div.article-content {
+      margin-left: 0;
+    }
+    div.article-catalog {
+      display: none;
+    }
+  }
+}
+
+// md
+@media (min-width: @screen-md-min) and (max-width: @screen-lg-min) {
+
+}
+// lg
+@media (min-width: @screen-lg-min) {
+
+}

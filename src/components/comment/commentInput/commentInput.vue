@@ -21,9 +21,7 @@
         </button>
       </div>
     </div>
-
   </div>
-
 </template>
 
 <script>
@@ -164,7 +162,6 @@
         height: 30px;
         border: none;
         border-radius: 4px;
-        font-size: @font-size-xs;
         background-color: @color-main;
         color: #fff;
         cursor: pointer;
