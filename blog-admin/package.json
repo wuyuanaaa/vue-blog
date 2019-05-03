@@ -1,0 +1,67 @@
+{
+  "name": "vue-blog",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "highlight.js": "^9.13.1",
+    "iview": "^3.0.1",
+    "lib-flexible": "^0.3.2",
+    "marked": "^0.6.2",
+    "vue": "^2.5.21",
+    "vue-clipboard2": "^0.2.1",
+    "vue-router": "^3.0.1",
+    "vuex": "^3.1.0"
+  },
+  "devDependencies": {
+    "@vue/babel-helper-vue-jsx-merge-props": "^0.1.0",
+    "@vue/cli-plugin-babel": "^3.3.0",
+    "@vue/cli-plugin-eslint": "^3.3.0",
+    "@vue/cli-service": "^3.6.0",
+    "ajv": "^5.5.2",
+    "babel-eslint": "^10.0.1",
+    "babel-plugin-import": "^1.11.0",
+    "compression-webpack-plugin": "^2.0.0",
+    "eslint": "^5.8.0",
+    "eslint-plugin-vue": "^5.0.0",
+    "less": "^3.0.4",
+    "less-loader": "^4.1.0",
+    "postcss-px2rem": "^0.3.0",
+    "style-resources-loader": "^1.2.1",
+    "uglifyjs-webpack-plugin": "^2.1.2",
+    "vue-cli-plugin-iview": "^1.0.6",
+    "vue-cli-plugin-style-resources-loader": "^0.1.3",
+    "vue-template-compiler": "^2.5.21"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {
+      "vue/no-parsing-error": "off"
+    }
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
+}

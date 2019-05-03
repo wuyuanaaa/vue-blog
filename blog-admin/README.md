@@ -1,12 +1,6 @@
 # vue-blog
 
  基于 vue + express + mongoDB
- 
-### 文件区分
-
-- [blog](https://github.com/wuyuanaaa/vue-blog/tree/master/blog) 前台博客页面内容
-
-- [blog-admin](https://github.com/wuyuanaaa/vue-blog/tree/master/blog-admin) 后台管理页面内容
 
 ### 本地调试
 
@@ -16,7 +10,7 @@
  ```
  git clone https://github.com/wuyuanaaa/vue-blog.git
  ```
- - 2、分别安装依赖
+ - 2、安装依赖
  ```
  npm install
  ```
@@ -47,7 +41,7 @@
 > - 19/1/30 新增后台测试账号，用户名：test , 密码：123456；
 - 该账号只提供预览后台，执行修改操作会提示没有权限
 - __后台进入方式__
- - 1、[URL进入](https://admin.yuanaaa.top)
+ - 1、[URL进入](https://blog.yuanaaa.top/admin)
  - 2、通过点击页面底部时间部分进入
  - ![img](https://i.loli.net/2019/04/19/5cb9d548edd0d.png)
 
@@ -121,5 +115,3 @@
    - 新增 文章列表显示评论数量；
    - 修复 导航条显示错误；
    - 修复 文章数据更新逻辑错误；
-- 19/05/04
-   - 优化 前后台页面分离，减小项目体积，优化加载速度；

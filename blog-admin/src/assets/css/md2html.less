@@ -1,0 +1,50 @@
+.md2html {
+  line-height: 1.8;
+  h1 {
+    line-height: 3;
+  }
+  h2 {
+    line-height: 2.8;
+  }
+  h3 {
+    line-height: 2.6;
+  }
+  h4 {
+    line-height: 2.4;
+  }
+  h5 {
+    line-height: 2.2;
+  }
+  ul, ol {
+    margin-left: 24px;
+  }
+  blockquote {
+    position: relative;
+    padding: 6px 10px;
+    background: rgba(0, 0, 0, 0.02);
+    &::before {
+      content: '';
+      position: absolute;
+      width: 6px;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background: rgba(0, 0, 0, 0.06);
+    }
+  }
+  hr {
+    margin: 14px 0;
+  }
+  pre {
+    margin: 8px 0;
+    padding: 8px 8px;
+    background: rgba(0, 0, 0, 0.04);
+    overflow: scroll;
+    line-height: 1.6;
+  }
+  img {
+    margin: 8px 0;
+    max-width: 100%;
+    box-shadow: 0 0 6px rgba(0,0,0,0.4);
+  }
+}
