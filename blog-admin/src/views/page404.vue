@@ -27,7 +27,7 @@
     },
     methods: {
       treeClick() {
-        this.$router.push({path:'home'})
+        this.$router.replace({path:'/'})
       }
     },
     mounted () {

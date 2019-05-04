@@ -16,17 +16,13 @@ export default new Router({
     },
     {
       path: '/',
-      name: 'home',
-      redirect: '/user/home'
-    },
-    {
-      path: '/user',
-      name: 'userBase',
-      alias: '/',
+      name: 'root',
+      redirect: '/home',
       component: resolve => require(['@/views/user/userBase'], resolve),
       children: [
         {
           path: 'home',
+          name: 'home',
           component: resolve => require(['@/views/user/userHome'], resolve),
           meta: {
             title: '首页 · 博客 | 吴予安'
