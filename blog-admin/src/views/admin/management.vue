@@ -152,7 +152,7 @@
           })
       },
       articleLink(id) {
-        return 'https://blog.yuanaaa.top/user/article/'+id;
+        return 'https://blog.yuanaaa.top/article/'+id;
       }
     },
     computed: {
