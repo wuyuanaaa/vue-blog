@@ -1,59 +1,57 @@
 <template>
-  <div class="comment" v-if="articleTitle">
+  <div v-if="articleTitle" class="comment">
     <div class="comment-title">评论</div>
 
-    <commentInput :articleId="articleId" :articleTitle="articleTitle" @getComments="getComments"></commentInput>
+    <commentInput :article-id="articleId" :article-title="articleTitle" @getComments="getComments" />
 
-    <div class="comment-list" v-if="comments">
-      <commentItem v-for="(comment, index) in comments" :key="index" :comment="comment" @getComments="getComments"></commentItem>
+    <div v-if="comments" class="comment-list">
+      <commentItem v-for="(comment, index) in comments" :key="index" :comment="comment" @getComments="getComments" />
     </div>
 
   </div>
 </template>
 
 <script>
-  import commentInput from '@/components/comment/commentInput/commentInput'
-  import commentItem from '@/components/comment/commentItem/commentItem'
+import { api_comment } from '@/api'
+import commentInput from '@/components/comment/commentInput/commentInput'
+import commentItem from '@/components/comment/commentItem/commentItem'
 
-  export default {
-    name: "comment",
-    props: {
-      articleId: {
-        type: String
-      },
-      articleTitle: {
-        type: String
-      }
+export default {
+  name: 'Comment',
+  components: {
+    commentInput,
+    commentItem
+  },
+  props: {
+    articleId: {
+      type: String,
+      required: true
     },
-    data() {
-      return {
-        comments: [],
-        currentFollowId: '',
-        showFollowInput: {}
-      }
-    },
-    mounted() {
-
-    },
-    methods: {
-      // 获取评论
-      getComments() {
-        this.$axios.get('comments/get_comments',{article_id: this.articleId})
-          .then(res => {
-            if(res.status === '0') {
-              this.comments = res.result;
-            } else {
-              console.warn(res.msg);
-            }
-          })
-      },
-
-    },
-    components: {
-      commentInput,
-      commentItem
+    articleTitle: {
+      type: String,
+      required: true
     }
+  },
+  data() {
+    return {
+      comments: [],
+      currentFollowId: '',
+      showFollowInput: {}
+    }
+  },
+  mounted() {
+
+  },
+  methods: {
+    // 获取评论
+    getComments() {
+      api_comment.getComment(this.articleId).then(res => {
+        this.comments = res
+      })
+    }
+
   }
+}
 </script>
 
 <style lang="less" rel="stylesheet/less">

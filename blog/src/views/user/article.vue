@@ -1,59 +1,57 @@
 <template>
-  <div id="article" class="main article" v-show="isArticlePageShow">
+  <div v-show="isArticlePageShow" id="article" class="main article">
     <div class="article-content">
       <!--标题-->
-      <h1 class="title">{{articleData.title}}</h1>
+      <h1 class="title">{{ articleData.title }}</h1>
       <!--信息-->
       <div class="info">
         <div class="info-row tags">
-          <div class="item-tags" v-for="(tag, index) in articleData.tags" :key="index">
-          <span class="icon">
-            <Icon type="ios-pricetag"/>
-          </span>
+          <div v-for="(tag, index) in articleData.tags" :key="index" class="item-tags">
+            <span class="icon">
+              <Icon type="ios-pricetag" />
+            </span>
             <span class="text">
-            <router-link :to="{name: 'tagArchived', params: {tag: tag}}">
-            {{tag}}
-            </router-link>
-          </span>
+              <router-link :to="{name: 'tagArchived', params: {tag: tag}}">
+                {{ tag }}
+              </router-link>
+            </span>
           </div>
         </div>
         <div class="info-row clearfix">
-          <div class="date" v-show="articleData.lastDate">最后编辑于：<span>{{articleData.lastDate | formatDate}}</span></div>
-          <div class="read-count" v-show="articleData.readCount">阅读量：<span>{{articleData.readCount}}</span></div>
+          <div v-show="articleData.lastDate" class="date">最后编辑于：<span>{{ articleData.lastDate | formatDate }}</span></div>
+          <div v-show="articleData.readCount" class="read-count">阅读量：<span>{{ articleData.readCount }}</span></div>
         </div>
       </div>
       <!--内容-->
-      <div ref="content" class="content md2html" v-show="articleData.content" v-html="articleData.content">
-
-      </div>
+      <div v-show="articleData.content" ref="content" class="content md2html" v-html="articleData.content" />
       <!--其他-->
       <div class="more clearfix">
-        <div class="more-item more-prev" v-if="prev">
+        <div v-if="prev" class="more-item more-prev">
           <router-link :to="{name: 'article', params: {articleId: prev._id}}" replace>
-            上一篇：{{prev.title}}
+            上一篇：{{ prev.title }}
           </router-link>
         </div>
 
-        <div class="more-item more-next" v-if="next">
+        <div v-if="next" class="more-item more-next">
           <router-link :to="{name: 'article', params: {articleId: next._id}}" replace>
-            下一篇：{{next.title}}
+            下一篇：{{ next.title }}
           </router-link>
         </div>
       </div>
       <!--评论-->
-      <comment ref="comment" :articleId="articleId" :articleTitle="articleData.title"></comment>
+      <comment ref="comment" :article-id="articleId" :article-title="articleData.title" />
     </div>
     <div class="article-catalog">
       <div class="catalog-title">目录</div>
       <div class="catalog-list">
         <a
-                class="list-item"
-                :data-lev="item.lev"
-                v-for="(item, index) in articleData.catalog"
-                :href="'#'+item.id"
-                :key="index"
+          v-for="(item, index) in articleData.catalog"
+          :key="index"
+          class="list-item"
+          :data-lev="item.lev"
+          :href="'#'+item.id"
         >
-          {{item.text}}
+          {{ item.text }}
         </a>
       </div>
     </div>
@@ -61,75 +59,82 @@
 </template>
 
 <script>
-  import {formatDate} from '@/assets/js/formatDate'
-  import comment from '@/components/comment/comment'
+import { api_article } from '@/api'
+import { formatDate } from '@/assets/js/formatDate'
+import comment from '@/components/comment/comment'
 
-  export default {
-    name: "articlePage",
-    data() {
-      return {
-        articleId: '',
-        articleData: '',
-        prev: '',
-        next: '',
-        isArticlePageShow: false
-      }
-    },
-    created() {
-      this.articleId = this.$route.params.articleId;
-      this.getData();
-    },
-    methods: {
-      getData() {
-        this.isArticlePageShow = false;
-        this.$LoadingBar.start();
-        this.$axios.get('articles/single', {_id: this.articleId})
-          .then(res => {
-            this.$LoadingBar.finish();
-            this.articleData = res[0];
-            this.isArticlePageShow = true;
-            // 获取上一篇及下一篇
-            let curDate = this.articleData.date;
-            this.$axios.get('articles/prev', {date: curDate})
-              .then(res => {
-                this.prev = res[0];
-              });
-            this.$axios.get('articles/next', {date: curDate})
-              .then(res => {
-                this.next = res[0];
-              });
-
-            // 获取评论
-            this.$refs.comment.getComments();
-          })
-      }
-    },
-    filters: {
-      formatDate(time) {
-        let date = new Date(time);
-        return formatDate(date, 'yyyy-MM-dd hh:mm');
-      }
-    },
-    // keep-alive 命中缓存时 如果文章 id 改变，则更新内容
-    activated() {
-      let articleId = this.$route.params.articleId;
-      if(articleId !== this.articleId) {
-        this.articleId = articleId;
-        this.getData();
-      }
-    },
-    beforeRouteUpdate(to, from, next) {
-      let articleId = to.params.articleId;
-      if(articleId !== this.articleId) {
-        this.articleId = articleId;
-        this.getData();
-      }
-      next();
-    },
-    components: {
-      comment
+export default {
+  name: 'ArticlePage',
+  filters: {
+    formatDate(time) {
+      const date = new Date(time)
+      return formatDate(date, 'yyyy-MM-dd hh:mm')
     }
+  },
+  components: {
+    comment
+  },
+  data() {
+    return {
+      articleId: '',
+      articleData: '',
+      prev: '',
+      next: '',
+      isArticlePageShow: false
+    }
+  },
+  created() {
+    this.articleId = this.$route.params.articleId
+    this.getData()
+  },
+  // keep-alive 命中缓存时 如果文章 id 改变，则更新内容
+  activated() {
+    const articleId = this.$route.params.articleId
+    if (articleId !== this.articleId) {
+      this.articleId = articleId
+      this.getData()
+    }
+  },
+  methods: {
+    getData() {
+      this.isArticlePageShow = false
+
+      api_article.getSingle(this.articleId).then(res => {
+        console.log(res)
+        this.articleData = res[0]
+        this.isArticlePageShow = true
+
+        // 获取上一篇及下一篇
+        const curDate = this.articleData.date
+        this.getPrev(curDate)
+        this.getNext(curDate)
+
+        // 获取评论
+        this.$refs.comment.getComments()
+      }).catch(e => {
+        console.log(e)
+      })
+    },
+    getPrev(date) {
+      api_article.getPrev(date).then(res => {
+        this.prev = res[0]
+      })
+    },
+    getNext(date) {
+      api_article.getNext(date).then(res => {
+        this.next = res[0]
+      })
+    }
+  },
+  beforeRouteUpdate(to, from, next) {
+    const articleId = to.params.articleId
+    if (articleId !== this.articleId) {
+      this.articleId = articleId
+      this.getData()
+    }
+    next()
   }
+}
 </script>
 
 <style lang="less" rel="stylesheet/less">

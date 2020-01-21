@@ -1,42 +1,39 @@
 <template>
   <div class="github-login">
     <div class="text">
-      登陆中...即将返回当前页面。
+      登陆中...
     </div>
   </div>
 </template>
 
 <script>
-  export default {
-    name: "github_login",
-    data() {
-      return {
+import { api_user } from '@/api'
 
-      }
-    },
-    created() {
-      this.getUserData(this.$route.query.code);
-    },
-    methods: {
-      getUserData(code) {
-        this.$axios.get('users/github',{code: code})
-          .then(res => {
-            if (res.status === '0') {
-              window.localStorage.setItem('_login',JSON.stringify({
-                date: +new Date(),
-                data: res.result
-              }));
-              let lastPage = window.localStorage.getItem('_lastPage');
-              if (lastPage) {
-                window.location.replace(lastPage);
-              } else {
-                this.$router.replace({path: '/home'})
-              }
-            }
-          })
-      }
+export default {
+  name: 'GithubLogin',
+  data() {
+    return {
+
+    }
+  },
+  created() {
+    // this.getUserData(this.$route.query.code)
+    this.getUserData(window.location.search.split('=')[1])
+  },
+  methods: {
+    getUserData(code) {
+      console.log(code)
+      api_user.getInfo({ code })
+        .then(res => {
+          window.localStorage.setItem('_login', JSON.stringify({
+            date: +new Date(),
+            data: res
+          }))
+          window.close()
+        })
     }
   }
+}
 </script>
 
 <style lang="less" rel="stylesheet/less">

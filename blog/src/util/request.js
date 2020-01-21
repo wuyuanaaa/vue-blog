@@ -5,7 +5,7 @@ axios.interceptors.request.use(config => {
   return config
 }, error => {
   return Promise.reject(error)
-});
+})
 
 axios.interceptors.response.use(response => {
   /* 检测某种状态进行重定向
@@ -17,7 +17,7 @@ axios.interceptors.response.use(response => {
   return response
 }, error => {
   return Promise.resolve(error.response)
-});
+})
 
 const checkStatus = response => {
   // loading
@@ -31,7 +31,7 @@ const checkStatus = response => {
     status: -404,
     msg: '网络异常'
   }
-};
+}
 
 /*
 * status 状态值
@@ -46,8 +46,8 @@ function checkCode(res) {
     // console.log(res.msg)
   }
   if (res && res.status === '2') {
-    Router.push({path: '/login'});
-    return res;
+    Router.push({ path: '/login' })
+    return res
   }
   return res
 }
@@ -59,8 +59,8 @@ export default {
       baseURL: '/api',
       url: url,
       data: data,
-      timeout: 10000,
-      /*headers: {
+      timeout: 10000
+      /* headers: {
         'X-Requested-With': 'XMLHttpRequest',
         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
       }*/

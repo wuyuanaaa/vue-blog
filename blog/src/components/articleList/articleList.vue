@@ -1,141 +1,138 @@
 <template>
   <div class="articleList">
     <div
-            class="msg"
-            v-if="!articleListData.length"
+      v-if="!articleListData.length"
+      class="msg"
     >
-      {{msg}}
+      {{ msg }}
     </div>
 
     <div
-            class="list-item"
-            v-for="(item, index) in articleListData"
-            :key="index"
+      v-for="(item, index) in articleListData"
+      :key="index"
+      class="list-item"
     >
       <div class="item-title">
         <router-link :to="{name: 'article', params: {articleId: item._id}}">
-          {{item.title}}
+          {{ item.title }}
         </router-link>
       </div>
 
       <div class="item-date">
         <span class="icon">
-          <Icon type="ios-calendar"/>
+          <Icon type="ios-calendar" />
         </span>
-        <span class="text">{{item.date | formatDate}}</span>
+        <span class="text">{{ item.date | formatDate }}</span>
       </div>
       <router-link :to="{name: 'article', params: {articleId: item._id}}">
         <div class="item-abstract">
-          {{item.abstract}}
+          {{ item.abstract }}
         </div>
       </router-link>
       <div class="item-info clearfix">
-        <div class="item-tags" v-for="(tag, index) in item.tags" :key="index">
+        <div v-for="(tag, i) in item.tags" :key="i" class="item-tags">
           <span class="icon">
-            <Icon type="ios-pricetag"/>
+            <Icon type="ios-pricetag" />
           </span>
           <span class="text">
             <router-link :to="{name: 'tagArchived', params: {tag: tag}}">
-            {{tag}}
+              {{ tag }}
             </router-link>
           </span>
         </div>
         <div class="item-readAndComment">
 
-            <Icon class="icon" type="md-chatboxes"/>
+          <Icon class="icon" type="md-chatboxes" />
 
-          <span class="text">{{item.commentCount}}</span>
+          <span class="text">{{ item.commentCount }}</span>
 
-            <Icon class="icon icon-read" type="ios-eye"/>
+          <Icon class="icon icon-read" type="ios-eye" />
 
-          <span class="text">{{item.readCount}}</span>
+          <span class="text">{{ item.readCount }}</span>
         </div>
       </div>
     </div>
 
     <div class="loadMsg">
-      {{isLoadOver?'没有更多了':'加载中...'}}
+      {{ isLoadOver?'没有更多了':'加载中...' }}
     </div>
   </div>
 </template>
 
 <script>
-  import {formatDate} from '@/assets/js/formatDate'
+import { api_article } from '@/api'
+import { formatDate } from '@/assets/js/formatDate'
 
-  export default {
-    name: "articleList",
-    data() {
-      return {
-        msg: '树苗种植中...',
-        articleListData: [],
-        page: 1,
-        pageSize: 10,
-        isInLoading: true,
-        isLoadOver: false
+export default {
+  name: 'ArticleList',
+  filters: {
+    formatDate(time) {
+      const date = new Date(time)
+      return formatDate(date, 'yyyy-MM-dd hh:mm')
+    }
+  },
+  data() {
+    return {
+      msg: '树苗种植中...',
+      articleListData: [],
+      page: 1,
+      pageSize: 10,
+      isInLoading: true,
+      isLoadOver: false
+    }
+  },
+  created() {
+    this.getArticlesList(1)
+  },
+  mounted() {
+    window.addEventListener('scroll', this.onScroll)
+  },
+  activated() {
+    window.addEventListener('scroll', this.onScroll)
+  },
+  deactivated() {
+    window.removeEventListener('scroll', this.onScroll)
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.onScroll)
+  },
+  methods: {
+    getArticlesList() {
+      const param = {
+        page: this.page,
+        pageSize: this.pageSize
       }
-    },
-    created() {
-      this.getArticlesList(1);
-    },
-    mounted() {
-      window.addEventListener('scroll', this.onScroll);
-    },
-    activated() {
-      window.addEventListener('scroll', this.onScroll);
-    },
-    deactivated() {
-      window.removeEventListener('scroll', this.onScroll);
-    },
-    beforeDestroy() {
-      window.removeEventListener('scroll', this.onScroll);
-    },
-    methods: {
-      getArticlesList() {
-        let _this = this;
-        let param = {
-          page: _this.page,
-          pageSize: _this.pageSize,
-        };
-        this.$LoadingBar.start();
-        this.$axios.get('articles/list', param)
-          .then(res => {
-            this.$LoadingBar.finish();
-            let list = res.result.list;
-            // 更新页面数据
-            let newList = this.articleListData.slice();
-            newList.push(...list);
-            this.articleListData = newList;
-            // 检查是否全部加载完
-            if (list.length < this.pageSize) {
-              this.isLoadOver = true;
-            }
-            // 如果加载失败
-            !this.articleListData.length && (this.msg = '网络出错啦！这里什么都没有！');
 
-            this.page++;
-            this.isInLoading = false;
-          })
-      },
-      onScroll() {
-        if (this.isInLoading || this.isLoadOver) {
-          return
+      api_article.getList(param).then(res => {
+        const list = res.list
+        // 更新页面数据
+        const newList = this.articleListData.slice()
+        newList.push(...list)
+        this.articleListData = newList
+        // 检查是否全部加载完
+        if (list.length < this.pageSize) {
+          this.isLoadOver = true
         }
-        let pageHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
-        let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-        let innerHeight = window.innerHeight || document.documentElement.clientHeight;
-        if (pageHeight - (scrollTop + innerHeight) < 60) {
-          this.isInLoading = true;
-          this.getArticlesList()
-        }
-      }
+        // 如果加载失败
+        !this.articleListData.length && (this.msg = '网络出错啦！这里什么都没有！')
+        this.page++
+        this.isInLoading = false
+      })
     },
-    filters: {
-      formatDate(time) {
-        let date = new Date(time);
-        return formatDate(date, 'yyyy-MM-dd hh:mm');
+    onScroll() {
+      if (this.isInLoading || this.isLoadOver) {
+        return
+      }
+      const pageHeight = document.documentElement.scrollHeight || document.body.scrollHeight
+      const scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+      const innerHeight = window.innerHeight || document.documentElement.clientHeight
+      if (pageHeight - (scrollTop + innerHeight) < 60) {
+        this.isInLoading = true
+        this.getArticlesList()
       }
     }
   }
+}
 </script>
 
 <style lang="less" rel="stylesheet/less">

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-Vue.use(Vuex);
+Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
@@ -11,13 +11,13 @@ export default new Vuex.Store({
   },
   mutations: {
     updateUserInfo(state, info) {
-      state.userInfo = info;
+      state.userInfo = info
     },
     changeIsLogin(state, isLogin) {
-      state.isLogin = isLogin;
+      state.isLogin = isLogin
     },
     changeIsLoginModalShow(state) {
-      state.isLoginModalShow = !state.isLoginModalShow;
+      state.isLoginModalShow = !state.isLoginModalShow
     }
   },
   actions: {

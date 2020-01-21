@@ -4,19 +4,19 @@
     <div class="nav-list">
       <router-link to="/home">
         <div class="list-item">
-          <Icon class="item-icon" type="md-home"/>
+          <Icon class="item-icon" type="md-home" />
           <div class="item-text">主页</div>
         </div>
       </router-link>
       <router-link to="/archived">
         <div class="list-item">
-          <Icon class="item-icon" type="md-git-commit"/>
+          <Icon class="item-icon" type="md-git-commit" />
           <div class="item-text">归档</div>
         </div>
       </router-link>
       <router-link to="/about">
         <div class="list-item">
-          <Icon class="item-icon" type="md-list"/>
+          <Icon class="item-icon" type="md-list" />
           <div class="item-text">关于</div>
         </div>
       </router-link>
@@ -28,17 +28,18 @@
       </router-link>
     </div>
 
-    <div class="nav-log" :class="{'isLogin': isLogin}" @click="logClick" :title="isLogin?'退出登陆':'使用github登陆'">
+    <div class="nav-log" :class="{'isLogin': isLogin}" :title="isLogin?'退出登陆':'使用github登陆'" @click="logClick">
       <img class="avatar" :src="avatarUrl" alt="">
-      <div class="userName">{{userName}}</div>
+      <div class="userName">{{ userName }}</div>
     </div>
 
     <!--退出登陆模态框-->
     <Modal
-            v-model="logoutModal"
-            title="操作提示"
-            @on-ok="logoutModalOk"
-            @on-cancel="logoutModalCancel">
+      v-model="logoutModal"
+      title="操作提示"
+      @on-ok="logoutModalOk"
+      @on-cancel="logoutModalCancel"
+    >
       <p>确定要退出登陆？</p>
     </Modal>
 
@@ -50,78 +51,100 @@
 </template>
 
 <script>
-  export default {
-    name: "userNav",
-    props: {
-      isNavShow: {
-        type: Boolean
+export default {
+  name: 'UserNav',
+  props: {
+    isNavShow: {
+      type: Boolean
+    }
+  },
+  data() {
+    return {
+      showMore: false,
+      isBackTopShow: false,
+      avatarUrl: 'https://i.loli.net/2019/04/17/5cb69f3a9606f.jpg',
+      userName: '未登录',
+      logoutModal: false
+    }
+  },
+  computed: {
+    isLogin() {
+      return this.$store.state.isLogin
+    }
+  },
+  created() {
+    this.checkLog()
+  },
+  methods: {
+    showNav() {
+      this.$emit('navMenuClick')
+    },
+    // 登陆部分点击事件 未登陆则去登陆 已登陆则响应登出
+    logClick() {
+      this.isLogin ? this.handleLogout() : this.handleLogin()
+    },
+    handleLogin() {
+      window.open(
+        'https://github.com/login/oauth/authorize?client_id=5c971effe02228b9a039&scope=user:email',
+        'oauthPage',
+        'height=500,width=600'
+      )
+      window.addEventListener('storage', this.handleStorageListener)
+    },
+    handleStorageListener({ key, newValue }) {
+      if (key !== '_login') {
+        return
       }
-    },
-    data () {
-      return {
-        showMore: false,
-        isBackTopShow: false,
-        avatarUrl: 'https://i.loli.net/2019/04/17/5cb69f3a9606f.jpg',
-        userName: '未登录',
-        logoutModal: false
-      }
-    },
-    created() {
-      this.checkLog();
-    },
-    methods: {
-      showNav() {
-        this.$emit('navMenuClick')
-      },
-      // 登陆部分点击事件 未登陆则去登陆 已登陆则响应登出
-      logClick() {
-        if(!this.isLogin) {
-          window.localStorage.setItem('_lastPage', window.location.href);
-          window.location.href = 'https://github.com/login/oauth/authorize?client_id=5c971effe02228b9a039&scope=user:email';
-        } else {
-          this.logoutModal = true;
-        }
-      },
-      logoutModalOk () {
-        this.$store.commit('changeIsLogin',false);
-        this.avatarUrl = 'https://i.loli.net/2019/04/17/5cb69f3a9606f.jpg';
-        this.userName = '未登录';
-        window.localStorage.removeItem('_login');
-        this.$Message.success('登出成功!');
+      const login = JSON.parse(newValue)
 
-        this.$store.commit('updateUserInfo',{});
-      },
-      logoutModalCancel() {
-        this.logoutModal = false;
-      },
-      checkLog() {
-        let login = window.localStorage.getItem('_login');
-        if (!login) {
-          return ;
-        }
-        login = JSON.parse(login);
-        // 计算登陆信息的时效
-        let days = (new Date().getTime() - login.date) / (1000 * 3600 * 24);
-        if (days > 10) {
-          // 超过十天则情况 _login
-          window.localStorage.removeItem('_login');
-          return;
-        }
-        this.$store.commit('changeIsLogin',true);
-        let data = login.data;
-        this.avatarUrl = data.avatar_url;
-        this.userName = data.name;
-        this.$Message.success(this.userName + '，欢迎!');
+      this.$store.commit('changeIsLogin', true)
+      const data = login.data
+      this.avatarUrl = data.avatar_url
+      this.userName = data.name
+      this.$Message.success(this.userName + '，欢迎!')
 
-        this.$store.commit('updateUserInfo',data);
-      }
+      this.$store.commit('updateUserInfo', data)
+
+      window.removeEventListener('storage', this.handleStorageListener)
     },
-    computed: {
-      isLogin() {
-        return this.$store.state.isLogin;
+    handleLogout() {
+      this.logoutModal = true
+    },
+    logoutModalOk() {
+      this.$store.commit('changeIsLogin', false)
+      this.avatarUrl = 'https://i.loli.net/2019/04/17/5cb69f3a9606f.jpg'
+      this.userName = '未登录'
+      window.localStorage.removeItem('_login')
+      this.$Message.success('登出成功!')
+
+      this.$store.commit('updateUserInfo', {})
+    },
+    logoutModalCancel() {
+      this.logoutModal = false
+    },
+    checkLog() {
+      let login = window.localStorage.getItem('_login')
+      if (!login) {
+        return
       }
+      login = JSON.parse(login)
+      // 计算登陆信息的时效
+      const days = (new Date().getTime() - login.date) / (1000 * 3600 * 24)
+      if (days > 10) {
+        // 超过十天则情况 _login
+        window.localStorage.removeItem('_login')
+        return
+      }
+      this.$store.commit('changeIsLogin', true)
+      const data = login.data
+      this.avatarUrl = data.avatar_url
+      this.userName = data.name
+      this.$Message.success(this.userName + '，欢迎!')
+
+      this.$store.commit('updateUserInfo', data)
     }
   }
+}
 </script>
 <style lang="less" rel="stylesheet/less">
   @import "../../assets/css/variable";
