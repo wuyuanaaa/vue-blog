@@ -61,7 +61,7 @@
 
 <script>
 import { api_article } from '@/api'
-import { formatDate } from '@/assets/js/formatDate'
+import { formatDate } from '@/utils'
 
 export default {
   name: 'ArticleList',

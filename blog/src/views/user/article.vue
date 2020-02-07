@@ -1,5 +1,5 @@
 <template>
-  <div v-show="isArticlePageShow" id="article" class="main article">
+  <div v-if="articleData" id="article" class="main article">
     <div class="article-content">
       <!--标题-->
       <h1 class="title">{{ articleData.title }}</h1>
@@ -60,7 +60,7 @@
 
 <script>
 import { api_article } from '@/api'
-import { formatDate } from '@/assets/js/formatDate'
+import { formatDate } from '@/utils'
 import comment from '@/components/comment/comment'
 
 export default {
@@ -79,8 +79,7 @@ export default {
       articleId: '',
       articleData: '',
       prev: '',
-      next: '',
-      isArticlePageShow: false
+      next: ''
     }
   },
   created() {
@@ -100,9 +99,7 @@ export default {
       this.isArticlePageShow = false
 
       api_article.getSingle(this.articleId).then(res => {
-        console.log(res)
         this.articleData = res[0]
-        this.isArticlePageShow = true
 
         // 获取上一篇及下一篇
         const curDate = this.articleData.date
@@ -110,7 +107,9 @@ export default {
         this.getNext(curDate)
 
         // 获取评论
-        this.$refs.comment.getComments()
+        this.$nextTick(() => {
+          this.$refs.comment.getComments()
+        })
       }).catch(e => {
         console.log(e)
       })

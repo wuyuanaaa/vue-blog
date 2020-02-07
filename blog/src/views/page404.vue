@@ -2,14 +2,14 @@
   <div class="page404">
     <div class="center">
       <div class="tree" @click="treeClick">
-        <span class="tree-one"></span>
-        <span class="tree-two"></span>
-        <span class="tree-three"></span>
-        <span class="tree-four"></span>
+        <span class="tree-one" />
+        <span class="tree-two" />
+        <span class="tree-three" />
+        <span class="tree-four" />
       </div>
       <div class="line">
-        <div class="line-item"></div>
-        <div class="line-item"></div>
+        <div class="line-item" />
+        <div class="line-item" />
       </div>
       <div class="text">你好像跑出了森林的范围，这里啥都没有...</div>
       <div class="text text-two">点击小树传送回森林</div>
@@ -18,22 +18,22 @@
 </template>
 
 <script>
-  export default {
-    name: "page404",
-    data() {
-      return {
-
-      }
-    },
-    methods: {
-      treeClick() {
-        this.$router.replace({path:'/'})
-      }
-    },
-    mounted () {
+export default {
+  name: 'Page404',
+  data() {
+    return {
 
     }
+  },
+  mounted() {
+
+  },
+  methods: {
+    treeClick() {
+      this.$router.replace({ path: '/' })
+    }
   }
+}
 </script>
 
 <style lang="less" rel="stylesheet/less">

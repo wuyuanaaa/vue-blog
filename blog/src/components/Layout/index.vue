@@ -1,9 +1,10 @@
 <template>
   <div id="userBase" ref="userBase">
     <div class="userBase-content ts" :class="{navShow: isNavShow}" @click="contentClick">
-      <!-- <keep-alive> -->
-      <router-view />
-      <!-- </keep-alive> -->
+      <keep-alive>
+        <router-view v-if="$route.meta.keepAlive" />
+      </keep-alive>
+      <router-view v-if="!$route.meta.keepAlive" />
       <div class="footer">
         <userFooter />
         <backTop />

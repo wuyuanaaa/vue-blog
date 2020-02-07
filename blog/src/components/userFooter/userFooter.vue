@@ -9,9 +9,9 @@
 </template>
 
 <script>
-  export default {
-    name: "userFooter"
-  }
+export default {
+  name: 'UserFooter'
+}
 </script>
 
 <style lang="less" rel="stylesheet/less">

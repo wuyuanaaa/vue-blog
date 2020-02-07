@@ -1,27 +1,27 @@
 <template>
   <div id="friendLink">
-    <viewTitle titleText="友链"></viewTitle>
+    <viewTitle title-text="友链" />
     <div class="link-lists">
       <div
-              class="link-item"
-              v-for="(item, index) in links"
-              :key="index"
-              @click="linkItemClick(index)"
-              :class="{active: index === showIndex}"
+        v-for="(item, index) in links"
+        :key="index"
+        class="link-item"
+        :class="{active: index === showIndex}"
+        @click="linkItemClick(index)"
       >
         <img class="item-background" :src="item.background" alt="背景">
         <div class="link-content">
           <img class="item-avatar" :src="item.avatar" alt="头像">
           <div class="link-info">
-            <div class="item-title">{{item.name}}</div>
-            <div class="item-info">{{item.info}}</div>
+            <div class="item-title">{{ item.name }}</div>
+            <div class="item-info">{{ item.info }}</div>
           </div>
           <a
-                  class="item-link"
-                  :href="item.link"
-                  target="_blank"
-                  :title="item.link"
-                  @click.stop="linkClick"
+            class="item-link"
+            :href="item.link"
+            target="_blank"
+            :title="item.link"
+            @click.stop="linkClick"
           >
             <Icon type="ios-paper-plane" />
           </a>
@@ -39,44 +39,44 @@
 </template>
 
 <script>
-  import viewTitle from '@/components/viewTitle/viewTitle'
-  export default {
-    name: "friendLink",
-    data() {
-      return {
-        links: [
-          {
-            name: 'TaoLand',
-            info: '行路有良友，便是捷径。带上我吧，一起去看更大的世界。',
-            link: 'https://www.yangyuetao.cn/',
-            avatar: 'https://www.yangyuetao.cn/static/img/p1.png',
-            background: 'https://i.loli.net/2019/05/01/5cc9547106f2a.jpg'
-          },
-          {
-            name: '旅途与画',
-            info: '人生短暂，及时行乐。',
-            link: 'https://www.luckydong.cn/',
-            avatar: 'https://www.luckydong.cn/img/avatar.66121a89.jpg',
-            background: 'https://i.loli.net/2019/05/01/5cc92b5656737.jpg'
-          }
-        ],
-        showIndex: -1
-      }
-    },
-    methods: {
-      // 阻止冒泡
-      linkClick() {
+import viewTitle from '@/components/viewTitle/viewTitle'
+export default {
+  name: 'FriendLink',
+  components: {
+    viewTitle
+  },
+  data() {
+    return {
+      links: [
+        {
+          name: 'TaoLand',
+          info: '行路有良友，便是捷径。带上我吧，一起去看更大的世界。',
+          link: 'https://www.yangyuetao.cn/',
+          avatar: 'https://www.yangyuetao.cn/static/img/p1.png',
+          background: 'https://i.loli.net/2019/05/01/5cc9547106f2a.jpg'
+        },
+        {
+          name: '旅途与画',
+          info: '人生短暂，及时行乐。',
+          link: 'https://www.luckydong.cn/',
+          avatar: 'https://www.luckydong.cn/img/avatar.66121a89.jpg',
+          background: 'https://i.loli.net/2019/05/01/5cc92b5656737.jpg'
+        }
+      ],
+      showIndex: -1
+    }
+  },
+  methods: {
+    // 阻止冒泡
+    linkClick() {
 
-      },
-      // 点击友链组
-      linkItemClick(i) {
-        this.showIndex = i === this.showIndex ? -1 : i;
-      }
     },
-    components: {
-      viewTitle
+    // 点击友链组
+    linkItemClick(i) {
+      this.showIndex = i === this.showIndex ? -1 : i
     }
   }
+}
 </script>
 
 <style lang="less" rel="stylesheet/less">

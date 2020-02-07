@@ -1,8 +1,7 @@
 <template>
   <div class="home">
-    <div class="head-wrapper" ref="headWrapper">
-      <div class="head-inner">
-      </div>
+    <div ref="headWrapper" class="head-wrapper">
+      <div class="head-inner" />
       <div class="head-text">
         <h1 class="title">吴予安</h1>
         <p class="description">自有林中趣 | 谁惊岁去频</p>
@@ -11,7 +10,7 @@
       <Icon class="head-showContent" type="ios-arrow-down" @click="handlerClickShowContent" />
     </div>
     <div class="content">
-      <articleList></articleList>
+      <articleList />
     </div>
   </div>
 </template>
@@ -20,40 +19,40 @@
 import articleList from '@/components/articleList/articleList'
 
 export default {
-  name: 'home',
+  name: 'Home',
+  components: {
+    articleList
+  },
   data() {
     return {
       innerHeight: ''
     }
   },
   mounted() {
-    this.setHeight();
+    this.setHeight()
     window.addEventListener('resize', this.resizeFn)
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.resizeFn)
   },
   methods: {
     setHeight() {
-      this.innerHeight = window.innerHeight;
-      this.$refs.headWrapper.style.height = innerHeight - 40 + 'px';
+      this.innerHeight = window.innerHeight
+      this.$refs.headWrapper.style.height = innerHeight - 40 + 'px'
     },
     handlerClickShowContent() {
-      let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-      let speed = Math.floor((this.innerHeight - 20)/20);
+      const scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+      const speed = Math.floor((this.innerHeight - 20) / 20)
       if (scrollTop < this.innerHeight) {
         setTimeout(() => {
-          document.documentElement.scrollTop = document.body.scrollTop = scrollTop + speed;
-          this.handlerClickShowContent();
+          document.documentElement.scrollTop = document.body.scrollTop = scrollTop + speed
+          this.handlerClickShowContent()
         }, 10)
       }
     },
     resizeFn() {
-      this.setHeight();
+      this.setHeight()
     }
-  },
-  beforeDestroy() {
-    window.removeEventListener('resize', this.resizeFn);
-  },
-  components: {
-    articleList
   }
 }
 </script>

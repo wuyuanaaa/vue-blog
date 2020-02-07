@@ -1,6 +1,6 @@
 <template>
   <div id="about">
-    <viewTitle titleText="关于"></viewTitle>
+    <viewTitle title-text="关于" />
     <div class="about-part clearfix">
       <span class="part-title">版本</span>
       <div class="path-info">
@@ -68,18 +68,18 @@
 </template>
 
 <script>
-  import viewTitle from '@/components/viewTitle/viewTitle'
-  export default {
-    name: "about",
-    data() {
-      return {
+import viewTitle from '@/components/viewTitle/viewTitle'
+export default {
+  name: 'About',
+  components: {
+    viewTitle
+  },
+  data() {
+    return {
 
-      }
-    },
-    components: {
-      viewTitle
     }
   }
+}
 </script>
 
 <style lang="less" rel="stylesheet/less">

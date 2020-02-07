@@ -13,8 +13,8 @@
 
 <script>
 import { api_comment } from '@/api'
-import commentInput from '@/components/comment/commentInput/commentInput'
-import commentItem from '@/components/comment/commentItem/commentItem'
+import commentInput from './components/commentInput'
+import commentItem from './components/commentItem'
 
 export default {
   name: 'Comment',
@@ -40,7 +40,7 @@ export default {
     }
   },
   mounted() {
-
+    // this.getComments()
   },
   methods: {
     // 获取评论

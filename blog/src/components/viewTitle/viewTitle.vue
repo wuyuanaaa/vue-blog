@@ -1,19 +1,19 @@
 <template>
   <div class="viewTitle">
-    <h2 class="title-text">{{titleText}}</h2>
+    <h2 class="title-text">{{ titleText }}</h2>
   </div>
 </template>
 
 <script>
-  export default {
-    name: "viewTitle",
-    props: {
-      titleText: {
-        type: String,
-        default: '页面标题'
-      }
+export default {
+  name: 'ViewTitle',
+  props: {
+    titleText: {
+      type: String,
+      default: '页面标题'
     }
   }
+}
 </script>
 
 <style lang="less" rel="stylesheet/less">

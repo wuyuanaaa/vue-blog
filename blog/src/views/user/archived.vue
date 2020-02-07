@@ -1,18 +1,18 @@
 <template>
   <div class="archived">
-    <timeLine timeLineName="归档" apiName="list"></timeLine>
+    <timeLine time-line-name="归档" api-name="list" />
   </div>
 </template>
 
 <script>
-  import timeLine from '@/components/timeLine/timeLine'
+import timeLine from '@/components/timeLine/timeLine'
 
-  export default {
-    name: "archived",
-    components: {
-      timeLine
-    }
+export default {
+  name: 'Archived',
+  components: {
+    timeLine
   }
+}
 </script>
 
 <style lang="less" rel="stylesheet/less">

@@ -1,14 +1,14 @@
 <template>
-  <div class="timeLine" v-show="isTimeLineShow">
-    <viewTitle :titleText="timeLineName"></viewTitle>
-    <div class="year-part clearfix" v-for="(item, index) of yearsData" :key="index">
-      <span class="year-num">{{item.year}}</span>
+  <div v-show="isTimeLineShow" class="timeLine">
+    <viewTitle :title-text="timeLineName" />
+    <div v-for="(item, index) of yearsData" :key="index" class="year-part clearfix">
+      <span class="year-num">{{ item.year }}</span>
       <div class="year-list">
-        <div class="list-item" v-for="(list, i) of item.list" :key="i">
-          <span class="list-date">{{list.date | formatDate}}</span>
+        <div v-for="(list, i) of item.list" :key="i" class="list-item">
+          <span class="list-date">{{ list.date | formatDate }}</span>
           <span class="list-title">
             <router-link :to="{name: 'article', params: {articleId: list._id}}">
-            {{list.title}}
+              {{ list.title }}
             </router-link>
           </span>
         </div>
@@ -18,87 +18,89 @@
 </template>
 
 <script>
-  import viewTitle from '@/components/viewTitle/viewTitle'
-  import {formatDate} from '@/assets/js/formatDate'
+import viewTitle from '@/components/viewTitle/viewTitle'
+import { formatDate } from '@/utils'
 
-  export default {
-    name: "timeLine",
-    props: {
-      timeLineName: {
-        type: String
-      },
-      apiName: {
-        type: String
-      },
-      para: {
-        type: Object,
-        default: () => {}
-      }
+export default {
+  name: 'TimeLine',
+  filters: {
+    formatDate(time) {
+      const date = new Date(time)
+      return formatDate(date, 'MM/dd')
+    }
+  },
+  components: {
+    viewTitle
+  },
+  props: {
+    timeLineName: {
+      type: String,
+      required: true
     },
-    data() {
-      return {
-        yearsData: [],
-        articleListData: [],
-        isTimeLineShow: false
-      }
+    apiName: {
+      type: String,
+      required: true
     },
-    methods: {
-      getListData() {
-        this.isTimeLineShow = false;
-        this.$LoadingBar.start();
-        this.$axios.get('articles/'+this.apiName,this.para)
-          .then(res => {
-            this.isTimeLineShow = true;
-            this.$LoadingBar.finish();
-            this.articleListData = res.result.list;
-            this.$nextTick(function () {
-              this.yearsData = [];
-              this.getYearsData();
-            })
+    para: {
+      type: Object,
+      default: () => {}
+    }
+  },
+  data() {
+    return {
+      yearsData: [],
+      articleListData: [],
+      isTimeLineShow: false
+    }
+  },
+  created() {
+    this.getListData()
+  },
+  activated() {
+    this.getListData()
+  },
+  methods: {
+    getListData() {
+      this.isTimeLineShow = false
+      this.$LoadingBar.start()
+      this.$axios.get('articles/' + this.apiName, this.para)
+        .then(res => {
+          this.isTimeLineShow = true
+          this.$LoadingBar.finish()
+          this.articleListData = res.result.list
+          this.$nextTick(function() {
+            this.yearsData = []
+            this.getYearsData()
           })
-      },
-      getYearsData() {
-        let count = 0;
-        let years = {};
-        this.articleListData.forEach((current) => {
-          let year = new Date(current.date).getFullYear();
-          if (years[year] !== 0 && !year[year]) {
-            years[year] = count;
-            this.yearsData.push({
-              year: year,
-              list: [{
-                title: current.title,
-                date: current.date,
-                _id: current._id
-              }]
-            });
-            count++;
-          } else {
-            this.yearsData[years[year]].list.push({
+        })
+    },
+    getYearsData() {
+      let count = 0
+      const years = {}
+      this.articleListData.forEach((current) => {
+        const year = new Date(current.date).getFullYear()
+        if (years[year] !== 0 && !year[year]) {
+          years[year] = count
+          this.yearsData.push({
+            year: year,
+            list: [{
               title: current.title,
               date: current.date,
               _id: current._id
-            })
-          }
-        });
-      }
-    },
-    created() {
-      this.getListData();
-    },
-    activated() {
-      this.getListData();
-    },
-    filters: {
-      formatDate (time) {
-        let date = new Date(time);
-        return formatDate(date, 'MM/dd');
-      }
-    },
-    components: {
-      viewTitle
+            }]
+          })
+          count++
+        } else {
+          this.yearsData[years[year]].list.push({
+            title: current.title,
+            date: current.date,
+            _id: current._id
+          })
+        }
+      })
     }
   }
+}
 </script>
 
 <style lang="less" rel="stylesheet/less">

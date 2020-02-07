@@ -15,13 +15,14 @@ const routers = [
     path: '/',
     name: 'root',
     redirect: '/home',
-    component: () => import('@/views/user/userBase'),
+    component: () => import('@/components/Layout/index'),
     children: [
       {
         path: 'home',
         name: 'home',
         component: () => import('@/views/user/userHome'),
         meta: {
+          keepAlive: true,
           title: '首页 · 博客 | 吴予安'
         }
       },
