@@ -19,9 +19,7 @@
       </div>
 
       <div class="item-date">
-        <span class="icon">
-          <Icon type="ios-calendar" />
-        </span>
+        <svg-icon icon-class="date" class-name="icon" />
         <span class="text">{{ item.date | formatDate }}</span>
       </div>
       <router-link :to="{name: 'article', params: {articleId: item._id}}">
@@ -31,23 +29,16 @@
       </router-link>
       <div class="item-info clearfix">
         <div v-for="(tag, i) in item.tags" :key="i" class="item-tags">
-          <span class="icon">
-            <Icon type="ios-pricetag" />
-          </span>
-          <span class="text">
-            <router-link :to="{name: 'tagArchived', params: {tag: tag}}">
-              {{ tag }}
-            </router-link>
-          </span>
+          <svg-icon icon-class="tag" class-name="icon" />
+          <router-link class="text" :to="{name: 'tagArchived', params: {tag: tag}}">
+            {{ tag }}
+          </router-link>
         </div>
         <div class="item-readAndComment">
-
-          <Icon class="icon" type="md-chatboxes" />
-
+          <svg-icon icon-class="comment" class-name="icon" />
           <span class="text">{{ item.commentCount }}</span>
 
-          <Icon class="icon icon-read" type="ios-eye" />
-
+          <svg-icon icon-class="read" class-name="icon" />
           <span class="text">{{ item.readCount }}</span>
         </div>
       </div>
@@ -173,7 +164,7 @@ export default {
       color: @color-tint;
 
       .icon {
-        margin-right: 2px;
+        margin-right: 6px;
       }
     }
 
@@ -190,7 +181,7 @@ export default {
 
     .item-tags {
       float: left;
-      margin-right: 8px;
+      margin-right: 12px;
       cursor: pointer;
 
       .icon {
@@ -209,9 +200,9 @@ export default {
       color: @color-tint;
       .icon {
         position: relative;
-        bottom: -1px;
-        margin-right: 2px;
-        margin-left: 8px;
+        // bottom: -1px;
+        margin-right: 6px;
+        margin-left: 12px;
         font-size: 16px;
       }
       .icon-read {

@@ -1,31 +1,10 @@
 <template>
   <div class="nav-bar ts" :class="{navShow: isNavShow}">
     <img class="nav-logo" src="../../assets/logo.svg" alt="">
-    <div class="nav-list">
-      <router-link to="/home">
-        <div class="list-item">
-          <Icon class="item-icon" type="md-home" />
-          <div class="item-text">主页</div>
-        </div>
-      </router-link>
-      <router-link to="/archived">
-        <div class="list-item">
-          <Icon class="item-icon" type="md-git-commit" />
-          <div class="item-text">归档</div>
-        </div>
-      </router-link>
-      <router-link to="/about">
-        <div class="list-item">
-          <Icon class="item-icon" type="md-list" />
-          <div class="item-text">关于</div>
-        </div>
-      </router-link>
-      <router-link to="/friendLink">
-        <div class="list-item">
-          <Icon class="item-icon" type="md-link" />
-          <div class="item-text">友链</div>
-        </div>
-      </router-link>
+    <div>
+      <template v-for="item in routes">
+        <navItem v-if="!item.hidden" :key="item.path" :nav="item" />
+      </template>
     </div>
 
     <div class="nav-log" :class="{'isLogin': isLogin}" :title="isLogin?'退出登陆':'使用github登陆'" @click="logClick">
@@ -51,8 +30,14 @@
 </template>
 
 <script>
+import navItem from './navItem'
+import { childRoutes } from '@/router'
+
 export default {
   name: 'UserNav',
+  components: {
+    navItem
+  },
   props: {
     isNavShow: {
       type: Boolean
@@ -64,7 +49,8 @@ export default {
       isBackTopShow: false,
       avatarUrl: 'https://i.loli.net/2019/04/17/5cb69f3a9606f.jpg',
       userName: '未登录',
-      logoutModal: false
+      logoutModal: false,
+      routes: childRoutes
     }
   },
   computed: {
@@ -146,8 +132,7 @@ export default {
   }
 }
 </script>
-<style lang="less" rel="stylesheet/less">
-  @import "../../assets/css/variable";
+<style lang="less" scoped>
   .nav-bar {
     position: fixed;
     top: 0;
@@ -159,26 +144,11 @@ export default {
     &.navShow {
       right: 0;
     }
-    .item-icon {
-      font-size: 24px;
-      margin-bottom: 6px;
-    }
+
     .nav-logo {
       display: block;
       margin: 0 auto 40px;
       width: 40px;
-    }
-    .list-item {
-      padding: 20px;
-      color: #172d3e;
-      &:hover {
-        .item-text {
-          text-decoration: underline;
-        }
-      }
-    }
-    .list-search {
-      cursor: pointer;
     }
 
     .nav-log {

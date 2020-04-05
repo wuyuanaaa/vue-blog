@@ -7,9 +7,7 @@
       <div class="info">
         <div class="info-row tags">
           <div v-for="(tag, index) in articleData.tags" :key="index" class="item-tags">
-            <span class="icon">
-              <Icon type="ios-pricetag" />
-            </span>
+            <svg-icon icon-class="tag" class-name="icon" />
             <span class="text">
               <router-link :to="{name: 'tagArchived', params: {tag: tag}}">
                 {{ tag }}
@@ -136,10 +134,7 @@ export default {
 }
 </script>
 
-<style lang="less" rel="stylesheet/less">
-  @import "../../assets/css/md2html.less";
-  @import "~highlight.js/styles/atom-one-light.css";
-
+<style lang="less" scoped>
   #article {
     padding: 40px 10px 0;
     text-align: left;
@@ -158,6 +153,7 @@ export default {
     }
     .info-row {
       padding: 4px 0;
+      color: @color-tint;
     }
     .tags {
       margin-bottom: 10px;

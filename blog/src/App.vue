@@ -14,8 +14,7 @@ export default {
 }
 </script>
 
-<style lang="less" rel="stylesheet/less">
-  @import "./assets/css/base.less";
+<style lang="less">
   #app {
     position: relative;
     font-family: 'Avenir', Helvetica, Arial, sans-serif;

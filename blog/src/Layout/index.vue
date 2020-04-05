@@ -1,16 +1,18 @@
 <template>
   <div id="userBase" ref="userBase">
     <div class="userBase-content ts" :class="{navShow: isNavShow}" @click="contentClick">
-      <keep-alive>
-        <router-view v-if="$route.meta.keepAlive" />
-      </keep-alive>
-      <router-view v-if="!$route.meta.keepAlive" />
+      <transition name="fade-transform" mode="out-in">
+        <keep-alive v-if="$route.meta.keepAlive">
+          <router-view />
+        </keep-alive>
+        <router-view v-else />
+      </transition>
       <div class="footer">
-        <userFooter />
+        <pageFooter />
         <backTop />
       </div>
     </div>
-    <userNav :is-nav-show="isNavShow" @navMenuClick="navMenuClick" />
+    <navBar :is-nav-show="isNavShow" @navMenuClick="navMenuClick" />
 
     <!--提示登陆模态框-->
     <Modal
@@ -25,15 +27,15 @@
 </template>
 
 <script>
-import userNav from '@/components/userNav/userNav'
-import userFooter from '@/components/userFooter/userFooter'
-import backTop from '@/components/backTop/backTop'
+import navBar from './components/nav'
+import pageFooter from './components/footer'
+import backTop from './components/backTop'
 
 export default {
   name: 'UserBase',
   components: {
-    userNav,
-    userFooter,
+    navBar,
+    pageFooter,
     backTop
   },
   data() {

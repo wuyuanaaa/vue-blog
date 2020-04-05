@@ -1,5 +1,5 @@
 <template>
-  <div v-show="isTimeLineShow" class="timeLine">
+  <div v-show="articleListData.length" class="timeLine">
     <viewTitle :title-text="timeLineName" />
     <div v-for="(item, index) of yearsData" :key="index" class="year-part clearfix">
       <span class="year-num">{{ item.year }}</span>
@@ -19,6 +19,7 @@
 
 <script>
 import viewTitle from '@/components/viewTitle/viewTitle'
+import { api_article } from '@/api'
 import { formatDate } from '@/utils'
 
 export default {
@@ -49,8 +50,7 @@ export default {
   data() {
     return {
       yearsData: [],
-      articleListData: [],
-      isTimeLineShow: false
+      articleListData: []
     }
   },
   created() {
@@ -61,13 +61,11 @@ export default {
   },
   methods: {
     getListData() {
-      this.isTimeLineShow = false
       this.$LoadingBar.start()
-      this.$axios.get('articles/' + this.apiName, this.para)
+      api_article.getListByType(this.apiName, this.para)
         .then(res => {
-          this.isTimeLineShow = true
           this.$LoadingBar.finish()
-          this.articleListData = res.result.list
+          this.articleListData = res.list
           this.$nextTick(function() {
             this.yearsData = []
             this.getYearsData()

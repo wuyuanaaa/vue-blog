@@ -82,7 +82,7 @@ export default {
 }
 </script>
 
-<style lang="less" rel="stylesheet/less">
+<style lang="less" scoped>
   #about {
     margin: 0 auto;
     padding: 20px 20px;

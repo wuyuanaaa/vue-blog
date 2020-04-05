@@ -16,8 +16,7 @@ export default {
 }
 </script>
 
-<style lang="less" rel="stylesheet/less">
-  @import "../../assets/css/variable";
+<style lang="less">
   .viewTitle {
     padding: 30px 0;
     .title-text {

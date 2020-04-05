@@ -7,7 +7,7 @@
         <p class="description">自有林中趣 | 谁惊岁去频</p>
         <img class="logo" src="../../assets/logo.svg" alt="">
       </div>
-      <Icon class="head-showContent" type="ios-arrow-down" @click="handlerClickShowContent" />
+      <svg-icon icon-class="down" class-name="head-showContent" @click="handlerClickShowContent" />
     </div>
     <div class="content">
       <articleList />
@@ -103,9 +103,13 @@ export default {
       bottom: -36px;
       left: 50%;
       transform: translate3d(-50%, 0, 0);
-      font-size: @font-size-lg;
+      font-size: 40px;
       z-index: 88;
+      transition: color 0.3s;
       cursor: pointer;
+      &:hover {
+        color: @color-main;
+      }
     }
     .content {
       position: relative;

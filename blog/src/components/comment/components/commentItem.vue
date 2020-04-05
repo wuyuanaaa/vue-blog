@@ -9,12 +9,12 @@
       </div>
       <div class="content-info">
         <span class="comment-date">{{ comment.date | formatTime }}</span>
-        <button class="comment-btn" @click="addCommentClick">
-          <Icon class="comment-icon" type="ios-text-outline" />
+        <button class="comment-btn comment-btn-reply" @click="addCommentClick">
+          <svg-icon icon-class="comment" class-name="comment-icon" />
           <span class="comment-text">回复</span>
         </button>
         <button v-if="isRemoveShow" class="comment-btn" @click="removeCommentClick(comment._id, topCommentId)">
-          <Icon class="comment-icon" type="md-trash" />
+          <svg-icon icon-class="delete" class-name="comment-icon" />
           <span class="comment-text">删除</span>
         </button>
         <commentInput
@@ -39,6 +39,7 @@
 
 <script>
 import commentInput from './commentInput'
+import { api_comment } from '@/api'
 import { formatTime } from '@/utils'
 
 export default {
@@ -78,23 +79,22 @@ export default {
     },
     // 删除评论
     removeCommentClick(id, topId) {
-      const param = {
+      const data = {
         _id: id
       }
-      let url = 'comments/remove_comment'
+      let requestFn
       if (topId) {
-        param.top_id = topId
-        url = 'comments/remove_follow_comment'
+        data.top_id = topId
+        requestFn = api_comment.removeFollowComment
+      } else {
+        requestFn = api_comment.removeComment
       }
-      this.$axios.post(url, param)
-        .then(res => {
-          if (res.status === '0') {
-            this.$Message.success('删除成功!')
-            this.getComments()
-          }
-          if (res.status === '3') {
-            this.$Message.error(res.msg)
-          }
+      requestFn(data)
+        .then(() => {
+          this.$Message.success('删除成功!')
+          this.getComments()
+        }).catch((e) => {
+          this.$Message.error(e.msg || '删除失败')
         })
     },
     // 移除输入框
@@ -109,23 +109,29 @@ export default {
 }
 </script>
 
-<style lang="less" rel="stylesheet/less">
+<style lang="less" scoped>
   .comment-part {
     display: flex;
     padding: 10px 0;
     /*margin: 20px 0 10px;*/
+
+    &:last-child{
+      margin-bottom: 0;
+      .comment-content {
+        border-bottom: none;
+      }
+    }
+    &:hover {
+      .content-info .comment-btn {
+        display: block;
+      }
+    }
     .comment-avatar{
       margin-right: 10px;
       width: 40px;
       height: 40px;
       border-radius: 50%;
       box-shadow: 0 0 4px rgba(0,0,0,0.10);
-    }
-    &:last-child{
-      margin-bottom: 0;
-      .comment-content {
-        border-bottom: none;
-      }
     }
     .comment-content {
       flex: 1;
@@ -144,6 +150,7 @@ export default {
       color: @color-tint;
       transition: height 0.5s;
       .comment-btn {
+        display: none;
         float: right;
         margin-left: 20px;
         border: none;
@@ -153,6 +160,7 @@ export default {
       }
       .comment-icon {
         margin-top: 4px;
+        margin-right: 4px;
         font-size: 16px;
         vertical-align: top;
       }

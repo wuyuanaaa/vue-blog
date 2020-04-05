@@ -3,6 +3,10 @@ const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const productionGzipExtensions = ['js', 'css']
 const isProduction = process.env.NODE_ENV === 'production'
 
+function resolve(dir) {
+  return path.join(__dirname, dir)
+}
+
 module.exports = {
   // 输出文件目录
   outputDir: 'dist',
@@ -45,6 +49,23 @@ module.exports = {
     }
   },
   chainWebpack(config) {
+    // set svg-sprite-loader
+    config.module
+      .rule('svg')
+      .exclude.add(resolve('src/icons'))
+      .end()
+    config.module
+      .rule('icons')
+      .test(/\.svg$/)
+      .include.add(resolve('src/icons'))
+      .end()
+      .use('svg-sprite-loader')
+      .loader('svg-sprite-loader')
+      .options({
+        symbolId: 'icon-[name]'
+      })
+      .end()
+
     config
       // https://webpack.js.org/configuration/devtool/#development
       .when(process.env.NODE_ENV === 'development',
@@ -56,7 +77,7 @@ module.exports = {
     'style-resources-loader': {
       preProcessor: 'less',
       patterns: [
-        path.resolve(__dirname, './src/assets/css/variable.less')
+        path.resolve(__dirname, './src/styles/variable.less')
       ]
     }
   }

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import Router from '../router'
 
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
@@ -29,8 +30,11 @@ service.interceptors.response.use(
     if (res.status !== undefined) {
       if (res.status === '0') {
         return res.result
+      } else if (res.status === '2') {
+        Router.push({ path: '/login' })
+        return res
       } else {
-        return Promise.reject(res.msg)
+        return Promise.reject(res)
       }
     } else {
       return res

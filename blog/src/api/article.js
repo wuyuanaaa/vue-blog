@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-export const getList = function(params) {
+export function getList(params) {
   return request({
     url: '/articles/list',
     method: 'get',
@@ -8,23 +8,31 @@ export const getList = function(params) {
   })
 }
 
-export const getSingle = function(id) {
+export function getSingle(id) {
   return request({
     url: `/articles/single?_id=${id}`,
     method: 'get'
   })
 }
 
-export const getPrev = function(date) {
+export function getPrev(date) {
   return request({
     url: `/articles/prev?date=${date}`,
     method: 'get'
   })
 }
 
-export const getNext = function(date) {
+export function getNext(date) {
   return request({
     url: `/articles/next?date=${date}`,
     method: 'get'
+  })
+}
+
+export function getListByType(type, params) {
+  return request({
+    url: `/articles/${type}`,
+    method: 'get',
+    params
   })
 }

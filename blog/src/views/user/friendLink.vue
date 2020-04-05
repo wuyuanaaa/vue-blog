@@ -23,7 +23,7 @@
             :title="item.link"
             @click.stop="linkClick"
           >
-            <Icon type="ios-paper-plane" />
+            <svg-icon icon-class="link" class-name="icon" />
           </a>
         </div>
       </div>
@@ -79,7 +79,7 @@ export default {
 }
 </script>
 
-<style lang="less" rel="stylesheet/less">
+<style lang="less" scoped>
   #friendLink {
     margin: 0 auto;
     padding: 20px 20px;

@@ -25,16 +25,18 @@
 </template>
 
 <script>
+import { api_comment } from '@/api'
+
 export default {
   name: 'CommentInput',
   props: {
     articleId: {
       type: String,
-      required: true
+      default: ''
     },
     articleTitle: {
       type: String,
-      required: true
+      default: ''
     },
     currentFollowId: {
       type: String,
@@ -100,35 +102,31 @@ export default {
         avatar_url: userInfo.avatar_url,
         comment_content: this.commentValue
       }
-      let url = ''
+      let requestFn
       if (this.currentFollowId) {
-        url = 'comments/save_follow_comment'
+        requestFn = api_comment.saveFollowComment
         commentData.follow_id = this.currentFollowId
         commentData.follow_user = this.currentFollowUser
       } else {
-        url = 'comments/save_comment'
+        requestFn = api_comment.saveComment
         commentData.article_title = this.articleTitle
         commentData.article_id = this.articleId
         commentData.comment_follow = []
       }
-      this.$axios.post(url, commentData)
-        .then(
-          res => {
-            if (res.status === '0') {
-              this.$Message.success('评论成功！')
-              // 清空输入框 触发输入框失焦事件
-              this.commentValue = ''
-              this.textareaBlur()
-              this.$emit('getComments')
-              // 如果是二级评论 隐藏输入框
-              if (this.currentFollowId) {
-                this.$emit('hideInput')
-              }
-            } else {
-              this.$Message.error('评论失败！请稍后再试。')
-            }
+      requestFn(commentData)
+        .then(() => {
+          this.$Message.success('评论成功！')
+          // 清空输入框 触发输入框失焦事件
+          this.commentValue = ''
+          this.textareaBlur()
+          this.$emit('getComments')
+          // 如果是二级评论 隐藏输入框
+          if (this.currentFollowId) {
+            this.$emit('hideInput')
           }
-        )
+        }).catch(() => {
+          this.$Message.error('评论失败！请稍后再试。')
+        })
     },
 
     // 隐藏输入框
@@ -145,7 +143,7 @@ export default {
 }
 </script>
 
-<style lang="less" rel="stylesheet/less">
+<style lang="less" scoped>
   .comment-input {
     margin: 10px 0;
     padding: 14px 10px;

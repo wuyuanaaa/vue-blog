@@ -3,70 +3,71 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
-const routers = [
+export const childRoutes = [
   {
-    path: '*',
-    component: () => import('@/views/page404'),
+    path: 'home',
+    name: 'home',
+    component: () => import('@/views/user/userHome'),
     meta: {
-      title: '404 · 博客 | 吴予安'
+      keepAlive: true,
+      title: '首页',
+      icon: 'nav-home'
     }
   },
+  {
+    path: 'article/:articleId',
+    name: 'article',
+    hidden: true,
+    component: () => import('@/views/user/article'),
+    meta: {
+      title: '文章'
+    }
+  },
+  {
+    path: 'tagArchived/:tag',
+    name: 'tagArchived',
+    hidden: true,
+    component: () => import('@/views/user/tagArchived'),
+    meta: {
+      title: '标签'
+    }
+  },
+  {
+    path: 'archived',
+    name: 'archived',
+    component: () => import('@/views/user/archived'),
+    meta: {
+      title: '归档',
+      icon: 'nav-archived'
+    }
+  },
+  {
+    path: 'about',
+    name: 'about',
+    component: () => import('@/views/user/about'),
+    meta: {
+      title: '关于',
+      icon: 'nav-about'
+    }
+  },
+  {
+    path: 'friendLink',
+    name: 'friendLink',
+    component: () => import('@/views/user/friendLink'),
+    meta: {
+      title: '友链',
+      icon: 'nav-friendLink'
+    }
+  }
+]
+
+const routers = [
   {
     path: '/',
     name: 'root',
     redirect: '/home',
-    component: () => import('@/components/Layout/index'),
-    children: [
-      {
-        path: 'home',
-        name: 'home',
-        component: () => import('@/views/user/userHome'),
-        meta: {
-          keepAlive: true,
-          title: '首页 · 博客 | 吴予安'
-        }
-      },
-      {
-        path: 'article/:articleId',
-        name: 'article',
-        component: () => import('@/views/user/article'),
-        meta: {
-          title: '文章 · 博客 | 吴予安'
-        }
-      },
-      {
-        path: 'tagArchived/:tag',
-        name: 'tagArchived',
-        component: () => import('@/views/user/tagArchived'),
-        meta: {
-          title: '标签 · 博客 | 吴予安'
-        }
-      },
-      {
-        path: 'archived',
-        name: 'archived',
-        component: () => import('@/views/user/archived'),
-        meta: {
-          title: '归档 · 博客 | 吴予安'
-        }
-      },
-      {
-        path: 'about',
-        name: 'about',
-        component: () => import('@/views/user/about'),
-        meta: {
-          title: '关于 · 博客 | 吴予安'
-        }
-      },
-      {
-        path: 'friendLink',
-        name: 'friendLink',
-        component: () => import('@/views/user/friendLink'),
-        meta: {
-          title: '友链 · 博客 | 吴予安'
-        }
-      }
-    ]
+    component: () => import('@/Layout/index'),
+    children: childRoutes
   },
   {
     path: '/github_login',
@@ -74,6 +75,13 @@ const routers = [
     component: () => import('@/views/login/github_login'),
     meta: {
       title: '第三方登录 · 博客 | 吴予安'
+    }
+  },
+  {
+    path: '*',
+    component: () => import('@/views/page404'),
+    meta: {
+      title: '404 · 博客 | 吴予安'
     }
   }
 ]

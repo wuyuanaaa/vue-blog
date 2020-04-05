@@ -3,24 +3,40 @@
  * @param {string} date
  */
 export function formatTime(date) {
-  let time = ''
-  const now = +new Date()
+  const now = new Date()
   date = new Date(date)
-
-  const passTime = now - date
-  if (passTime < 60 * 1000) {
-    time = '刚刚'
-  } else if (passTime < 3600 * 1000) {
-    time = Math.floor(passTime / (60 * 1000)) + '分钟前'
-  } else if (passTime < 24 * 3600 * 1000) {
-    time = Math.floor(passTime / (60 * 60 * 1000)) + '小时前'
-  } else if (passTime < 365 * 24 * 3600 * 1000) {
-    time = Math.floor(passTime / (24 * 3600 * 1000)) + '天前'
-  } else {
-    time = Math.floor(passTime / (365 * 24 * 3600 * 1000)) + '年前'
+  // 年
+  const nowYear = now.getFullYear()
+  const dateYear = date.getFullYear()
+  if (nowYear > dateYear) {
+    return Math.floor(nowYear - dateYear) + '年前'
   }
-
-  return time
+  // 月
+  const nowMonth = now.getMonth()
+  const dateMonth = date.getMonth()
+  if (nowMonth > dateMonth) {
+    return Math.floor(nowMonth - dateMonth) + '个月前'
+  }
+  // 日
+  const nowDay = now.getDate()
+  const dateDay = date.getDate()
+  if (nowDay > dateDay) {
+    return Math.floor(nowDay - dateDay) + '天前'
+  }
+  // 小时
+  const nowHours = now.getHours()
+  const dateHours = date.getHours
+  if (nowHours > dateHours) {
+    return Math.floor(nowHours - dateHours) + '小时前'
+  }
+  // 分
+  const nowMin = now.getMinutes()
+  const dateMin = date.getMinutes()
+  if (nowMin > dateMin) {
+    return Math.floor(nowMin - dateMin) + '分钟前'
+  }
+  // 时间差小于一分钟
+  return '刚刚'
 }
 
 /**
