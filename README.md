@@ -20,11 +20,10 @@
  ```
  npm install
  ```
- - 3、修改 router.js 注释第 8 行 mode: 'history', 部分（调试时如果时哈希模式无法实时更新，暂时不知道什么原因）
  
- - 4、启动项目
+ - 3、启动项目
  ```
- npm run server
+ npm run dev
  ```
 
 
