@@ -13,14 +13,14 @@
     </div>
 
     <!--退出登陆模态框-->
-    <Modal
-      v-model="logoutModal"
+    <Dialog
+      :visible="logoutModal"
       title="操作提示"
-      @on-ok="logoutModalOk"
-      @on-cancel="logoutModalCancel"
+      @confirm="logoutModalOk"
+      @cancel="logoutModalCancel"
     >
       <p>确定要退出登陆？</p>
-    </Modal>
+    </Dialog>
 
     <div class="nav-menu ts" @click.stop="showNav">
       <img v-if="!isNavShow" class="nav-menu-img" src="../../assets/bird.png" alt="">
@@ -30,13 +30,15 @@
 </template>
 
 <script>
+import Dialog from '@/components/Dialog'
 import navItem from './navItem'
 import { childRoutes } from '@/router'
 
 export default {
   name: 'UserNav',
   components: {
-    navItem
+    navItem,
+    Dialog
   },
   props: {
     isNavShow: {

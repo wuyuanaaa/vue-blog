@@ -15,14 +15,14 @@
     <navBar :is-nav-show="isNavShow" @navMenuClick="navMenuClick" />
 
     <!--提示登陆模态框-->
-    <Modal
-      v-model="isLoginModalShow"
+    <Dialog
+      :visible="isLoginModalShow"
       title="登陆提示"
-      @on-ok="loginModalOk"
-      @on-cancel="loginModalCancel"
+      @confirm="loginModalOk"
+      @cancel="loginModalCancel"
     >
       <p>需要登陆，是否前往 github 授权登陆？</p>
-    </Modal>
+    </Dialog>
   </div>
 </template>
 
@@ -30,13 +30,15 @@
 import navBar from './components/nav'
 import pageFooter from './components/footer'
 import backTop from './components/backTop'
+import Dialog from '@/components/Dialog'
 
 export default {
   name: 'UserBase',
   components: {
     navBar,
     pageFooter,
-    backTop
+    backTop,
+    Dialog
   },
   data() {
     return {
@@ -72,6 +74,7 @@ export default {
     // 登陆模态框确认
     loginModalOk() {
       // window.localStorage.setItem("_lastPage", window.location.href);
+      this.$store.commit('changeIsLoginModalShow')
       window.open(
         'https://github.com/login/oauth/authorize?client_id=5c971effe02228b9a039&scope=user:email',
         'oauthPage',
@@ -80,7 +83,7 @@ export default {
     },
     // 登陆模态框取消
     loginModalCancel() {
-      this.$store.emit('changeIsLoginModalShow')
+      this.$store.commit('changeIsLoginModalShow')
     }
   }
 }

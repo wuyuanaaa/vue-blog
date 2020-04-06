@@ -61,10 +61,8 @@ export default {
   },
   methods: {
     getListData() {
-      this.$LoadingBar.start()
       api_article.getListByType(this.apiName, this.para)
         .then(res => {
-          this.$LoadingBar.finish()
           this.articleListData = res.list
           this.$nextTick(function() {
             this.yearsData = []

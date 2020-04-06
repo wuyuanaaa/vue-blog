@@ -1,0 +1,38 @@
+.my-message {
+  position: fixed;
+  padding: 10px;
+  left: 50%;
+  top: 20px;
+  min-width: 100px;
+  transform: translateX(-50%);
+  overflow: hidden;
+  border-radius: @radius-md;
+  border-width: 1px; /*no*/
+  border-style: solid;
+  border-color: @color-border-tint;
+  z-index: 999;
+  transition: opacity 0.3s, transform .4s, top 0.4s;
+  display: flex;
+  font-size: @font-size-xs;
+  background-color: #f5f5f5;
+  color: @color-base;
+}
+
+.my-message-content {
+  flex: 1;
+  margin: 0;
+  margin-left: 10px;
+  text-align: center;
+}
+
+.my-message--success {
+  color: @color-main;
+}
+
+.my-message--warning {
+  color: @color-warning;
+}
+
+.my-message--error {
+  color: @color-error;
+}

@@ -39,9 +39,6 @@ export default {
       showFollowInput: {}
     }
   },
-  mounted() {
-    // this.getComments()
-  },
   methods: {
     // 获取评论
     getComments() {

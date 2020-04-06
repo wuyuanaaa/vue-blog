@@ -6,30 +6,30 @@ import store from './store'
 import 'lib-flexible'
 
 import 'normalize.css'
-import 'iview/dist/styles/iview.css'
 import './styles/index.less'
 import 'highlight.js/styles/atom-one-light.css' // 代码高亮
 
-import iview from '@/iview'
+import NProgress from 'nprogress' // progress bar
+import 'nprogress/nprogress.css' // progress bar style
 
-import { Message } from 'iview'
-import { LoadingBar } from 'iview'
-import VueClipboard from 'vue-clipboard2'
+import Message from './components/Message'
 
 import './icons'
 
-Vue.use(iview)
-Vue.use(VueClipboard)
-
 Vue.prototype.$Message = Message
-Vue.prototype.$LoadingBar = LoadingBar
 Vue.config.productionTip = false
 
 router.beforeEach((to, from, next) => {
+  NProgress.start()
   if (to.meta.title) {
     document.title = to.meta.title + ' · 博客 | 吴予安'
   }
   next()
+})
+
+router.afterEach((to, from) => {
+  // finish progress bar
+  NProgress.done()
 })
 
 new Vue({

@@ -124,3 +124,15 @@
 - 19/05/04
    - 优化 :tada:github 前后台项目分离，减小各项目体积，优化加载速度；
    - 修复 前后台项目分离后的路由错误；
+- 20/04/06
+   - 优化 新增大量动效；
+   - 优化 修改文件结构，如 提取 Api Layout 等；
+   - 优化 修改 axios 封装；
+   - 优化 github 授权登陆由页面跳转改为小窗弹出；
+   - 优化 右侧导航从路由自动获取，并优化视图表现；
+   - 优化 icon 全部替换成 SVG；
+   - 优化 全局移除 iview；
+   - 新增 Dialog 组件，替代 iview Modal；
+   - 新增 Textarea 组件，替代 iview Input；
+   - 新增 Message 组件，替代 iview message；
+   - 新增 nprogress 依赖，替代 iview navloading；

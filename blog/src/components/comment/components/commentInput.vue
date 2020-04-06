@@ -1,13 +1,11 @@
 <template>
   <div>
     <div class="comment-input" @click.stop="inputClick">
-      <Input
+      <Textarea
         ref="inputTextarea"
         v-model="commentValue"
         class="input-textarea"
-        type="textarea"
-        :autosize="true"
-        :autofocus="autofocus"
+        :autofocus="true"
         placeholder="说点什么..."
         @on-focus="textareaFocus"
       />
@@ -25,10 +23,14 @@
 </template>
 
 <script>
+import Textarea from '@/components/Textarea'
 import { api_comment } from '@/api'
 
 export default {
   name: 'CommentInput',
+  components: {
+    Textarea
+  },
   props: {
     articleId: {
       type: String,
@@ -45,10 +47,6 @@ export default {
     currentFollowUser: {
       type: String,
       default: ''
-    },
-    autofocus: {
-      type: Boolean,
-      default: false
     }
   },
   data() {
