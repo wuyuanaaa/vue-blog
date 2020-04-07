@@ -7,10 +7,12 @@ export const childRoutes = [
   {
     path: 'home',
     name: 'home',
+
     component: () => import('@/views/user/userHome'),
     meta: {
       keepAlive: true,
       title: '首页',
+      showHeader: true,
       icon: 'nav-home'
     }
   },

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="articleData" id="article" class="main article">
+  <div v-if="articleData" class="main article" :class="{'smallScreen': isSmallScreen}">
     <div class="article-content">
       <!--标题-->
       <h1 class="title">{{ articleData.title }}</h1>
@@ -80,6 +80,11 @@ export default {
       next: ''
     }
   },
+  computed: {
+    isSmallScreen() {
+      return this.$store.state.isSmallScreen
+    }
+  },
   created() {
     this.articleId = this.$route.params.articleId
     this.getData()
@@ -135,16 +140,23 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  #article {
-    padding: 40px 10px 0;
+  .article {
     text-align: left;
     flex-wrap: nowrap;
+    &.smallScreen {
+      .article-content {
+        margin-left: 100px;
+      }
+      .article-catalog {
+        width: 100px;
+      }
+    }
     /*主体部分*/
     .article-content {
       margin-left: 220px;
     }
     .title {
-      margin-bottom: 20px;
+      margin: 20px 0;
       font-size: @font-size-lg;
       font-weight: bold;
     }
@@ -205,6 +217,7 @@ export default {
     .article-catalog {
       position: fixed;
       top: 60px;
+      left: 10px;
       width: 200px;
       .catalog-title {
         margin-bottom: 10px;

@@ -1,5 +1,5 @@
 <template>
-  <div id="about">
+  <div class="about">
     <viewTitle title-text="关于" />
     <div class="about-part clearfix">
       <span class="part-title">版本</span>
@@ -83,15 +83,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  #about {
-    margin: 0 auto;
-    padding: 20px 20px;
-    max-width: @content-max-Width;
+  .about {
     .about-part {
       text-align: left;
       .part-title {
         float: left;
-        display: inline-block;
         margin: 2px 0 0 2px;
         border-bottom: 2px solid @color-base; /*no*/
         font-size: @font-size-sm;
@@ -114,7 +110,7 @@ export default {
           height: 12px;
           /*border-radius: 100%;*/
           transform: rotate(45deg);
-          background: #d3d3d3;
+          background: rgba(79,142,84,0.4);
         }
       }
       .info-disable {

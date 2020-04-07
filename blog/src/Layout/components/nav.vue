@@ -140,7 +140,7 @@ export default {
     padding: 40px 0;
     width: @side-width;
     height: 100%;
-    background: rgba(0,0,0,0.04);
+    background: rgba(240, 240, 240, 0.6);
     &.navShow {
       right: 0;
     }

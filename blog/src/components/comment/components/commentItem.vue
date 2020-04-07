@@ -113,8 +113,6 @@ export default {
   .comment-part {
     display: flex;
     padding: 10px 0;
-    /*margin: 20px 0 10px;*/
-
     &:last-child{
       margin-bottom: 0;
       .comment-content {
@@ -136,7 +134,7 @@ export default {
     .comment-content {
       flex: 1;
       padding-bottom: 10px;
-      border-bottom: 1px solid @color-border; /*no*/
+      border-bottom: 1px solid @color-border-tint; /*no*/
       .content-userName {
         margin-bottom: 6px;
         color: @color-main;

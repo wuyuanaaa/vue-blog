@@ -1,5 +1,5 @@
 <template>
-  <div id="friendLink">
+  <div class="friendLink">
     <viewTitle title-text="友链" />
     <div class="link-lists">
       <div
@@ -80,10 +80,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  #friendLink {
-    margin: 0 auto;
-    padding: 20px 20px;
-    max-width: @content-max-Width;
+  .friendLink {
     .link-item {
       position: relative;
       padding-top: 30%;

@@ -2,6 +2,7 @@
   line-height: 2;
   p {
     line-height: inherit;
+    word-break: break-all;
   }
   h1 {
     line-height: 3;
@@ -24,7 +25,9 @@
   blockquote {
     position: relative;
     padding: 6px 10px;
-    background: rgba(0, 0, 0, 0.02);
+    background: rgba(0, 0, 0, 0.1);
+    word-break: break-all;
+    border-radius: @radius-sm;
     &::before {
       content: '';
       position: absolute;
@@ -32,7 +35,7 @@
       height: 100%;
       top: 0;
       left: 0;
-      background: rgba(0, 0, 0, 0.06);
+      background: rgba(0, 0, 0, 0.2);
     }
   }
   hr {

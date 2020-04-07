@@ -101,14 +101,10 @@ export default {
 
 <style lang="less" rel="stylesheet/less">
   .timeLine {
-    margin: 0 auto;
-    padding: 20px 20px;
-    max-width: @content-max-Width;
     .year-part {
       text-align: left;
       .year-num {
         float: left;
-        display: inline-block;
         margin: 5px 0 0 2px;
         border-bottom: 2px solid @color-base; /*no*/
         font-size: @font-size-sm;
@@ -130,7 +126,7 @@ export default {
           width: 12px;
           height: 12px;
           border-radius: 100%;
-          background: #d3d3d3;
+          background: rgba(79,142,84,0.4);
         }
       }
       .list-date {

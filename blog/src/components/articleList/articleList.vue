@@ -128,7 +128,6 @@ export default {
 
 <style lang="less" rel="stylesheet/less">
   .articleList {
-    padding: 40px 10px 0;
 
     .msg {
       margin: 40px 0;

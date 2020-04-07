@@ -1,5 +1,5 @@
 <template>
-  <div class="archived">
+  <div class="archived app-container">
     <timeLine time-line-name="归档" api-name="list" />
   </div>
 </template>
