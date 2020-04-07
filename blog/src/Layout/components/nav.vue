@@ -23,8 +23,8 @@
     </Dialog>
 
     <div class="nav-menu ts" @click.stop="showNav">
-      <img v-if="!isNavShow" class="nav-menu-img" src="../../assets/bird.png" alt="">
       <img v-if="isNavShow" class="nav-menu-img" src="../../assets/bird-active.png" alt="">
+      <img v-else class="nav-menu-img" src="../../assets/bird.png" alt="">
     </div>
   </div>
 </template>
@@ -40,11 +40,6 @@ export default {
     navItem,
     Dialog
   },
-  props: {
-    isNavShow: {
-      type: Boolean
-    }
-  },
   data() {
     return {
       showMore: false,
@@ -58,6 +53,9 @@ export default {
   computed: {
     isLogin() {
       return this.$store.state.isLogin
+    },
+    isNavShow() {
+      return this.$store.state.isNavShow
     }
   },
   created() {
@@ -65,7 +63,7 @@ export default {
   },
   methods: {
     showNav() {
-      this.$emit('navMenuClick')
+      this.$store.dispatch('updateIsNavShow', !this.isNavShow)
     },
     // 登陆部分点击事件 未登陆则去登陆 已登陆则响应登出
     logClick() {
@@ -85,13 +83,13 @@ export default {
       }
       const login = JSON.parse(newValue)
 
-      this.$store.commit('changeIsLogin', true)
+      this.$store.dispatch('updateIsLogin', true)
       const data = login.data
       this.avatarUrl = data.avatar_url
       this.userName = data.name
       this.$Message.success(this.userName + '，欢迎!')
 
-      this.$store.commit('updateUserInfo', data)
+      this.$store.dispatch('updateUserInfo', data)
 
       window.removeEventListener('storage', this.handleStorageListener)
     },
@@ -99,13 +97,13 @@ export default {
       this.logoutModal = true
     },
     logoutModalOk() {
-      this.$store.commit('changeIsLogin', false)
+      this.$store.dispatch('updateIsLogin', false)
       this.avatarUrl = 'https://i.loli.net/2019/04/17/5cb69f3a9606f.jpg'
       this.userName = '未登录'
       window.localStorage.removeItem('_login')
       this.$Message.success('登出成功!')
 
-      this.$store.commit('updateUserInfo', {})
+      this.$store.dispatch('updateUserInfo', {})
     },
     logoutModalCancel() {
       this.logoutModal = false
@@ -123,13 +121,13 @@ export default {
         window.localStorage.removeItem('_login')
         return
       }
-      this.$store.commit('changeIsLogin', true)
+      this.$store.dispatch('updateIsLogin', true)
       const data = login.data
       this.avatarUrl = data.avatar_url
       this.userName = data.name
       this.$Message.success(this.userName + '，欢迎!')
 
-      this.$store.commit('updateUserInfo', data)
+      this.$store.dispatch('updateUserInfo', data)
     }
   }
 }

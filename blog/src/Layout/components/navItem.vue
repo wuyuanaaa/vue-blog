@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="'/'+nav.path" class="nav-item" :class="{actived: curRoute.name===nav.name}">
+  <router-link :to="'/'+nav.path" class="nav-item" :class="{actived: curRoute.name===nav.name}" @click.native="handleRouteClick">
     <svg-icon :icon-class="nav.meta.icon" class-name="item-icon" />
     <span class="item-text">{{ nav.meta.title }}</span>
   </router-link>
@@ -17,6 +17,14 @@ export default {
   computed: {
     curRoute() {
       return this.$route
+    },
+    isSmallScreen() {
+      return this.$store.state.isSmallScreen
+    }
+  },
+  methods: {
+    handleRouteClick() {
+      this.isSmallScreen && this.$store.dispatch('updateIsNavShow', false)
     }
   }
 }

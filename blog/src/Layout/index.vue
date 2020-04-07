@@ -12,7 +12,7 @@
         <backTop />
       </div>
     </div>
-    <navBar :is-nav-show="isNavShow" @navMenuClick="navMenuClick" />
+    <navBar />
 
     <!--提示登陆模态框-->
     <Dialog
@@ -42,18 +42,27 @@ export default {
   },
   data() {
     return {
-      isNavShow: false,
       isSmallScreen: ''
     }
   },
   computed: {
+    isNavShow() {
+      return this.$store.state.isNavShow
+    },
     isLoginModalShow() {
       return this.$store.state.isLoginModalShow
     }
   },
+  watch: {
+    isSmallScreen: {
+      handler(newVal) {
+        this.$store.dispatch('updateIsNavShow', !newVal)
+        this.$store.dispatch('updateIsSmallScreen', newVal)
+      }
+    }
+  },
   mounted() {
-    this.isSmallScreen = window.innerWidth < 992
-    this.isNavShow = !this.isSmallScreen
+    this.checkInnerWidth()
     window.addEventListener('resize', this.checkInnerWidth)
   },
   beforeDestroy() {
@@ -63,18 +72,14 @@ export default {
     checkInnerWidth() {
       const innerWidth = window.innerWidth
       this.isSmallScreen = innerWidth < 992
-      this.isNavShow = !this.isSmallScreen
     },
     contentClick() {
-      this.isSmallScreen && (this.isNavShow = false)
-    },
-    navMenuClick() {
-      this.isNavShow = !this.isNavShow
+      this.isSmallScreen && (this.$store.dispatch('updateIsNavShow', false))
     },
     // 登陆模态框确认
     loginModalOk() {
       // window.localStorage.setItem("_lastPage", window.location.href);
-      this.$store.commit('changeIsLoginModalShow')
+      this.$store.dispatch('uodateIsLoginModalShow', false)
       window.open(
         'https://github.com/login/oauth/authorize?client_id=5c971effe02228b9a039&scope=user:email',
         'oauthPage',
@@ -83,7 +88,7 @@ export default {
     },
     // 登陆模态框取消
     loginModalCancel() {
-      this.$store.commit('changeIsLoginModalShow')
+      this.$store.dispatch('uodateIsLoginModalShow', false)
     }
   }
 }

@@ -92,7 +92,7 @@ export default {
     newCommentClick() {
       const userInfo = this.$store.state.userInfo
       if (!userInfo.id) {
-        this.$store.commit('changeIsLoginModalShow')
+        this.$store.dispatch('uodateIsLoginModalShow', true)
         return
       }
       const commentData = {
