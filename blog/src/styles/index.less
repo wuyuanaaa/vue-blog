@@ -10,6 +10,17 @@ html,body {
   box-sizing: border-box;
 }
 
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+p, blockquote,ul,h1,h2,h3,h4,h5 {
+  margin: 0;
+  padding: 0;
+}
+
 a {
   color: rgba(79,142,84,0.8);
   text-decoration: none;
@@ -18,12 +29,6 @@ a {
     text-decoration: underline;
     color: rgba(79,142,84,1);
   }
-}
-
-*,
-*:before,
-*:after {
-  box-sizing: inherit;
 }
 
 button {
@@ -60,6 +65,7 @@ button {
 /* 设置滚动条的样式 */
 ::-webkit-scrollbar {
   width:6px;
+  height: 6px;
 }
 /* 滚动槽 */
 ::-webkit-scrollbar-track {

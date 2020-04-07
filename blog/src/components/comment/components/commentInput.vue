@@ -5,7 +5,7 @@
         ref="inputTextarea"
         v-model="commentValue"
         class="input-textarea"
-        :autofocus="true"
+        :autofocus="autofocus"
         placeholder="说点什么..."
         @on-focus="textareaFocus"
       />
@@ -47,6 +47,10 @@ export default {
     currentFollowUser: {
       type: String,
       default: ''
+    },
+    autofocus: {
+      type: Boolean,
+      default: false
     }
   },
   data() {

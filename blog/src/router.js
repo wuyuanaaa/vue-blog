@@ -74,28 +74,30 @@ const routers = [
     name: 'github_login',
     component: () => import('@/views/login/github_login'),
     meta: {
-      title: '第三方登录 · 博客 | 吴予安'
+      title: '第三方登录'
     }
   },
   {
     path: '*',
     component: () => import('@/views/page404'),
     meta: {
-      title: '404 · 博客 | 吴予安'
+      title: '404'
     }
   }
 ]
 
 const createRouter = () => new Router({
   mode: process.env.NODE_ENV === 'development' ? 'hash' : 'history',
-  // mode: 'history',
-  scrollBehavior: (to) => {
-    // return 期望滚动到哪个的位置
-    if (to.name === 'article') {
+  scrollBehavior(to, from, savedPosition) { // return 期望滚动到哪个的位置
+    if (savedPosition) {
+      return savedPosition
+    } else if (to.name === 'article') {
       return {
         x: 0,
         y: 0
       }
+    } else {
+      return { x: 0, y: 0 }
     }
   },
   routes: routers

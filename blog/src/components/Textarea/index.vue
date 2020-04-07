@@ -28,6 +28,7 @@ export default {
   },
   mounted() {
     if (this.autofocus) {
+      console.log(this.autofocus)
       this.$nextTick(() => {
         this.$refs['main'].focus()
       })
@@ -39,6 +40,9 @@ export default {
     },
     handlerFocus() {
       this.$emit('on-focus')
+    },
+    focus() {
+      this.$refs['main'].focus()
     }
   }
 }
