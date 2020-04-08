@@ -56,9 +56,9 @@ export default {
   width: 100%;
   height: 100%;
   // background: url('https://i.loli.net/2019/02/13/5c6368f0dc7f2.jpg') no-repeat;
-  background: url(../../assets/bg.png) no-repeat;
-  background-position: top center;
-  background-size: cover;
+  // background: url(../../assets/bg.png) no-repeat;
+  // background-position: top center;
+  // background-size: cover;
 }
 .head-text {
   position: absolute;

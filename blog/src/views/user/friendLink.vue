@@ -103,9 +103,9 @@ export default {
         left: 0;
         width: 100%;
         height: auto;
-        z-index: -1;
-        opacity: 0.7;
-        filter: grayscale(60%);
+        // z-index: -1;
+        opacity: 0.9;
+        filter: grayscale(80%);
         transition: all 0.3s;
       }
       .link-content {

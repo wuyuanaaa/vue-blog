@@ -1,6 +1,6 @@
 <template>
   <div class="wrap">
-    <Cloud v-if="!isSmallScreen" />
+    <Cloud />
     <div ref="userBase" class="userBase ts" :class="{'navShow': isNavShow}">
       <transition name="fade-header">
         <Header v-if="showHeader" />

@@ -19,6 +19,7 @@
 
 <script>
 import cloudShadows from '@/utils/cloud'
+import { isMobile } from '@/utils'
 
 export default {
   data() {
@@ -28,14 +29,13 @@ export default {
   },
   mounted() {
     this.update()
-    window.addEventListener('click', this.update)
+    !isMobile() && window.addEventListener('click', this.update)
   },
   beforeDestroy() {
-    window.removeEventListener('click', this.update)
+    !isMobile() && window.removeEventListener('click', this.update)
   },
   methods: {
     update() {
-      console.log('update')
       this.$nextTick(() => {
         this.$refs.cloud.style.boxShadow = cloudShadows(100)
       })
