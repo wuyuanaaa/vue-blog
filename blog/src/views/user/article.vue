@@ -48,6 +48,7 @@
           class="list-item"
           :data-lev="item.lev"
           :href="'#'+item.id"
+          :title="item.text"
         >
           {{ item.text }}
         </a>
@@ -217,7 +218,7 @@ export default {
     .article-catalog {
       position: fixed;
       top: 60px;
-      left: 10px;
+      // left: 10px;
       width: 200px;
       .catalog-title {
         margin-bottom: 10px;

@@ -1,5 +1,5 @@
 <template>
-  <div class="wrap">
+  <div class="wrap" :class="{'isMobile':isMobile}">
     <Cloud />
     <div ref="userBase" class="userBase ts" :class="{'navShow': isNavShow}">
       <transition name="fade-header">
@@ -40,6 +40,7 @@ import Footer from './components/footer'
 import backTop from './components/backTop'
 import Dialog from '@/components/Dialog'
 import Cloud from '@/components/Cloud/index'
+import { isMobile } from '@/utils'
 
 export default {
   name: 'UserBase',
@@ -53,7 +54,8 @@ export default {
   },
   data() {
     return {
-      isSmallScreen: ''
+      isSmallScreen: '',
+      isMobile: isMobile()
     }
   },
   computed: {
@@ -132,6 +134,9 @@ export default {
   padding-bottom: @footer-height;
   // overflow: hidden;
   background: rgba(255,255,255,0.5);
+}
+.isMobile .userBase-content {
+  padding: 20px 20px @footer-height 20px;
 }
 .footer {
   position: absolute;

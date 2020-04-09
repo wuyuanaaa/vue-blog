@@ -17,7 +17,8 @@ export default {
 <style lang="less" scoped>
   .footer-list {
     margin: 0;
-    padding: 20px 0 36px;
+    padding-top: 20px;
+    height: @footer-height;
     text-align: center;
     border-top: 1px dashed rgba(0, 0, 0, 0.1); /*no*/
     .list-item {
