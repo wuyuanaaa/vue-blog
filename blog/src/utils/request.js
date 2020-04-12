@@ -1,5 +1,6 @@
 import axios from 'axios'
 import Router from '../router'
+import Message from '@/components/Message'
 
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
@@ -42,7 +43,11 @@ service.interceptors.response.use(
   },
   error => {
     console.log('err' + error) // for debug
-
+    Message({
+      message: '网络异常！请刷新页面或稍后尝试。',
+      type: 'error',
+      duration: 3 * 1000
+    })
     return Promise.reject(error)
   }
 )

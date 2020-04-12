@@ -55,7 +55,7 @@ export default {
   data() {
     return {
       isSmallScreen: '',
-      isMobile: isMobile()
+      isMobile: isMobile
     }
   },
   computed: {
@@ -110,7 +110,7 @@ export default {
 }
 </script>
 
-<style lang="less" rel="stylesheet/less">
+<style lang="less" scoped>
 .wrap {
   height: 100%;
 }

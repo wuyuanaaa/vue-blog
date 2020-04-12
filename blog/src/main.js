@@ -16,6 +16,10 @@ import Message from './components/Message'
 
 import './icons'
 
+import imgMore from '@/directives/imgMore' // 图片优化自定义指令
+
+Vue.use(imgMore)
+
 Vue.prototype.$Message = Message
 Vue.config.productionTip = false
 

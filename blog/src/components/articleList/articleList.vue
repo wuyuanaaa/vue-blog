@@ -97,9 +97,8 @@ export default {
       api_article.getList(param).then(res => {
         const list = res.list
         // 更新页面数据
-        const newList = this.articleListData.slice()
-        newList.push(...list)
-        this.articleListData = newList
+        const len = this.articleListData.length
+        this.articleListData.splice(len - 1, 0, ...list)
         // 检查是否全部加载完
         if (list.length < this.pageSize) {
           this.isLoadOver = true
@@ -108,6 +107,8 @@ export default {
         !this.articleListData.length && (this.msg = '网络出错啦！这里什么都没有！')
         this.page++
         this.isInLoading = false
+      }).catch((e) => {
+        console.log('getArticlesList err')
       })
     },
     onScroll() {
@@ -133,10 +134,6 @@ export default {
       margin: 40px 0;
       font-size: @font-size-md;
       color: @color-link;
-    }
-
-    .ivu-icon {
-      vertical-align: top;
     }
 
     .list-item {

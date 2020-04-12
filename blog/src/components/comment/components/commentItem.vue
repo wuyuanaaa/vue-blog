@@ -1,6 +1,6 @@
 <template>
   <div class="comment-part">
-    <img class="comment-avatar" :src="comment.avatar_url" alt="">
+    <img v-imgMore class="comment-avatar" :src="comment.avatar_url" alt="">
     <div class="comment-content">
       <div class="content-userName">{{ comment.user||'用户名好像不见了' }}</div>
       <div class="content-content">

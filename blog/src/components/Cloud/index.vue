@@ -29,10 +29,10 @@ export default {
   },
   mounted() {
     this.update()
-    !isMobile() && window.addEventListener('click', this.update)
+    !isMobile && window.addEventListener('click', this.update)
   },
   beforeDestroy() {
-    !isMobile() && window.removeEventListener('click', this.update)
+    !isMobile && window.removeEventListener('click', this.update)
   },
   methods: {
     update() {

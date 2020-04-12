@@ -4,7 +4,7 @@
     <div class="about-part clearfix">
       <span class="part-title">版本</span>
       <div class="path-info">
-        <div class="info-item">v1.0</div>
+        <div class="info-item">v2.0</div>
       </div>
     </div>
     <div class="about-part clearfix">
@@ -60,7 +60,7 @@
         <div class="info-item">增加文章列表下拉加载 √</div>
         <div class="info-item">增加评论表情支持</div>
         <div class="info-item">增加文章锚点功能 √</div>
-        <div class="info-item">完善更多动效</div>
+        <div class="info-item">完善更多动效 √</div>
       </div>
     </div>
 

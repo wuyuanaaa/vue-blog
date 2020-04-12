@@ -11,7 +11,7 @@
       >
         <img class="item-background" :src="item.background" alt="背景">
         <div class="link-content">
-          <img class="item-avatar" :src="item.avatar" alt="头像">
+          <img v-imgMore class="item-avatar" :src="item.avatar" alt="头像">
           <div class="link-info">
             <div class="item-title">{{ item.name }}</div>
             <div class="item-info">{{ item.info }}</div>
@@ -85,7 +85,7 @@ export default {
       position: relative;
       padding-top: 30%;
       overflow: hidden;
-      transition: padding-top 0.3s;
+      transition: padding-top 0.5s;
       box-shadow: 0 0 6px @color-shadow;
       &+.link-item {
         margin-top: 20px;
@@ -106,7 +106,7 @@ export default {
         // z-index: -1;
         opacity: 0.9;
         filter: grayscale(80%);
-        transition: all 0.3s;
+        transition: all 0.5s;
       }
       .link-content {
         position: absolute;

@@ -104,13 +104,10 @@ export function debounce(func, wait, immediate) {
   return debounced
 }
 
-// 判断移动端
-let ISMOBILE
-
-export function isMobile() {
-  if (ISMOBILE !== undefined) {
-    return ISMOBILE
-  }
-  ISMOBILE = /(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent)
-  return ISMOBILE
-}
+/**
+ * 判断是否是手机端
+ * 仅在第一次调用时执行
+ */
+export const isMobile = (function() {
+  return /(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent)
+})()
