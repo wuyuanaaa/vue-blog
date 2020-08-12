@@ -1,21 +1,20 @@
 import axios from 'axios'
-import Router from '../router'
 import Message from '@/components/Message'
+import store from '@/store'
+
+const VALID_STATUS = [401]
 
 const service = axios.create({
-  baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
-  timeout: 5000 // request timeout
+  baseURL: process.env.VUE_APP_BASE_API,
+  timeout: 20000, // request timeout
+  validateStatus(status) { // 配置合法状态码
+    return status >= 200 && status < 300 || VALID_STATUS.includes(status)
+  }
 })
 
 // request interceptor
 service.interceptors.request.use(
   config => {
-    /* if (store.getters.token) {
-      // let each request carry token
-      // ['X-Token'] is a custom headers key
-      // please modify it according to the actual situation
-      config.headers['X-Token'] = getToken()
-    } */
     return config
   },
   error => {
@@ -27,14 +26,17 @@ service.interceptors.request.use(
 // response interceptor
 service.interceptors.response.use(
   response => {
+    if (response.status === 401) {
+      Message.info('登陆已过期！')
+      store.dispatch('user/logout')
+    }
+
     const res = response.data
-    if (res.status !== undefined) {
-      if (res.status === '0') {
-        return res.result
-      } else if (res.status === '2') {
-        Router.push({ path: '/login' })
-        return res
+    if (res.code !== undefined) {
+      if (res.code === 1) {
+        return res.data
       } else {
+        Message.error(res.msg || '网络错误！')
         return Promise.reject(res)
       }
     } else {

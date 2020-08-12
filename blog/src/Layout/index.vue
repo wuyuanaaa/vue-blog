@@ -7,10 +7,9 @@
       </transition>
       <div class="userBase-content ts" @click="contentClick">
         <transition name="fade-transform" mode="out-in">
-          <keep-alive v-if="$route.meta.keepAlive">
+          <keep-alive :include="keepAliveRoutes">
             <router-view />
           </keep-alive>
-          <router-view v-else />
         </transition>
         <div class="footer">
           <Footer />
@@ -40,6 +39,8 @@ import Footer from './components/footer'
 import backTop from './components/backTop'
 import Dialog from '@/components/Dialog'
 import Cloud from '@/components/Cloud/index'
+
+import { keepAliveRoutes } from '@/router'
 import { isMobile } from '@/utils'
 
 export default {
@@ -53,6 +54,7 @@ export default {
     Cloud
   },
   data() {
+    this.keepAliveRoutes = keepAliveRoutes
     return {
       isSmallScreen: '',
       isMobile: isMobile
@@ -60,10 +62,10 @@ export default {
   },
   computed: {
     isNavShow() {
-      return this.$store.state.isNavShow
+      return this.$store.getters.isNavShow
     },
     isLoginModalShow() {
-      return this.$store.state.isLoginModalShow
+      return this.$store.getters.isLoginModalShow
     },
     showHeader() {
       return this.$route.meta.showHeader
@@ -72,8 +74,8 @@ export default {
   watch: {
     isSmallScreen: {
       handler(newVal) {
-        this.$store.dispatch('updateIsNavShow', !newVal)
-        this.$store.dispatch('updateIsSmallScreen', newVal)
+        this.$store.dispatch('app/updateIsNavShow', !newVal)
+        this.$store.dispatch('app/updateIsSmallScreen', newVal)
       }
     }
   },
@@ -90,12 +92,11 @@ export default {
       this.isSmallScreen = innerWidth < 992
     },
     contentClick() {
-      this.isSmallScreen && (this.$store.dispatch('updateIsNavShow', false))
+      this.isSmallScreen && (this.$store.dispatch('app/updateIsNavShow', false))
     },
     // 登陆模态框确认
     loginModalOk() {
-      // window.localStorage.setItem("_lastPage", window.location.href);
-      this.$store.dispatch('uodateIsLoginModalShow', false)
+      this.$store.dispatch('app/updateIsLoginDialogShow', false)
       window.open(
         'https://github.com/login/oauth/authorize?client_id=5c971effe02228b9a039&scope=user:email',
         'oauthPage',
@@ -104,7 +105,7 @@ export default {
     },
     // 登陆模态框取消
     loginModalCancel() {
-      this.$store.dispatch('uodateIsLoginModalShow', false)
+      this.$store.dispatch('app/updateIsLoginDialogShow', false)
     }
   }
 }

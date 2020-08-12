@@ -9,7 +9,7 @@
           <div v-for="(tag, index) in articleData.tags" :key="index" class="item-tags">
             <svg-icon icon-class="tag" class-name="icon" />
             <span class="text">
-              <router-link :to="{name: 'tagArchived', params: {tag: tag}}">
+              <router-link :to="{name: 'tag', params: {tag: tag}}">
                 {{ tag }}
               </router-link>
             </span>
@@ -58,9 +58,9 @@
 </template>
 
 <script>
-import { api_article } from '@/api'
+import { getSingle, getPrev, getNext } from '@/api/article'
 import { formatDate } from '@/utils'
-import comment from '@/components/comment/comment'
+import comment from '@/components/comment'
 
 export default {
   name: 'ArticlePage',
@@ -83,7 +83,7 @@ export default {
   },
   computed: {
     isSmallScreen() {
-      return this.$store.state.isSmallScreen
+      return this.$store.getters.isSmallScreen
     }
   },
   created() {
@@ -102,7 +102,7 @@ export default {
     getData() {
       this.isArticlePageShow = false
 
-      api_article.getSingle(this.articleId).then(res => {
+      getSingle(this.articleId).then(res => {
         this.articleData = res[0]
 
         // 获取上一篇及下一篇
@@ -112,19 +112,19 @@ export default {
 
         // 获取评论
         this.$nextTick(() => {
-          this.$refs.comment.getComments()
+          this.$refs.comment.fetchComments()
         })
       }).catch(e => {
         console.log(e)
       })
     },
     getPrev(date) {
-      api_article.getPrev(date).then(res => {
+      getPrev(date).then(res => {
         this.prev = res[0]
       })
     },
     getNext(date) {
-      api_article.getNext(date).then(res => {
+      getNext(date).then(res => {
         this.next = res[0]
       })
     }

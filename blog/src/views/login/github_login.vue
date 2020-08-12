@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { api_user } from '@/api'
+import { githubLogin } from '@/api/user'
 
 export default {
   name: 'GithubLogin',
@@ -17,18 +17,25 @@ export default {
     }
   },
   created() {
-    // this.getUserData(this.$route.query.code)
     this.getUserData(window.location.search.split('=')[1])
   },
   methods: {
     getUserData(code) {
-      console.log(code)
-      api_user.getInfo({ code })
+      githubLogin({ code })
         .then(res => {
           window.localStorage.setItem('_login', JSON.stringify({
             date: +new Date(),
             data: res
           }))
+        })
+        .catch(e => {
+          console.log('getUserData err', e)
+          window.localStorage.setItem('_login', JSON.stringify({
+            date: +new Date(),
+            data: false
+          }))
+        })
+        .finally(() => {
           window.close()
         })
     }

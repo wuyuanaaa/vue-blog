@@ -19,12 +19,12 @@ export default {
       return this.$route
     },
     isSmallScreen() {
-      return this.$store.state.isSmallScreen
+      return this.$store.getters.isSmallScreen
     }
   },
   methods: {
     handleRouteClick() {
-      this.isSmallScreen && this.$store.dispatch('updateIsNavShow', false)
+      this.isSmallScreen && this.$store.dispatch('app/updateIsNavShow', false)
     }
   }
 }

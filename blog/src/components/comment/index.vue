@@ -2,17 +2,17 @@
   <div v-if="articleTitle" class="comment">
     <div class="comment-title">评论</div>
 
-    <commentInput :article-id="articleId" :article-title="articleTitle" @getComments="getComments" />
+    <commentInput :article-id="articleId" :article-title="articleTitle" @getComments="fetchComments" />
 
     <div v-if="comments" class="comment-list">
-      <commentItem v-for="(comment, index) in comments" :key="index" :comment="comment" @getComments="getComments" />
+      <commentItem v-for="(comment, index) in comments" :key="index" :comment="comment" @getComments="fetchComments" />
     </div>
 
   </div>
 </template>
 
 <script>
-import { api_comment } from '@/api'
+import { getComment } from '@/api/comment'
 import commentInput from './components/commentInput'
 import commentItem from './components/commentItem'
 
@@ -41,10 +41,14 @@ export default {
   },
   methods: {
     // 获取评论
-    getComments() {
-      api_comment.getComment(this.articleId).then(res => {
-        this.comments = res
-      })
+    fetchComments() {
+      getComment(this.articleId)
+        .then(res => {
+          this.comments = res
+        })
+        .catch(e => {
+          console.log('fetchComments err', e)
+        })
     }
 
   }

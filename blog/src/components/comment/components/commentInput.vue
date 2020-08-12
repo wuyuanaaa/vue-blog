@@ -24,7 +24,7 @@
 
 <script>
 import Textarea from '@/components/Textarea'
-import { api_comment } from '@/api'
+import { saveComment, saveFollowComment } from '@/api/comment'
 
 export default {
   name: 'CommentInput',
@@ -94,9 +94,9 @@ export default {
     },
     // 发表一级评论
     newCommentClick() {
-      const userInfo = this.$store.state.userInfo
+      const userInfo = this.$store.getters.userInfo
       if (!userInfo.id) {
-        this.$store.dispatch('uodateIsLoginModalShow', true)
+        this.$store.dispatch('app/updateIsLoginDialogShow', true)
         return
       }
       const commentData = {
@@ -106,11 +106,11 @@ export default {
       }
       let requestFn
       if (this.currentFollowId) {
-        requestFn = api_comment.saveFollowComment
+        requestFn = saveFollowComment
         commentData.follow_id = this.currentFollowId
         commentData.follow_user = this.currentFollowUser
       } else {
-        requestFn = api_comment.saveComment
+        requestFn = saveComment
         commentData.article_title = this.articleTitle
         commentData.article_id = this.articleId
         commentData.comment_follow = []

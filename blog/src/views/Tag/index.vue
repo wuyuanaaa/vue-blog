@@ -1,13 +1,11 @@
 <template>
-  <div>
-    <timeLine :time-line-name="tag" api-name="tag" :para="para" />
-  </div>
+  <timeLine :time-line-name="tag" api-name="tag" :para="para" />
 </template>
 
 <script>
-import timeLine from '@/components/timeLine/timeLine'
+import timeLine from '@/components/timeLine'
 export default {
-  name: 'TagArchived',
+  name: 'Tag',
   components: {
     timeLine
   },

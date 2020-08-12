@@ -6,7 +6,7 @@ import request from '@/utils/request'
  */
 export function getComment(id) {
   return request({
-    url: `/comments/get_comments?article_id=${id}`,
+    url: `/comment/get_comments?article_id=${id}`,
     method: 'get'
   })
 }
@@ -17,7 +17,7 @@ export function getComment(id) {
  */
 export function saveComment(data) {
   return request({
-    url: 'comments/save_comment',
+    url: 'comment/save_comment',
     method: 'post',
     data
   })
@@ -29,7 +29,7 @@ export function saveComment(data) {
  */
 export function saveFollowComment(data) {
   return request({
-    url: 'comments/save_follow_comment',
+    url: 'comment/save_follow_comment',
     method: 'post',
     data
   })
@@ -41,7 +41,7 @@ export function saveFollowComment(data) {
  */
 export function removeComment(data) {
   return request({
-    url: 'comments/remove_comment',
+    url: 'comment/remove_comment',
     method: 'post',
     data
   })
@@ -53,7 +53,7 @@ export function removeComment(data) {
  */
 export function removeFollowComment(data) {
   return request({
-    url: 'comments/remove_follow_comment',
+    url: 'comment/remove_follow_comment',
     method: 'post',
     data
   })

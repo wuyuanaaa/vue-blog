@@ -39,7 +39,7 @@
 
 <script>
 import commentInput from './commentInput'
-import { api_comment } from '@/api'
+import { removeComment, removeFollowComment } from '@/api/comment'
 import { formatTime } from '@/utils'
 
 export default {
@@ -69,7 +69,7 @@ export default {
   },
   computed: {
     isRemoveShow() {
-      return this.$store.state.userInfo.id === 35567374
+      return this.$store.getters.userInfo.id === 35567374
     }
   },
   methods: {
@@ -85,9 +85,9 @@ export default {
       let requestFn
       if (topId) {
         data.top_id = topId
-        requestFn = api_comment.removeFollowComment
+        requestFn = removeFollowComment
       } else {
-        requestFn = api_comment.removeComment
+        requestFn = removeComment
       }
       requestFn(data)
         .then(() => {

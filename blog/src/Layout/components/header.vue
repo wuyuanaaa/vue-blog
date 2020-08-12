@@ -18,7 +18,7 @@ export default {
   },
   computed: {
     isNavShow() {
-      return this.$store.state.isNavShow
+      return this.$store.getters.isNavShow
     }
   },
   mounted() {

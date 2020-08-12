@@ -1,8 +1,8 @@
 import request from '@/utils/request'
 
-export function getList(params) {
+export function getArticleList(params) {
   return request({
-    url: '/articles/list',
+    url: '/article/list',
     method: 'get',
     params
   })
@@ -10,28 +10,28 @@ export function getList(params) {
 
 export function getSingle(id) {
   return request({
-    url: `/articles/single?_id=${id}`,
+    url: `/article/single?_id=${id}`,
     method: 'get'
   })
 }
 
 export function getPrev(date) {
   return request({
-    url: `/articles/prev?date=${date}`,
+    url: `/article/prev?date=${date}`,
     method: 'get'
   })
 }
 
 export function getNext(date) {
   return request({
-    url: `/articles/next?date=${date}`,
+    url: `/article/next?date=${date}`,
     method: 'get'
   })
 }
 
-export function getListByType(type, params) {
+export function getArticleListByType(type, params) {
   return request({
-    url: `/articles/${type}`,
+    url: `/article/${type}`,
     method: 'get',
     params
   })

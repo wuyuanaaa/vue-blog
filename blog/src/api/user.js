@@ -1,9 +1,16 @@
 import request from '@/utils/request'
 
-export const getInfo = function(params) {
+export function githubLogin(params) {
   return request({
-    url: '/users/github',
+    url: '/user/github',
     method: 'get',
     params
+  })
+}
+
+export function getUserInfo() {
+  return request({
+    url: '/user/userInfo',
+    method: 'get'
   })
 }

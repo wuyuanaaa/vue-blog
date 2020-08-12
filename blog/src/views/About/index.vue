@@ -19,7 +19,7 @@
         <div class="info-item">“自有林中趣，谁惊岁去频”出自唐代无可的《新年》，开始敲这个博客是在18年年末，当时的确很应景。但我个人还有另外一层理解，转行这些时间，因为年龄，因为过往经历，的确给我带来了很多困境。我想通过这句话告诉自己：无论外界的环境是什么样子的，过往已无法改变，只有保留内心的‘林中趣’，做好当下的事情才是最重要的。</div>
         <div class="info-item">
           更多请见这篇文章
-          <router-link :to="{path:'/user/article/5c653ae3dfd2132f88bbd089'}">
+          <router-link :to="{path:'/article/5c653ae3dfd2132f88bbd089'}">
             《Hello World》
           </router-link>
         </div>
@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import viewTitle from '@/components/viewTitle/viewTitle'
+import viewTitle from '@/components/viewTitle'
 export default {
   name: 'About',
   components: {

@@ -1,15 +1,20 @@
 <template>
   <div class="nav-bar ts" :class="{navShow: isNavShow}">
-    <img class="nav-logo" src="../../assets/logo.svg" alt="">
+    <svg-icon icon-class="logo" class="nav-logo" />
     <div>
       <template v-for="item in routes">
         <navItem v-if="!item.hidden" :key="item.path" :nav="item" />
       </template>
     </div>
 
-    <div class="nav-log" :class="{'isLogin': isLogin}" :title="isLogin?'退出登陆':'使用github登陆'" @click="logClick">
-      <img class="avatar" :src="avatarUrl" alt="">
-      <div class="userName">{{ userName }}</div>
+    <div
+      class="nav-log"
+      :class="{'isLogin': isLogin}"
+      :title="isLogin?'退出登陆':'使用github登陆'"
+      @click="logClick"
+    >
+      <img class="avatar" :src="userInfo.avatar||defaultAvatar" alt="">
+      <div class="userName">{{ userInfo.name || '未登录' }}</div>
     </div>
 
     <!--退出登陆模态框-->
@@ -33,6 +38,7 @@
 import Dialog from '@/components/Dialog'
 import navItem from './navItem'
 import { childRoutes } from '@/router'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'UserNav',
@@ -44,26 +50,29 @@ export default {
     return {
       showMore: false,
       isBackTopShow: false,
-      avatarUrl: 'https://i.loli.net/2019/04/17/5cb69f3a9606f.jpg',
-      userName: '未登录',
+      defaultAvatar: 'https://i.loli.net/2019/04/17/5cb69f3a9606f.jpg',
       logoutModal: false,
       routes: childRoutes
     }
   },
   computed: {
-    isLogin() {
-      return this.$store.state.isLogin
-    },
-    isNavShow() {
-      return this.$store.state.isNavShow
-    }
+    ...mapGetters([
+      'isLogin',
+      'isNavShow',
+      'userInfo'
+    ])
   },
-  created() {
-    this.checkLog()
+  mounted() {
+    this.isLogin && this.getUserInfo()
+
+    window.addEventListener('storage', this.handleStorageListener)
+  },
+  beforeDestroy() {
+    window.removeEventListener('storage', this.handleStorageListener)
   },
   methods: {
     showNav() {
-      this.$store.dispatch('updateIsNavShow', !this.isNavShow)
+      this.$store.dispatch('app/updateIsNavShow', !this.isNavShow)
     },
     // 登陆部分点击事件 未登陆则去登陆 已登陆则响应登出
     logClick() {
@@ -71,63 +80,44 @@ export default {
     },
     handleLogin() {
       window.open(
-        'https://github.com/login/oauth/authorize?client_id=5c971effe02228b9a039&scope=user:email',
+        'https://github.com/login/oauth/authorize?client_id=3cac26e3df8c67028724&scope=user:email',
         'oauthPage',
         'height=500,width=600'
       )
-      window.addEventListener('storage', this.handleStorageListener)
     },
     handleStorageListener({ key, newValue }) {
-      if (key !== '_login') {
+      if (key !== '_login' || !newValue) {
         return
       }
-      const login = JSON.parse(newValue)
+      const { data } = JSON.parse(newValue)
 
-      this.$store.dispatch('updateIsLogin', true)
-      const data = login.data
-      this.avatarUrl = data.avatar_url
-      this.userName = data.name
-      this.$Message.success(this.userName + '，欢迎!')
-
-      this.$store.dispatch('updateUserInfo', data)
-
-      window.removeEventListener('storage', this.handleStorageListener)
+      if (!data) {
+        this.$Message.error('githib 登陆失败！请稍后再次尝试')
+      } else {
+        this.$store.dispatch('user/githubLogin', data)
+          .then(() => {
+            this.$Message.success(`${this.userInfo.name}，欢迎!`)
+          })
+      }
+      window.localStorage.removeItem('_login')
     },
     handleLogout() {
       this.logoutModal = true
     },
     logoutModalOk() {
-      this.$store.dispatch('updateIsLogin', false)
-      this.avatarUrl = 'https://i.loli.net/2019/04/17/5cb69f3a9606f.jpg'
-      this.userName = '未登录'
-      window.localStorage.removeItem('_login')
-      this.$Message.success('登出成功!')
+      this.logoutModal = false
+      this.$store.dispatch('user/logout')
 
-      this.$store.dispatch('updateUserInfo', {})
+      this.$Message.success('登出成功!')
     },
     logoutModalCancel() {
       this.logoutModal = false
     },
-    checkLog() {
-      let login = window.localStorage.getItem('_login')
-      if (!login) {
-        return
-      }
-      login = JSON.parse(login)
-      // 计算登陆信息的时效
-      const days = (new Date().getTime() - login.date) / (1000 * 3600 * 24)
-      if (days > 10) {
-        // 超过十天则情况 _login
-        window.localStorage.removeItem('_login')
-        return
-      }
-      this.$store.dispatch('updateIsLogin', true)
-      const data = login.data
-      this.avatarUrl = data.avatar_url
-      this.userName = data.name
-      this.$Message.success(this.userName + '，欢迎!')
-
-      this.$store.dispatch('updateUserInfo', data)
+    getUserInfo() {
+      this.$store.dispatch('user/getUserInfo')
+        .then(() => {
+          this.$Message.success(`${this.userInfo.name}，欢迎!`)
+        })
     }
   }
 }
@@ -146,9 +136,8 @@ export default {
     }
 
     .nav-logo {
-      display: block;
-      margin: 0 auto 40px;
-      width: 40px;
+      margin-bottom: 20px;
+      font-size: 40px;
     }
 
     .nav-log {

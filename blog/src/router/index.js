@@ -7,10 +7,8 @@ export const childRoutes = [
   {
     path: 'home',
     name: 'home',
-
-    component: () => import('@/views/user/userHome'),
+    component: () => import('@/views/Home'),
     meta: {
-      keepAlive: true,
       title: '首页',
       showHeader: true,
       icon: 'nav-home'
@@ -20,16 +18,16 @@ export const childRoutes = [
     path: 'article/:articleId',
     name: 'article',
     hidden: true,
-    component: () => import('@/views/user/article'),
+    component: () => import('@/views/Article'),
     meta: {
       title: '文章'
     }
   },
   {
-    path: 'tagArchived/:tag',
-    name: 'tagArchived',
+    path: 'tag/:tag',
+    name: 'tag',
     hidden: true,
-    component: () => import('@/views/user/tagArchived'),
+    component: () => import('@/views/Tag'),
     meta: {
       title: '标签'
     }
@@ -37,7 +35,7 @@ export const childRoutes = [
   {
     path: 'archived',
     name: 'archived',
-    component: () => import('@/views/user/archived'),
+    component: () => import('@/views/Archived'),
     meta: {
       title: '归档',
       icon: 'nav-archived'
@@ -46,7 +44,7 @@ export const childRoutes = [
   {
     path: 'about',
     name: 'about',
-    component: () => import('@/views/user/about'),
+    component: () => import('@/views/About'),
     meta: {
       title: '关于',
       icon: 'nav-about'
@@ -55,7 +53,7 @@ export const childRoutes = [
   {
     path: 'friendLink',
     name: 'friendLink',
-    component: () => import('@/views/user/friendLink'),
+    component: () => import('@/views/FriendLink'),
     meta: {
       title: '友链',
       icon: 'nav-friendLink'
@@ -81,7 +79,7 @@ const routers = [
   },
   {
     path: '*',
-    component: () => import('@/views/page404'),
+    component: () => import('@/views/Error/404.vue'),
     meta: {
       title: '404'
     }
@@ -106,5 +104,7 @@ const createRouter = () => new Router({
 })
 
 const router = createRouter()
+
+export const keepAliveRoutes = ['home']
 
 export default router

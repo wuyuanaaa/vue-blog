@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import viewTitle from '@/components/viewTitle/viewTitle'
+import viewTitle from '@/components/viewTitle'
 export default {
   name: 'FriendLink',
   components: {
