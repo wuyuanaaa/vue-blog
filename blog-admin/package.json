@@ -23,7 +23,7 @@
     "@vue/babel-helper-vue-jsx-merge-props": "^0.1.0",
     "@vue/cli-plugin-babel": "^3.3.0",
     "@vue/cli-plugin-eslint": "^3.3.0",
-    "@vue/cli-service": "^3.6.0",
+    "@vue/cli-service": "^5.0.8",
     "ajv": "^5.5.2",
     "babel-eslint": "^10.0.1",
     "babel-plugin-import": "^1.11.0",
